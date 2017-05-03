@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% set __title = 'Instrumento' %}
+
+{% block content %}
+<div class="box box-default">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ instrumento.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Marca</th>
+                            <td>{{ instrumento.marca }}</td>
+                        </tr>
+                        <tr>
+                            <th>Modelo</th>
+                            <td>{{ instrumento.modelo }}</td>
+                        </tr>
+                        <tr>
+                            <th>Descripcion</th>
+                            <td>{{ instrumento.descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <th>Activo</th>
+                            <td>{% if instrumento.activo %}<span class="label label-success">Si</span{% else %}<span class="label label-danger">No</span>{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Fechacreacion</th>
+                            <td>{% if instrumento.fechaCreacion %}{{ instrumento.fechaCreacion|date('d-m-Y H:i:s') }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Fechaactualizacion</th>
+                            <td>{% if instrumento.fechaActualizacion %}{{ instrumento.fechaActualizacion|date('d-m-Y H:i:s') }}{% endif %}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="box-footer">
+                    <a class="btn btn-primary" href="{{ path('instrumento_edit', { 'id': instrumento.id }) }}"> Editar</a>
+                    <a class="btn btn-default" href="{{ path('instrumento_index') }}"> Volver al Listado</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

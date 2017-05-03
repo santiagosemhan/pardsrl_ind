@@ -1,0 +1,68 @@
+dashboard:
+    path: /
+    defaults: { _controller: AppBundle:Default:index}
+    methods: [GET,POST]
+
+app_pais:
+        resource: "@AppBundle/Resources/config/routing/pais.yml"
+        prefix:   /pais
+
+app_provincia:
+        resource: "@AppBundle/Resources/config/routing/provincia.yml"
+        prefix:   /provincia
+
+app_localidad:
+        resource: "@AppBundle/Resources/config/routing/localidad.yml"
+        prefix:   /localidad
+
+app_yacimiento:
+        resource: "@AppBundle/Resources/config/routing/yacimiento.yml"
+        prefix:   /yacimiento
+
+app_equipo:
+        resource: "@AppBundle/Resources/config/routing/equipo.yml"
+        prefix:   /equipo
+
+app_compania:
+        resource: "@AppBundle/Resources/config/routing/compania.yml"
+        prefix:   /compania
+
+app_persona:
+    resource: "@AppBundle/Resources/config/routing/persona.yml"
+    prefix:   /usuarios
+
+app_pozo:
+        resource: "@AppBundle/Resources/config/routing/pozo.yml"
+        prefix:   /pozo
+
+app_intervencion:
+        resource: "@AppBundle/Resources/config/routing/intervencion.yml"
+        prefix:   /intervenciones
+
+#app_mensajes:
+#        resource: "@AppBundle/Resources/config/routing/mensajes.yml"
+#        prefix:   /mensajes
+
+app_novedades:
+        resource: "@AppBundle/Resources/config/routing/novedad.yml"
+        prefix:   /novedades
+
+app_estadisticas:
+        resource: "@AppBundle/Resources/config/routing/estadistica.yml"
+        prefix:   /estadisticas
+
+app_mapas:
+    resource: "@AppBundle/Resources/config/routing/mapas.yml"
+    prefix:   /maps
+
+app_notificaciones:
+    resource: "@AppBundle/Resources/config/routing/notificaciones.yml"
+    prefix:   /notificaciones
+
+app_reportes:
+    resource: "@AppBundle/Resources/config/routing/reportes.yml"
+    prefix:   /reportes
+
+app_instrumento:
+        resource: "@AppBundle/Resources/config/routing/instrumento.yml"
+        prefix:   /instrumento

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% set __title = 'Yacimiento' %}
+
+{% block content %}
+<div class="box box-default">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ yacimiento.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nombre</th>
+                            <td>{{ yacimiento.nombre }}</td>
+                        </tr>
+                        <tr>
+                            <th>Acronimo</th>
+                            <td>{{ yacimiento.acronimo }}</td>
+                        </tr>
+                        <tr>
+                            <th>Activo</th>
+                            <td>{% if yacimiento.activo %}<span class="label label-success">Si</span{% else %}<span class="label label-danger">No</span>{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Fechacreacion</th>
+                            <td>{% if yacimiento.fechaCreacion %}{{ yacimiento.fechaCreacion|date('d-m-Y H:i:s') }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Fechaactualizacion</th>
+                            <td>{% if yacimiento.fechaActualizacion %}{{ yacimiento.fechaActualizacion|date('d-m-Y H:i:s') }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Creado Por</th>
+                            <td>{% if yacimiento.creadoPor %}{{ yacimiento.creadoPor }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Actualizado Por</th>
+                            <td>{% if yacimiento.actualizadoPor %}{{ yacimiento.actualizadoPor }}{% endif %}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="box-footer">
+                    <a class="btn btn-primary" href="{{ path('yacimiento_edit', { 'id': yacimiento.id }) }}"> Editar</a>
+                    <a class="btn btn-default" href="{{ path('yacimiento_index') }}"> Volver al Listado</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

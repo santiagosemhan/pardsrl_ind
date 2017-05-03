@@ -1,0 +1,156 @@
+/**
+ * Created by santiago on 25/5/16.
+ */
+if (typeof jQuery === "undefined") {
+    throw new Error("Live Data requires jQuery");
+}
+
+$.LiveData = {};
+
+$.LiveData.serverConfig = {
+    'server' : '{{ node_server.ip }}',
+    'port'   : '{{ node_server.port }}',
+    'notifications_namespace' : '{{ node_server.notifications_namespace }}'
+};
+
+{% if api.enabled %}
+
+/**
+ * Objeto para la gestion de oAuth2
+ * @type { {accessToken, getAccesToken: $.LiveData.oauth2.getAccesToken, getError: $.LiveData.oauth2.getError} }
+ */
+$.LiveData.oauth2 = {
+    getOauthToken      :  function(){ return {{ app.session.get('oauth2_token') | raw }} },
+    getAccessToken     :  function(){ return this.getOauthToken().access_token },
+    getError           :  function(){ return this.getAccessToken() == null ? this.getOauthToken().error_message : null},
+    requestData        :  function(url,params,type,successCallback,errorCallback){
+
+        $.ajax({
+            url: url,
+            type: type,
+            data: params,
+            datatype: 'json',
+            success: successCallback ? successCallback : null,
+            error:   function(jqr, textStatus, errorThrown){
+                switch(jqr.status){
+                    case 401:
+                        //location.href = "{ { path('fos_user_security_logout') | raw}}";
+                        window.location.replace("{{ path('fos_user_security_logout') | raw}}");
+                        break;
+
+                    case 404:
+                    case 500:
+                        errorCallback ? errorCallback(jqr,textStatus,errorThrown) : false;
+                        break;
+                }
+            },
+            beforeSend: function(xhr) {
+
+                var oauthToken = $.LiveData.oauth2.getAccessToken();
+
+                xhr.setRequestHeader('Authorization', 'Bearer '+ oauthToken);
+            }
+        });
+    }
+}
+
+{% endif %}
+
+$.LiveData.server = {
+    getIp                    : function(){ return $.LiveData.serverConfig.server},
+    getPort                  : function(){ return $.LiveData.serverConfig.port},
+    getNotificationNamespace : function(){ return $.LiveData.serverConfig.notifications_namespace},
+    getBaseWs                : function(){ return this.getIp()+':'+this.getPort()},
+    getWsNotifications       : function(){
+        return this.getBaseWs()+'/'+this.getNotificationNamespace();
+    }
+};
+
+$.LiveData.notifications = {
+    sistema       : 0,
+    personal      : 0,
+    setSistema    : function($cant){ this.sistema    = $cant},
+    setPersonal   : function($cant){ this.personal   = $cant},
+    init          : function($sist,$pers){
+        this.setSistema($sist);
+        this.setPersonal($pers);
+    },
+    addSistema    : function(){
+        this.sistema++;
+        return this.sistema;
+    },
+    addPersonal   : function(){
+        this.personal++;
+        return this.personal;
+    }
+};
+
+//Codigo ejecutado al Inicio, común a todas las ventanas.
+$(document).ready(function () {
+
+    var server = $.LiveData.server;
+
+
+    /**
+     * Funciones relacionadas con los modales
+     *
+     */
+    $('.delete-obj').click(function(){
+        $('#modal-delete-obj').modal('show',this);
+        return false;
+    });
+
+    $('#modal-delete-obj').on('show.bs.modal', function(e) {
+
+        $(this).find('.btn-confirm').click(function(){
+
+            var objId = $(e.relatedTarget).data('id');
+
+            var actionString = $('.delete-obj-form form').attr('action');
+
+            var actionString = actionString.replace(/__obj_id__/g, objId);
+
+            $('.delete-obj-form form').attr('action',actionString);
+
+            $('.delete-obj-form form').submit();
+        });
+
+    });
+
+    /**
+     *  Se inicializan todos los datepickers.
+     */
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'es',
+        autoclose: true
+    });
+
+    $(".data-table").DataTable({
+        "paging": false,
+        "autoWidth": true,
+        "info": false,
+        "scrollX": true,
+        "order": [],
+        "language": {
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados"
+        }
+    });
+
+    $(document).ajaxStart(function() { Pace.restart(); });
+
+
+});
+
+/**
+ * Funcion que deja en estado cargando el box especificado.
+ * @param boxId
+ */
+function overlayBox(boxId){
+   $(boxId).append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+}
+
+function removeOverlayBox(boxId){
+    $(boxId).find('.overlay').remove();
+}

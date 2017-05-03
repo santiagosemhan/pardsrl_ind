@@ -1,0 +1,22 @@
+services:
+  usuario.form.usuario:
+      class: UsuarioBundle\Form\UsuarioType
+      tags:
+          - { name: form.type }
+      autowire: true
+
+  usuario.form.accion:
+        class: UsuarioBundle\Form\AccionType
+        tags:
+            - { name: form.type }
+        autowire: true
+
+  listener.request:
+      class: UsuarioBundle\EventListener\FirewallListener
+      autowire: true
+      tags:
+          - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+  security.manager:
+      class: UsuarioBundle\Services\SecurityManager
+      autowire: true

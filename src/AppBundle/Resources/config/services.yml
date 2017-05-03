@@ -1,0 +1,13 @@
+services:
+    manager.estadistica:
+        class:        AppBundle\Services\EstadisticaManager
+        autowire: true
+
+    app.cache.clear:
+        class: Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand
+        calls:
+            - [setContainer, ["@service_container"] ]
+
+    manager.config:
+        class:        AppBundle\Services\ConfigManager
+        autowire: true

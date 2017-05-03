@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% set __title = 'Provincia' %}
+
+{% block content %}
+<div class="box box-default">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ provincium.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Codigo</th>
+                            <td>{{ provincium.codigo }}</td>
+                        </tr>
+                        <tr>
+                            <th>Descripcion</th>
+                            <td>{{ provincium.descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <th>País</th>
+                            <td>{{ provincium.pais }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="box-footer">
+                    <a class="btn btn-primary" href="{{ path('provincia_edit', { 'id': provincium.id }) }}"> Editar</a>
+                    <a class="btn btn-default" href="{{ path('provincia_index') }}"> Volver al Listado</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

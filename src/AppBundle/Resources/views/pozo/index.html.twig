@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% set __title = 'Listado de pozos' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Acr.</th>
+                                <th>Prof.</th>
+                                <th>Sist. Extraccion</th>
+                                <th>Latitud</th>
+                                <th>Longitud</th>
+                                <th>Estado</th>
+                                <th>Equipo</th>
+                                <th>Activo</th>
+                                <th>Creado</th>
+                                <th>Actualizado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for pozo in pozos %}
+                            <tr>
+                                <td>{{ pozo.id }}</td>
+                                <td><a href="{{ path('pozo_show', { 'id': pozo.id }) }}">{{ pozo.nombre }}</a></td>
+                                <td>{{ pozo.acronimo }}</td>
+                                <td>{{ pozo.profundidad }}</td>
+                                <td>{{ pozo.sistemaExtraccion }}</td>
+                                <td>{{ pozo.latitud }}</td>
+                                <td>{{ pozo.longitud }}</td>
+                                <td>{% if pozo.estadoUltimaIntervencion == 1 %}<span class="label label-warning">Cerrado</span{% else %}<span class="label label-success">Abierto</span>{% endif %}</td>
+                                <td>
+                                    {%  if pozo.intervencionActual %}
+                                        <a href="{{ path('equipo_show', { 'id': pozo.intervencionActual.equipo.id }) }}">{{ pozo.intervencionActual.equipo | upper }}</a>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{% if pozo.activo %}<span class="label label-success">Si</span{% else %}<span class="label label-danger">No</span>{% endif %}</td>
+                                <td>{% if pozo.fechaCreacion %}{{ pozo.fechaCreacion|date('d/m/Y') }}{% endif %}</td>
+                                <td>{% if pozo.fechaActualizacion %}{{ pozo.fechaActualizacion|date('d/m/Y') }}{% endif %}</td>                                <td>
+                                    <a title="Ver intervenciones"   class="btn btn-default btn-sm" href="{{ path('intervencion_index', { 'id': pozo.id }) }}"><i class="glyphicon glyphicon-cog"></i></a>
+                                    <a title="Editar"   class="btn btn-default btn-sm" href="{{ path('pozo_edit', { 'id': pozo.id }) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <a title="Eliminar" class="btn btn-default btn-sm delete-obj" data-id="{{ pozo.id }}" data-href="{{ path('pozo_delete', { 'id': pozo.id }) }}"> <i class="glyphicon glyphicon-remove-circle"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+            {{ knp_pagination_render(pozos) }}
+
+        </div>
+    </div>
+
+    <div class="delete-obj-form hidden">
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Delete">
+        {{ form_end(delete_form) }}
+    </div>
+
+    <a class="btn btn-primary" href="{{ path('pozo_new') }}">Nuevo pozo</a>
+
+{% endblock %}
+
