@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+
+    <script type="application/javascript">
+
+        {{ include('AppBundle:pozo:mapa.js.twig') }}
+
+    </script>
+
+{% endblock %}
+
+{% set __title = 'Pozo' %}
+
+{% block content %}
+<div class="box box-default">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ pozo.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nombre</th>
+                            <td>{{ pozo.nombre }}</td>
+                        </tr>
+                        <tr>
+                            <th>Acronimo</th>
+                            <td>{{ pozo.acronimo }}</td>
+                        </tr>
+                        <tr>
+                            <th>Profundidad</th>
+                            <td>{{ pozo.profundidad }}</td>
+                        </tr>
+                        <tr>
+                            <th>Sistema de extraccion</th>
+                            <td>{{ pozo.sistemaExtraccion }}</td>
+                        </tr>
+                        <tr>
+                            <th>Latitud</th>
+                            <td>{{ pozo.latitud }}</td>
+                        </tr>
+                        <tr>
+                            <th>Longitud</th>
+                            <td>{{ pozo.longitud }}</td>
+                        </tr>
+                        <tr>
+                            <th>Estado</th>
+                            <td>{% if pozo.estadoUltimaIntervencion == 1 %}<span class="label label-warning">Cerrado</span{% else %}<span class="label label-success">Abierto</span>{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Equipo</th>
+                            <td>
+                                {%  if pozo.intervencionActual %}
+                                    <a href="{{ path('equipo_show', { 'id': pozo.intervencionActual.equipo.id }) }}">{{ pozo.intervencionActual.equipo | upper }}</a>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Activo</th>
+                            <td>{% if pozo.activo %}<span class="label label-success">Si</span{% else %}<span class="label label-danger">No</span>{% endif %}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Creado</th>
+                            <td>{% if pozo.fechaCreacion %}{{ pozo.fechaCreacion|date('d-m-Y H:i:s') }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Actualizado</th>
+                            <td>{% if pozo.fechaActualizacion %}{{ pozo.fechaActualizacion|date('d-m-Y H:i:s') }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Creado Por</th>
+                            <td>{% if pozo.creadoPor %}<a href="{{ path('persona_show', { 'id': pozo.creadoPor.persona.id }) }}">{{ pozo.creadoPor.persona }}</a>{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Actualizado Por</th>
+                            <td>{% if pozo.actualizadoPor %}<a href="{{ path('persona_show', { 'id': pozo.actualizadoPor.persona.id }) }}">{{ pozo.actualizadoPor.persona }}</a>{% endif %}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="box-footer">
+                    <a class="btn btn-primary" href="{{ path('pozo_edit', { 'id': pozo.id }) }}"> Editar</a>
+                    <a class="btn btn-default" href="{{ path('pozo_index') }}"> Volver al Listado</a>
+                </div>
+
+            </div>
+            <div class="col-md-6" style="height: 400px">
+                <div id='map' style='width: 90%; height: 90%;'></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

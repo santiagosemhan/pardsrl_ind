@@ -1,0 +1,106 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% if mapbox_enabled %}
+        <link href='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css' rel='stylesheet' />
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('vendor/highstock-5.0.10/code/highstock.js') }}"></script>
+    <script src="{{ asset('vendor/highstock-5.0.10/code/highcharts-3d.js') }}"></script>
+
+    <script type="application/javascript" language="JavaScript">
+        if(!(typeof Highcharts === undefined)){
+
+            Highcharts.setOptions({
+                global: {
+                    useUTC: false
+                },
+                lang: {
+                    loading: 'Cargando...',
+                    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    weekdays: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'],
+                    shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    exportButtonTitle: "Exportar",
+                    printButtonTitle: "Importar",
+                    rangeSelectorFrom: "De",
+                    rangeSelectorTo: "A",
+                    rangeSelectorZoom: "Periodo",
+                    downloadPNG: 'Descargar gráfica PNG',
+                    downloadJPEG: 'Descargar gráfica JPEG',
+                    downloadPDF: 'Descargar gráfica PDF',
+                    downloadSVG: 'Descargar gráfica SVG',
+                    printChart: 'Imprimir Gráfica',
+                    thousandsSep: ",",
+                    decimalPoint: '.'
+                }
+            });
+        }
+    </script>
+
+    {% if mapbox_enabled %}
+
+        <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+
+        <script type="application/javascript">
+
+        L.mapbox.accessToken = "{{ mapbox_access_token }}";
+
+        </script>
+
+    {% endif %}
+{% endblock %}
+
+{#{%  set __title = 'Mi Dashboard' %}#}
+
+{% block content %}
+
+    <!-- Info boxes -->
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <!-- form start -->
+                <form class="form-inline" name="{{ form.vars.name }}" method="{{ form.vars.method }}">
+                    <div class="box-body">
+                        <div id="form-rangos-intervenciones">
+                            <div class="form-group">
+                                <label for="">Desde</label>
+                                {{ form_widget(form.desde) }}
+                                {#<input ype="text" class="datepicker" id="exampleInputName2" placeholder="">#}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Hasta</label>
+                                {{ form_widget(form.hasta) }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </form>
+            </div>
+        </div>
+
+    </div><!-- /.row -->
+
+    <div class="row">
+
+        {{ render(controller('AppBundle:Mapa:pozosIntervenidosActualmente' )) }}
+
+        {{ render(controller('AppBundle:Estadistica:operacionesPorEquipo', { 'desde': fecha_desde , 'hasta': fecha_hasta } )) }}
+
+        {{ render(controller('AppBundle:Estadistica:operacionesPorYacimiento', { 'desde': fecha_desde , 'hasta': fecha_hasta })) }}
+
+        {{ render(controller('AppBundle:Estadistica:promediosCanosHora', { 'desde': fecha_desde , 'hasta': fecha_hasta })) }}
+
+        {{ render(controller('AppBundle:Estadistica:factorTiempoUtil', { 'desde': fecha_desde , 'hasta': fecha_hasta })) }}
+
+        {{ render(controller('AppBundle:Estadistica:promediosVarillasHora', { 'desde': fecha_desde , 'hasta': fecha_hasta })) }}
+
+    </div><!-- /.row -->
+{% endblock %}

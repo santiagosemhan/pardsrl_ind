@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+
+{% set __title = 'Editar Accion' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.select2').select2();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="box box-default">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- form start -->
+                {{ form_start(edit_form) }}
+                {{ form_row(edit_form.nombre) }}
+                {{ form_row(edit_form.descripcion) }}
+                {{ form_row(edit_form.ruta, { 'attr': {'class': 'select2'} }) }}
+                {{ form_row(edit_form.activo) }}
+                <div class="box-footer">
+                    <input class="btn btn-primary" type="submit" value="Editar"/>
+                    <a class="btn btn-default" href="{{ path('accion_index') }}"> Volver al Listado</a>
+                </div>
+
+                {{ form_end(edit_form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

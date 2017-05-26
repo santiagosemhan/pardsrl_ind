@@ -1,0 +1,35 @@
+/**** CSS PERSONALIZADO ******/
+
+.pagination{
+    margin: 0px;
+}
+
+.table tbody>tr>td.vert-align
+{
+    vertical-align: middle;
+}
+
+.help-block{
+    color: red;
+}
+
+.datepicker.dropdown-menu{
+    z-index: 999999 !important;
+}
+
+.tooltip-html{
+    font-size: 12px !important;
+}
+
+li.notificacion-no-leida a{
+    background-color: lightgoldenrodyellow;
+}
+
+/****** css pantalla de login ******/
+.login-box-body{
+  border: 1px solid #cfd8dc;
+}
+
+.login-page, .register-page {
+    background: #E4E5E6;
+}

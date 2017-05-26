@@ -1,0 +1,13 @@
+novedad_index:
+    path:     /index
+    defaults: { _controller: AppBundle:Novedad:index }
+
+novedad_nueva:
+    path:     /nueva/equipo/{id}
+    defaults: { _controller: AppBundle:Novedad:nueva }
+
+novedad_cerrar:
+    path:     /cerrar/{id}
+    defaults: { _controller: AppBundle:Novedad:cerrarNovedad }
+    methods: [GET,POST]
+

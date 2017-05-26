@@ -1,0 +1,18 @@
+notificaciones_personales:
+    path:     /personales
+    defaults: { _controller: AppBundle:Notificaciones:notificacionesPersonales }
+
+notificaciones_sistema:
+    path:     /sistema
+    defaults: { _controller: AppBundle:Notificaciones:notificacionesSistema }
+
+notificaciones_timeline:
+    path:     /timeline/{filtro}
+    defaults: { _controller: AppBundle:Notificaciones:timeline, filtro: all }
+    methods:  GET
+
+notificaciones_marcar_leido:
+    path:     /marcar_leido/{id}/{leida}
+    defaults: { _controller: AppBundle:Notificaciones:marcarComoLeida , leida: true}
+    methods:  GET
+

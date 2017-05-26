@@ -1,0 +1,54 @@
+/**
+ * Created by santiago on 24/10/16.
+ */
+if (typeof $.LiveData === "undefined") {
+    throw new Error(" Controller Live Data requires app.js");
+}
+
+function EquipoController() {
+
+    this.baseURL = {% if api.enabled %} "{{ api.url | raw  }}" {% else %} "http://"+server.getBaseWs() {% endif %};
+
+}
+
+EquipoController.prototype.getHistoricoEquipos = function(equipoId, params, successCallback, errorCallback, timeoutCallback) {
+
+
+    {% if api.enabled %}
+
+        var historicoEndPoint = this.baseURL+'/equipos/'+equipoId+'/historico';
+
+        $.LiveData.oauth2.requestData(
+                historicoEndPoint,
+                params,
+                'GET',
+                successCallback,
+                errorCallback
+        );
+
+
+    {% else %}
+
+        var historicoEndPoint = this.baseURL+'/historico';
+    
+        $.ajax({
+            dataType: "json",
+            url: historicoEndPoint,
+            data: params,
+            success: successCallback ? successCallback : null,
+            error:   function(jqr, textStatus, errorThrown){
+                switch(jqr.status){
+                    case (500|404):
+                        errorCallback ? errorCallback(jqr,textStatus,errorThrown) : false;
+                        break;
+                    default:
+                        timeoutCallback ? timeoutCallback(jqr, textStatus, errorThrown) : false;
+                        break;
+                }
+            },
+            timeout: 120000
+        });
+
+
+    {% endif %}
+};

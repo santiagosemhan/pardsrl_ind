@@ -1,0 +1,55 @@
+equipo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Equipo:index" }
+    methods:  GET
+
+equipo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Equipo:show" }
+    methods:  GET
+
+equipo_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Equipo:new" }
+    methods:  [GET, POST]
+
+equipo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Equipo:edit" }
+    methods:  [GET, POST]
+
+equipo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Equipo:delete" }
+    methods:  DELETE
+
+equipo_graficas:
+    path: /{id}/graficas
+    defaults: { _controller: "AppBundle:Equipo:graficas"}
+    methods: [GET]
+
+equipo_graficas_historicas:
+    path: /{id}/graficas_historicas/{fintervencion}/{fdesde}/{fhasta}
+    defaults: { _controller: "AppBundle:Equipo:graficasHistoricas", fintervencion: __fintervencion__ }
+    methods: [GET]
+
+equipo_instrumentos:
+    path: /{id}/instrumentos
+    defaults: { _controller: "AppBundle:Equipo:instrumentos"}
+    methods: [GET]
+
+equipo_estadisticas:
+    path: /{id}/estadisticas
+    defaults: { _controller: "AppBundle:Equipo:estadisticas"}
+    methods: [GET]
+
+equipo_estadisticas_datos:
+    path: /{equipo_id}/{intervencion_id}/estadisticas_datos
+    defaults: { _controller: "AppBundle:Equipo:estadisticasDatos"}
+    methods: [GET]
+
+equipo_estadisticas_individuales:
+    path: /{id}/estadisticas_individuales
+    defaults: { _controller: "AppBundle:Equipo:estadisticasIndividuales"}
+    methods: [GET,POST]
+

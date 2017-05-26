@@ -2,18 +2,58 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host: 127.0.0.1
-    database_port: ~
-    database_name: symfony
-    database_user: root
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     symfony
+    database_user:     root
     database_password: ~
-    # You should uncomment this if you want to use pdo_sqlite
-    #database_path: '%kernel.root_dir%/../var/data/data.sqlite'
+    # You should uncomment this if you want use pdo_sqlite
+    # database_path: "%kernel.root_dir%/data.db3"
 
-    mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: ~
-    mailer_password: ~
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    #node_config
+    node_server:
+       ip: 'golfo.com.ar'
+       port:  5140
+       notifications_namespace : 'notificaciones'
+
+
+    #configuracion de mapbox
+    mapbox.enabled: false
+    mapbox.access_token: pk.eyJ1Ijoic2FudGlhZ29zZW1oYW4iLCJhIjoiY2ltNHdkMGV6MDFld3RrbTN6NDRoeWtydCJ9.7dHWtBY1WPJeuXuYslS6jA
+    mapbox.default_style_url: 'mapbox://styles/mapbox/outdoors-v9'
+
+    #controlar si el servidor es de produccion o no
+    produccion: false
+
+    #tiempo de session
+    session_time: 21600
+
+    #resolucion de los historicos
+    historicos.maniobras.resolucion: 200
+    historicos.plumas.resolucion: 1500
+
+    #configurar los parametros de la api + oauth2
+    api:
+        enabled: true
+        user_integration: true
+        url: apiurl
+
+        auth_url: authurl
+        auth_login_endpoint: /oauth
+        auth_type: password
+        auth_client_id: client_id
+        auth_client_secret: secret
+
+
+    logout.target: /admin
+
+    #configurar el tema de la aplicacion
+    theme_color: skin-black

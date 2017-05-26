@@ -2,15 +2,19 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: "@AppBundle/Resources/config/services.yml" }
+    - { resource: "@UsuarioBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: es
 
 framework:
+    # ide: atom://open?url=file://%%f&line=%%l&/var/www/html/pardsrl_ind/>/Users/santiago/html/pardsrl_ind/
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
+    translator: ~
     secret: '%secret%'
     router:
         resource: '%kernel.root_dir%/config/routing.yml'
@@ -26,7 +30,11 @@ framework:
     trusted_proxies: ~
     session:
         # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
-        handler_id:  session.handler.native_file
+        handler_id:  session.handler.pdo
+        #se configura el valor de expiracion de la cookie a un dia (en segundos)
+        cookie_lifetime: "%session_time%"
+        #se configura el tiempo máximo de inactividad
+        gc_maxlifetime:  "%session_time%"
         save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
     fragments: ~
     http_method_override: true
@@ -36,8 +44,19 @@ framework:
 
 # Twig Configuration
 twig:
+    globals:
+         node_server: "%node_server%"
+         mapbox_enabled: "%mapbox.enabled%"
+         mapbox_access_token: "%mapbox.access_token%"
+         mapbox_default_style_url: "%mapbox.default_style_url%"
+         theme_color: "%theme_color%"
+         api: "%api%"
+         config: "@manager.config"
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+        #resources: ['bootstrap_3_layout.html.twig']
+        - 'bootstrap_3_horizontal_layout.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -68,3 +87,36 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: UsuarioBundle\Entity\Usuario
+    from_email:
+        address: no-reply@site.com.
+        sender_name: No Reply Site.com
+
+#doctrine extentions
+stof_doctrine_extensions:
+    orm:
+        default:
+            timestampable: true
+            blameable: true
+
+knp_menu:
+    # use "twig: false" to disable the Twig extension and the TwigRenderer
+    twig:
+#        template: knp_menu.html.twig
+
+#KNPpaginator
+knp_paginator:
+    page_range:              10                      # default page range used in pagination control
+    default_options:
+        page_name:           page                # page query parameter name
+        sort_field_name:     sort         # sort field query parameter name
+        sort_direction_name: direction    # sort direction query parameter name
+        distinct:            true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: AppBundle:pager:sliding.html.twig     # sliding pagination controls template
+        sortable:   KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template

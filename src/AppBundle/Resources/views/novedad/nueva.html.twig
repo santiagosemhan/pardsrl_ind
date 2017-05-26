@@ -1,0 +1,215 @@
+{% extends 'base.html.twig' %}
+
+
+{% set __title = 'Registrar Novedad' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $('.select2').select2();
+
+            $('.cerrar-novedad').click(function(e){
+
+                overlayBox('.box-primary');
+
+                var href = e.currentTarget.href;
+
+                $.get( href, function( data ) {
+
+                    $('#modal-cerrar-novedad .modal-body').html(data);
+
+                    removeOverlayBox('.box-primary');
+
+                    $('#modal-cerrar-novedad').modal('show',this);
+                });
+
+                return false;
+
+            });
+
+            $("body").on("click", "#registrar-cierre", function(){
+
+                var form_data = $('.novedad-form-cierre form').serialize();
+
+                var form_action  = $('.novedad-form-cierre form').attr('action');
+
+                if( $('.novedad-form-cierre form')[0].checkValidity()){
+
+                    $.post(form_action, form_data)
+                    .done(function(data) {
+                        $('#modal-cerrar-novedad .modal-body').html(data);
+                    });
+
+                    $('#registrar-cierre').attr('disabled', true);
+
+                    $('#registrar-cierre').val('Registrando...')
+
+                    return false;
+                }
+            });
+
+            $('#modal-cerrar-novedad').on('hidden.bs.modal', function () {
+
+                var novedad = $('.novedad-cerrada');
+
+                //si se actualizo la novedad
+                if(novedad.length){
+                    var id = novedad.data('novedad-id');
+                    var fin = novedad.data('novedad-fin');
+                    var observaciones = novedad.data('novedad-observaciones');
+
+                    $("#novedad-"+id).find('.fin').html(fin);
+                    $("#novedad-"+id).find('.observaciones').html(observaciones);
+                    $("#novedad-"+id).find('.acciones').html("");
+                }else{
+
+                }
+            })
+
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    {% if form %}
+        <div class="box box-default">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-7">
+                        <!-- form start -->
+                        {{ form_start(form) }}
+                        {#{{ form_widget(form) }}#}
+                        {{ form_row(form.maniobra, { 'attr': { 'class': 'select2' } }) }}
+                        <div class="form-group">
+                            {{ form_label(form.inicio) }}
+                            <div class="col-sm-10">
+                                <div id="novedad_inicio" class="form-inline">
+                                    {{ form_widget(form.inicio.date, { 'attr': { 'class': 'datepicker' } }) }}
+                                    {{ form_widget(form.inicio.time.hour) }}
+                                    {{ form_widget(form.inicio.time.minute) }}
+                                    {{ form_errors(form.inicio) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.fin) }}
+                            <div class="col-sm-10">
+                                <div id="novedad_fin" class="form-inline">
+                                    {{ form_widget(form.fin.date, { 'attr': { 'class': 'datepicker' } }) }}
+                                    {{ form_widget(form.fin.time.hour) }}
+                                    {{ form_widget(form.fin.time.minute) }}
+                                    {{ form_errors(form.fin) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.parcialManiobra) }}
+                            <div class="col-sm-3">
+                                    {{ form_widget(form.parcialManiobra) }}
+                                    {{ form_errors(form.parcialManiobra) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.promedioUh) }}
+                            <div class="col-sm-3">
+                                    {{ form_widget(form.promedioUh) }}
+                                    {{ form_errors(form.promedioUh) }}
+                            </div>
+                        </div>
+
+                        {{ form_row(form.observaciones) }}
+
+                        <div style="display: none">{{ form_rest(form) }}</div>
+
+
+                        <div class="box-footer">
+                            <input class="btn btn-primary" type="submit" value="Registrar"/>
+                        </div>
+
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Listado últimas novedades</h3>
+            </div><!-- /.box-header -->
+
+            <div class="box-body table-responsive no-padding">
+
+                <table class="table table-hover">
+                    <tbody><tr>
+                        <th>ID</th>
+                        <th>Maniobra</th>
+                        <th>Fec. Inicio</th>
+                        <th>Fec. Fin</th>
+                        <th>Observaciones</th>
+                        <th>Generado auto.</th>
+                        <th>Cant. Alertas</th>
+                        <th>Parcial Maniobras</th>
+                        <th>Promedio U/H</th>
+                        {#<th>Creado</th>#}
+                        {#<th>Actualizado</th>#}
+                        {#<th>Creado Por</th>#}
+                        {#<th>Actualizado Por</th>#}
+                        <th>Acciones</th>
+                    </tr>
+                    {% if novedades is empty %}
+                        <tr>
+                            <td colspan="6">No se han registrado novedades</td>
+                        </tr>
+                    {% endif %}
+                    {% for novedad in novedades %}
+                        <tr id="novedad-{{ novedad.id }}">
+                            <td>{{ novedad.id }}</td>
+                            <td>{{ novedad.maniobra }}</td>
+                            <td>{{ novedad.inicio | date('d/m/Y H:i:s')}}</td>
+                            <td class="fin">{{ novedad.fin is empty ? "" : novedad.fin | date('d/m/Y H:i:s')}}</td>
+                            <td class="observaciones">{{ novedad.observaciones }}</td>
+                            <td>{% if (novedad.generado) %} <i class="fa fa-fw fa-check"></i> {% else %} <i class="fa fa-fw fa-minus"></i> {% endif %}</td>
+                            <td>{{ novedad.cantidadAlertas }}</td>
+                            <td>{{ novedad.parcialManiobra }}</td>
+                            <td>{{ novedad.promedioUh }}</td>
+                            {#<td>{{ novedad.fechaCreacion | date('d/m/Y H:i:s') }}</td>#}
+                            {#<td>{{ novedad.fechaActualizacion | date('d/m/Y H:i:s') }}</td>#}
+                            {#<td>{{ novedad.creadoPor }}</td>#}
+                            {#<td>{{ novedad.actualizadoPor }}</td>#}
+                            <td class="acciones">
+                                {%  if novedad.fin is empty%}
+                                    <a title="Registrar cierre"  class="btn btn-default btn-sm cerrar-novedad" href="{{ path('novedad_cerrar', {'id': novedad.id}) }}"><i class="glyphicon glyphicon-stop"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div><!-- /.box-body -->
+        </div>
+        {{ knp_pagination_render(novedades) }}
+
+
+        <div id="modal-cerrar-novedad" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Cerrar Novedad</h4>
+                    </div>
+                    <div class="modal-body"></div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+    {% endif %}
+{% endblock %}

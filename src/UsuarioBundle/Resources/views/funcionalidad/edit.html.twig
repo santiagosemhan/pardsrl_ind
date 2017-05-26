@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% set __title = 'Editar Funcionalidad' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        {% include 'UsuarioBundle:funcionalidad:funcionalidadAccion.js.twig' %}
+    </script>
+{% endblock %}
+
+
+{% block content %}
+<div class="box box-default">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-7">
+                <!-- form start -->
+                {{ form_start(edit_form) }}
+                {{ form_row(edit_form.nombre) }}
+                {{ form_row(edit_form.descripcion) }}
+                {{ form_row(edit_form.activo) }}
+
+                {% include 'UsuarioBundle:funcionalidad:funcionalidadAccion.html.twig' with {'form': edit_form}  %}
+
+                <div class="box-footer">
+                    <input class="btn btn-primary" type="submit" value="Editar"/>
+                    <a class="btn btn-default" href="{{ path('funcionalidad_index') }}"> Volver al Listado</a>
+                </div>
+
+                {{ form_widget(edit_form._token) }}
+                {{ form_end(edit_form, {'render_rest': false}) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
