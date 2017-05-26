@@ -15,14 +15,18 @@ class YacimientoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('compania')
+            ->add('compania', null, [
+              'attr' => [ 'class' => 'select2']
+            ])
             ->add('nombre')
             ->add('acronimo')
-            ->add('localidad')
+            ->add('localidad', null, [
+              'attr' => [ 'class' => 'select2']
+            ])
             ->add('activo')
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

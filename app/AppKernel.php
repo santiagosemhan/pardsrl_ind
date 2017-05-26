@@ -20,9 +20,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-	        new SunCat\MobileDetectBundle\MobileDetectBundle(),
-
-
+            new SunCat\MobileDetectBundle\MobileDetectBundle(),
             new AppBundle\AppBundle(),
             new UsuarioBundle\UsuarioBundle()
 

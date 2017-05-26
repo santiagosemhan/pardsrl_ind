@@ -7,13 +7,11 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('dashboard/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('dashboard/plugins/select2/select2.min.css') }}">
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('dashboard/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
     <script src="{{ asset('dashboard/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.es-AR.js') }}"></script>
-    <script src="{{ asset('dashboard/plugins/select2/select2.min.js') }}"></script>
     <script>
         $(function () {
             //Add text editor

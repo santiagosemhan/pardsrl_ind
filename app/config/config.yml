@@ -11,7 +11,7 @@ parameters:
     locale: es
 
 framework:
-    #ide: atom://open?url=file://%%f&line=%%l&/var/www/html/pardsrl_ind/>/Users/santiago/html/pardsrl_ind/
+    # ide: atom://open?url=file://%%f&line=%%l&/var/www/html/pardsrl_ind/>/Users/santiago/html/pardsrl_ind/
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }
     translator: ~

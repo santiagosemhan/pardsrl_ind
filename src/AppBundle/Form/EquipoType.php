@@ -20,7 +20,9 @@ class EquipoType extends AbstractType
             ->add('modelo')
             ->add('tel')
             ->add('email')
-            ->add('compania')
+            ->add('compania', null, [
+              'attr' => [ 'class' => 'select2']
+            ])
             ->add('personas', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Persona',
                 'choice_label'     => 'nombreCompleto',

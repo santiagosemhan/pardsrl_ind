@@ -16,11 +16,13 @@ class PozoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('yacimiento')
+            ->add('yacimiento', null, [
+              'attr' => [ 'class' => 'select2']
+            ])
             ->add('nombre')
             ->add('acronimo')
             ->add('profundidad')
-            ->add('sistemaExtraccion',ChoiceType::class,array(
+            ->add('sistemaExtraccion', ChoiceType::class, array(
                 'choices' => array(
                     "AIB" => "AIB" ,
                     "PcP" => "PcP",
@@ -28,12 +30,13 @@ class PozoType extends AbstractType
                     "NINGUNO" => ""
                 ),
                 'choices_as_values' => true,
-                'label' => 'Sistema de extracción'
+                'label' => 'Sistema de extracción',
+                'attr' => [ 'class' => 'select2']
             ))
-            ->add('latitud',null,array(
+            ->add('latitud', null, array(
                 'attr' => array('class'=>'lat-selector')
             ))
-            ->add('longitud',null,array(
+            ->add('longitud', null, array(
                 'attr' => array('class'=>'lng-selector')
             ))
             ->add('activo')
