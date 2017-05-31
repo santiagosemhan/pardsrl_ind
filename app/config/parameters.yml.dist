@@ -54,6 +54,7 @@ parameters:
 
 
     logout.target: /admin
+    http_channel: http
 
     #configurar el tema de la aplicacion
     theme_color: skin-black
