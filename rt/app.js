@@ -17,9 +17,13 @@ if(!config.server.ssl.enable){
   port   = config.server.port;
 }else{
   // This line is from the Node.js HTTPS documentation.
+  //
+  var keyfile  = config.server.ssl.keyfile;
+  var certfile = config.server.ssl.certfile;
+
   var options = {
-    key: fs.readFileSync(config.server.ssl.keyfile, 'utf8'),
-    cert: fs.readFileSync(config.server.ssl.certfile, 'utf8')
+    key: fs.readFileSync(keyfile, 'utf8'),
+    cert: fs.readFileSync(certfile, 'utf8')
   };
 
   server = require('https').Server(options, app);
@@ -139,19 +143,14 @@ function push($filename) {
 
 }
 
-if(!config.server.ssl.enable){
 
-  server.listen(port, function() {
-    console.log(`
-      Node Server start ...... OK!
-      Details:
-      - Secure: ${config.server.ssl.enable}
-      - Certfile: ${config.server.ssl.certfile}
-      - Keyfile: ${config.server.ssl.keyfile}
-      - Port: ${port}`
-    );
-  });
-
-}else{
-  server.listen(5143);
-}
+server.listen(port, function() {
+  console.log(`
+    Node Server start ...... OK!
+    Details:
+    - Secure: ${config.server.ssl.enable}
+    - Certfile: ${config.server.ssl.certfile}
+    - Keyfile: ${config.server.ssl.keyfile}
+    - Port: ${port}`
+  );
+});
