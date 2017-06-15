@@ -44,6 +44,13 @@ class Funcionalidad
     private $funcionalidadesAccion;
 
     /**
+     * @var
+     *
+     * @ORM\OneToMany(targetEntity="UsuarioBundle\Entity\FuncionalidadRol",mappedBy="funcionalidad", cascade={"persist","remove"})
+     */
+    private $funcionalidadesRol;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="activo", type="boolean")
@@ -182,18 +189,72 @@ class Funcionalidad
     /**
      *
      * Retorna las acciones activas para las funcionalidad dada
+     *
+     * @param $todas si es true, no importa si estan activas las acciones o no
+     *
      * @return ArrayCollection
      */
-    public function getAcciones()
+    public function getAcciones($todas = false)
     {
         $acciones = new ArrayCollection();
 
         foreach ($this->getFuncionalidadesAccion() as $funcionalidadAccion) {
-            if ($funcionalidadAccion->getActivo()) {
+            if ($todas || $funcionalidadAccion->getActivo()) {
                 $acciones->add($funcionalidadAccion->getAccion());
             }
         }
 
         return $acciones;
+    }
+
+    /**
+     * Add funcionalidadesRol
+     *
+     * @param \UsuarioBundle\Entity\FuncionalidadRol $funcionalidadesRol
+     *
+     * @return Funcionalidad
+     */
+    public function addFuncionalidadesRol(\UsuarioBundle\Entity\FuncionalidadRol $funcionalidadesRol)
+    {
+        $this->funcionalidadesRol[] = $funcionalidadesRol;
+
+        return $this;
+    }
+
+    /**
+     * Remove funcionalidadesRol
+     *
+     * @param \UsuarioBundle\Entity\FuncionalidadRol $funcionalidadesRol
+     */
+    public function removeFuncionalidadesRol(\UsuarioBundle\Entity\FuncionalidadRol $funcionalidadesRol)
+    {
+        $this->funcionalidadesRol->removeElement($funcionalidadesRol);
+    }
+
+    /**
+     * Get funcionalidadesRol
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFuncionalidadesRol()
+    {
+        return $this->funcionalidadesRol;
+    }
+
+
+    /**
+     * Get Roles Proxy
+     *
+     * @return Collection
+     */
+    public function getRoles()
+    {
+        $roles = new ArrayCollection();
+
+        foreach ($this->getFuncionalidadesRol() as $funcionalidadRol) {
+            $roles->add($funcionalidadRol->getRol());
+        }
+
+        return $roles;
     }
 }

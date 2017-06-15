@@ -11,7 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AccionType extends AbstractType
 {
-
     public function __construct(Router $router)
     {
         $this->router = $router;
@@ -23,7 +22,6 @@ class AccionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
         $routesCollection = $this->router->getRouteCollection();
 
         $rutas = array();
@@ -32,7 +30,6 @@ class AccionType extends AbstractType
             if ($route->hasDefault('_controller') && !preg_match("/^(_|fos|root)/", $routeName)) {
                 $rutas[$routeName] = $routeName;
             }
-
         }
 
         asort($rutas);
@@ -40,14 +37,14 @@ class AccionType extends AbstractType
         $builder
             ->add('nombre')
             ->add('descripcion')
-            ->add('ruta',ChoiceType::class,array(
+            ->add('ruta', ChoiceType::class, array(
                 'choices' => $rutas,
-                'choices_as_values' => true
+                // 'choices_as_values' => true
             ))
             ->add('activo')
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

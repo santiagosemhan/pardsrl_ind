@@ -32,7 +32,7 @@ class FuncionalidadRol
     /**
      * @var
      *
-     * @ORM\ManyToOne(targetEntity="UsuarioBundle\Entity\Funcionalidad")
+     * @ORM\ManyToOne(targetEntity="UsuarioBundle\Entity\Funcionalidad", inversedBy="funcionalidadesRol")
      * @ORM\JoinColumn(name="funcionalidad_id", referencedColumnName="id",nullable=false)
      */
     private $funcionalidad;

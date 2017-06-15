@@ -1,0 +1,187 @@
+{% extends "base.html.twig" %}
+
+{% set __title = 'Editor Avanzado de seguridad' %}
+
+{% set __descripcion_opcional = 'Visualización de roles y funcionalidades' %}
+
+{% block stylesheets %}
+  {{ parent() }}
+
+  <style type="text/css">
+
+    tr.header {
+      background-color: #39CCCC;
+      color: white;
+      font-size: 0.8em;
+    }
+    th:not(:first-child) {
+      font-weight: lighter !important;
+    }
+    td:not(:first-child),
+    th {
+      text-align: center;
+    }
+
+    .pointer {
+      cursor: pointer;
+    }
+  </style>
+{% endblock %}
+
+{% block javascripts %}
+
+  {{ parent() }}
+
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+
+      $('.desactivar-funcionalidad-rol').click(function() {
+        // confirm('está seguro que desea desactivar la relación Funcionalidad-Rol'); $('#myModal').on('shown.bs.modal', function () {   $('#myInput').focus() })
+
+        $('#modal-funcionalidad-rol').modal('show');
+      });
+
+      $('#modal-funcionalidad-rol').on('show.bs.modal', function(e) {
+
+        var modal = $(this);
+        var info = 'Usted va a vincular la funcionalidad XXX con el rol YYY. Si está seguro puede proceder a confirmar el cambio.';
+        modal.find('.modal-body span').html(info);
+      });
+
+      $('#confirmar-funcionalidad-rol').on('click',function(){
+        $('#modal-funcionalidad-rol').modal('hide');
+        console.log('confirmó');
+      });
+
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            <i class="fa fa-users"></i>
+            Roles / Funcionalidades
+          </h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table class="table data-table table-bordered">
+            <thead>
+              <tr class="header">
+                <th>#</th>
+                {% for rol in roles %}
+                  <th>
+                    {{ rol.nombre }}
+                  </th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for funcionalidad in funcionalidades %}
+                <tr>
+                  <td>{{funcionalidad.nombre}}
+                    {% if not funcionalidad.activo %}(desactivada){% endif %}
+                  </td>
+                  {% set fk = funcionalidad.id %}
+
+                  {% for rol in roles %}
+                    {% set rk = rol.id %}
+
+                    {% set descripcion = "Haga click para activar/desactivar."%}
+                    <td>
+                      {% if funcionalidadesRolesMatriz[fk][rk]or rol.slug == 'ROLE_SUPER_ADMIN' %}
+                        <span class="desactivar-funcionalidad-rol" title="{{descripcion}}">
+                          <i class="fa fa-check pointer"></i>
+                        </span>
+                      {% else %}
+                      {% endif %}
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            <i class="fa fa-gears"></i>
+            Acciones / Funcionalidades
+          </h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table data-table table-bordered">
+              <thead>
+                <tr class="header">
+                  <th>#</th>
+                  {% for funcionalidad in funcionalidades %}
+                    <th>
+                      <span class="vertical">{{ funcionalidad.nombre }}</span>
+                    </th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for accion in acciones %}
+                  <tr>
+                    <td>{{accion.nombre}}
+                      {% if not accion.activo %}(desactivada){% endif %}
+                    </td>
+                    {% set ak = accion.id %}
+
+                    {% for funcionalidad in funcionalidades %}
+                      {% set fk = funcionalidad.id %}
+
+                      <td>
+                        {% if funcionalidadesAccionesMatriz[fk][ak] %}
+                          <i class="fa fa-check pointer"></i>
+                        {% else %}
+                        {% endif %}
+                      </td>
+                    {% endfor %}
+
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modal-funcionalidad-rol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="modaLabel">¿Está seguro?</h4>
+        </div>
+        <div class="modal-body">
+          <span>...</span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="confirmar-funcionalidad-rol">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

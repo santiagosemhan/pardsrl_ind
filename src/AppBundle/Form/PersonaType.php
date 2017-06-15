@@ -25,7 +25,7 @@ class PersonaType extends AbstractType
                     'Masculino' => 'M' ,
                     'Femenino'  => 'F'
                 ),
-                'choices_as_values' => true,
+                // 'choices_as_values' => true,
                 'attr' => [ 'class' => 'select2']
             ))
             ->add('telefonoPrincipal')

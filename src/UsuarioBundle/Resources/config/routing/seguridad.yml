@@ -1,0 +1,3 @@
+seguridad_editor_avanzado:
+    path:     editor_avanzado
+    defaults: { _controller: UsuarioBundle:Seguridad:editorAvanzado }

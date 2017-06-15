@@ -20,3 +20,6 @@ services:
   security.manager:
       class: UsuarioBundle\Services\SecurityManager
       autowire: true
+
+  Symfony\Bundle\FrameworkBundle\Routing\Router:
+      alias: router.default
