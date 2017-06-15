@@ -139,7 +139,7 @@ function push($filename) {
 
 }
 
-if(!config.ssl.enable){
+if(!config.server.ssl.enable){
 
   server.listen(port, function() {
     console.log(`
