@@ -52,6 +52,7 @@ twig:
          theme_color: "%theme_color%"
          api: "%api%"
          config: "@manager.config"
+         http_channel: "%http_channel%"
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes:

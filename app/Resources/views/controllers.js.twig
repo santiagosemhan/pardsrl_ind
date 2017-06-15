@@ -7,7 +7,7 @@ if (typeof $.LiveData === "undefined") {
 
 function EquipoController() {
 
-    this.baseURL = {% if api.enabled %} "{{ api.url | raw  }}" {% else %} "http://"+server.getBaseWs() {% endif %};
+    this.baseURL = {% if api.enabled %} "{{ api.url | raw  }}" {% else %} "{{ http_channel }}://"+server.getBaseWs() {% endif %};
 
 }
 
@@ -30,7 +30,7 @@ EquipoController.prototype.getHistoricoEquipos = function(equipoId, params, succ
     {% else %}
 
         var historicoEndPoint = this.baseURL+'/historico';
-    
+
         $.ajax({
             dataType: "json",
             url: historicoEndPoint,
