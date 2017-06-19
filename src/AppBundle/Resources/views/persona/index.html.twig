@@ -19,6 +19,7 @@
                                 <th>Apellido</th>
                                 <th>Tel. Principal</th>
                                 <th>Cargo</th>
+                                <th>Empresa</th>
                                 <th>Habilitado</th>
                                 <th>Creado</th>
                                 <th>Actualizado</th>
@@ -36,6 +37,7 @@
                                 <td>{{ persona.apellido }}</td>
                                 <td>{{ persona.telefonoPrincipal }}</td>
                                 <td>{{ persona.cargo }}</td>
+                                <td>{{ persona.compania }}</td>
                                 <td>{% if persona.usuario.enabled %}<span class="label label-success">Si</span{% else %}<span class="label label-danger">No</span>{% endif %}</td>
                                 <td>{% if persona.fechaCreacion %}{{ persona.fechaCreacion|date('d/m/Y') }}{% endif %}</td>
                                 <td>{% if persona.fechaActualizacion %}{{ persona.fechaActualizacion|date('d/m/Y') }}{% endif %}</td>
