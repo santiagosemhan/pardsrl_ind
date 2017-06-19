@@ -17,3 +17,8 @@ usuario_acceso_denegado:
 cambiar-password:
     path:     /usuarios/{id}/cambiar-password
     defaults: { _controller: UsuarioBundle:CambiarPassword:cambiarPassword }
+
+
+cambiar-password-form:
+    path:     /usuarios/cambiar-password-form
+    defaults: { _controller: UsuarioBundle:CambiarPassword:cambiarPasswordForm }
