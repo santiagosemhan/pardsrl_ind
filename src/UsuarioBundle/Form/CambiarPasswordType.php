@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CambiarPasswordType extends AbstractType
 {
@@ -18,6 +19,8 @@ class CambiarPasswordType extends AbstractType
     {
         $builder
             ->add('plainPassword', RepeatedType::class, array(
+                'required' => true,
+                'constraints' => array(new NotBlank()),
                 'type' => PasswordType::class,
                 'options' => array('translation_domain' => 'FOSUserBundle'),
                 'first_options' => array('label' => 'Contraseña','attr' => array('placeholder'=>'contraseña')),
@@ -26,7 +29,7 @@ class CambiarPasswordType extends AbstractType
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
