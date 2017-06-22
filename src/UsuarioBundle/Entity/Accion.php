@@ -3,12 +3,15 @@
 namespace UsuarioBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Accion
  *
  * @ORM\Table(name="usr_accion")
  * @ORM\Entity(repositoryClass="UsuarioBundle\Repository\AccionRepository")
+ * @UniqueEntity("ruta")
+ * @UniqueEntity("nombre")
  */
 class Accion
 {
@@ -158,6 +161,6 @@ class Accion
 
     public function __toString()
     {
-        return sprintf('%s (%s)',$this->getNombre(),$this->getRuta());
+        return sprintf('%s (%s)', $this->getNombre(), $this->getRuta());
     }
 }

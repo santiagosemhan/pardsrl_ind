@@ -10,6 +10,11 @@ usuario_funcionalidad:
     resource: "@UsuarioBundle/Resources/config/routing/funcionalidad.yml"
     prefix:   /funcionalidad
 
+usuario_seguridad:
+    resource: "@UsuarioBundle/Resources/config/routing/seguridad.yml"
+    prefix:   /seguridad
+
+#rutas directas
 usuario_acceso_denegado:
     path: /usuario/acceso-denegado
     defaults: { _controller: UsuarioBundle:Default:accessDenied}

@@ -1,0 +1,19 @@
+seguridad_editor_avanzado:
+    path:     editor_avanzado
+    defaults: { _controller: UsuarioBundle:Seguridad:editorAvanzado }
+
+seguridad_desactivar_funcionalidad_rol:
+    path:     desactivar_funcionalidad_rol
+    defaults: { _controller: UsuarioBundle:Seguridad:desactivarFuncionalidadRol }
+
+seguridad_activar_funcionalidad_rol:
+    path:     activar_funcionalidad_rol
+    defaults: { _controller: UsuarioBundle:Seguridad:activarFuncionalidadRol }
+
+seguridad_desactivar_funcionalidad_accion:
+    path:     desactivar_funcionalidad_accion
+    defaults: { _controller: UsuarioBundle:Seguridad:desactivarFuncionalidadAccion }
+
+seguridad_activar_funcionalidad_accion:
+    path:     activar_funcionalidad_accion
+    defaults: { _controller: UsuarioBundle:Seguridad:activarFuncionalidadAccion }

@@ -1,13 +1,28 @@
 services:
-    manager.estadistica:
-        class:        AppBundle\Services\EstadisticaManager
+    _defaults:
         autowire: true
+        autoconfigure: true
+        public: false
+
+    AppBundle\:
+          resource: '../../../../src/AppBundle/*'
+          # you can exclude directories or files
+          # but if a service is unused, it's removed anyway
+          exclude: '../../../../src/AppBundle/{Entity,Repository,Tests,Form,Controller,AppBundle.php}'
 
     app.cache.clear:
         class: Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand
+        autowire: false
         calls:
             - [setContainer, ["@service_container"] ]
 
+    manager.estadistica:
+        alias:        AppBundle\Services\EstadisticaManager
+        public: true
+
     manager.config:
-        class:        AppBundle\Services\ConfigManager
-        autowire: true
+        alias:        AppBundle\Services\ConfigManager
+        public: true
+
+    Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage:
+        alias: security.token_storage
