@@ -1,0 +1,287 @@
+{% extends "base.html.twig" %}
+
+{% set __title = 'Editor Avanzado de seguridad' %}
+
+{% set __descripcion_opcional = 'Visualización de roles y funcionalidades' %}
+
+{% block stylesheets %}
+  {{ parent() }}
+
+  <style type="text/css">
+
+    tr.header {
+      background-color: #545194;
+      color: white;
+      font-size: 0.8em;
+    }
+    th:not(:first-child) {
+      font-weight: lighter !important;
+    }
+    td:not(:first-child),
+    th {
+      text-align: center;
+    }
+
+    .pointer {
+      cursor: pointer;
+    }
+
+    tbody i.fa.checked {
+      color: #06D6A0;
+    }
+
+    tbody i.fa.unchecked {
+      color: #f4f4f4;
+    }
+
+  </style>
+{% endblock %}
+
+{% block javascripts %}
+
+  {{ parent() }}
+
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+
+      $('tbody').on('click', '.desactivar-funcionalidad-rol', function() {
+
+        var url = "{{ path('seguridad_desactivar_funcionalidad_rol') }}";
+
+        var span = $(this);
+
+        var icon = $(this).find('i');
+
+        $.get(url, {
+          funcionalidad: $(this).data('funcionalidad'),
+          rol: $(this).data('rol')
+        }, function(data) {
+
+          var type = 'error';
+
+          if (data.success) {
+
+            var type = 'success';
+
+            span.removeClass('desactivar-funcionalidad-rol').addClass('activar-funcionalidad-rol')
+
+            icon.removeClass('checked').addClass('unchecked');
+
+          }
+
+          notificate(type, data.message);
+        })
+
+      });
+
+      $('tbody').on('click', '.activar-funcionalidad-rol', function() {
+
+        var url = "{{ path('seguridad_activar_funcionalidad_rol') }}";
+
+        var span = $(this);
+
+        var icon = $(this).find('i');
+
+        $.get(url, {
+          funcionalidad: $(this).data('funcionalidad'),
+          rol: $(this).data('rol')
+        }, function(data) {
+
+          var type = 'error';
+
+          if (data.success) {
+
+            var type = 'success';
+
+            span.removeClass('activar-funcionalidad-rol').addClass('desactivar-funcionalidad-rol')
+
+            icon.removeClass('unchecked').addClass('checked');
+
+          }
+
+          notificate(type, data.message);
+        })
+
+      });
+
+      $('tbody').on('click', '.desactivar-funcionalidad-accion', function() {
+
+        var url = "{{ path('seguridad_desactivar_funcionalidad_accion') }}";
+
+        var span = $(this);
+
+        var icon = $(this).find('i');
+
+        $.get(url, {
+          funcionalidad: $(this).data('funcionalidad'),
+          accion: $(this).data('accion')
+        }, function(data) {
+
+          var type = 'error';
+
+          if (data.success) {
+
+            var type = 'success';
+
+            span.removeClass('desactivar-funcionalidad-accion').addClass('activar-funcionalidad-accion')
+
+            icon.removeClass('checked').addClass('unchecked');
+
+          }
+
+          notificate(type, data.message);
+        })
+
+      });
+
+      $('tbody').on('click', '.activar-funcionalidad-accion', function() {
+
+        var url = "{{ path('seguridad_activar_funcionalidad_accion') }}";
+
+        var span = $(this);
+
+        var icon = $(this).find('i');
+
+        $.get(url, {
+          funcionalidad: $(this).data('funcionalidad'),
+          accion: $(this).data('accion')
+        }, function(data) {
+
+          var type = 'error';
+
+          if (data.success) {
+
+            var type = 'success';
+
+            span.removeClass('activar-funcionalidad-accion').addClass('desactivar-funcionalidad-accion')
+
+            icon.removeClass('unchecked').addClass('checked');
+
+          }
+
+          notificate(type, data.message);
+        })
+
+      });
+
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            <i class="fa fa-users"></i>
+            Roles / Funcionalidades
+          </h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table class="table data-table table-bordered">
+            <thead>
+              <tr class="header">
+                <th>#</th>
+                {% for rol in roles %}
+                  <th>
+                    {{ rol.nombre }}
+                  </th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for funcionalidad in funcionalidades %}
+                <tr>
+                  <td>{{funcionalidad.nombre}}
+                    {% if not funcionalidad.activo %}(desactivada){% endif %}
+                  </td>
+                  {% set fk = funcionalidad.id %}
+
+                  {% for rol in roles %}
+                    {% set rk = rol.id %}
+
+                    {% set descripcion = "Haga click para activar/desactivar."%}
+                    <td>
+
+                      {% if funcionalidadesRolesMatriz[fk][rk]or rol.slug == 'ROLE_SUPER_ADMIN' %}
+                        <span class="desactivar-funcionalidad-rol" title="{{descripcion}}" data-funcionalidad="{{fk}}" data-rol="{{rk}}">
+                          <i class="fa fa-check pointer checked"></i>
+                        </span>
+                      {% else %}
+                        <span class="activar-funcionalidad-rol" title="{{descripcion}}" data-funcionalidad="{{fk}}" data-rol="{{rk}}">
+                          <i class="fa fa-check pointer unchecked"></i>
+                        </span>
+                      {% endif %}
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            <i class="fa fa-gears"></i>
+            Acciones / Funcionalidades
+          </h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table data-table table-bordered">
+              <thead>
+                <tr class="header">
+                  <th>#</th>
+                  {% for funcionalidad in funcionalidades %}
+                    <th>
+                      <span class="vertical">{{ funcionalidad.nombre }}</span>
+                    </th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for accion in acciones %}
+                  <tr>
+                    <td>{{accion.nombre}}
+                      {% if not accion.activo %}(desactivada){% endif %}
+                    </td>
+                    {% set ak = accion.id %}
+
+                    {% for funcionalidad in funcionalidades %}
+                      {% set fk = funcionalidad.id %}
+
+                      {% set descripcion = "Haga click para activar/desactivar."%}
+                      <td>
+                        {% if funcionalidadesAccionesMatriz[fk][ak] %}
+                        <span class="desactivar-funcionalidad-accion" title="{{descripcion}}" data-funcionalidad="{{fk}}" data-accion="{{ak}}">
+                          <i class="fa fa-check pointer checked"></i>
+                        </span>
+                        {% else %}
+                        <span class="activar-funcionalidad-accion" title="{{descripcion}}" data-funcionalidad="{{fk}}" data-accion="{{ak}}">
+                          <i class="fa fa-check pointer unchecked"></i>
+                        </span>
+                        {% endif %}
+                      </td>
+                    {% endfor %}
+
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}
