@@ -243,7 +243,7 @@ class Funcionalidad
 
 
     /**
-     * Get Roles Proxy
+     * Get Roles Activos Proxy
      *
      * @return Collection
      */
@@ -252,7 +252,9 @@ class Funcionalidad
         $roles = new ArrayCollection();
 
         foreach ($this->getFuncionalidadesRol() as $funcionalidadRol) {
-            $roles->add($funcionalidadRol->getRol());
+            if ($funcionalidadRol->getActivo()) {
+                $roles->add($funcionalidadRol->getRol());
+            }
         }
 
         return $roles;

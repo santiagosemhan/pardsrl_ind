@@ -2,6 +2,9 @@
 
 namespace UsuarioBundle\Repository;
 
+use UsuarioBundle\Entity\Accion;
+use UsuarioBundle\Entity\Funcionalidad;
+
 /**
  * FuncionalidadAccionRepository
  *
@@ -10,4 +13,17 @@ namespace UsuarioBundle\Repository;
  */
 class FuncionalidadAccionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getQb()
+    {
+        return $this->createQueryBuilder('fa');
+    }
+
+    public function getByFuncionalidadYAccion(Funcionalidad $funcionalidad, Accion $accion)
+    {
+        return $this->getQb()
+          ->where('fa.funcionalidad = :funcionalidad')
+          ->andWhere('fa.accion = :accion')
+          ->setParameter('funcionalidad', $funcionalidad)
+          ->setParameter('accion', $accion);
+    }
 }

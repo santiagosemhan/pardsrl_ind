@@ -10,7 +10,7 @@
   <style type="text/css">
 
     tr.header {
-      background-color: #39CCCC;
+      background-color: #545194;
       color: white;
       font-size: 0.8em;
     }
@@ -25,6 +25,15 @@
     .pointer {
       cursor: pointer;
     }
+
+    tbody i.fa.checked {
+      color: #06D6A0;
+    }
+
+    tbody i.fa.unchecked {
+      color: #f4f4f4;
+    }
+
   </style>
 {% endblock %}
 
@@ -36,22 +45,124 @@
 
     $(document).ready(function() {
 
-      $('.desactivar-funcionalidad-rol').click(function() {
-        // confirm('está seguro que desea desactivar la relación Funcionalidad-Rol'); $('#myModal').on('shown.bs.modal', function () {   $('#myInput').focus() })
+      $('tbody').on('click', '.desactivar-funcionalidad-rol', function() {
 
-        $('#modal-funcionalidad-rol').modal('show');
+        var url = "{{ path('seguridad_desactivar_funcionalidad_rol') }}";
+
+        var span = $(this);
+
+        var icon = $(this).find('i');
+
+        $.get(url, {
+          funcionalidad: $(this).data('funcionalidad'),
+          rol: $(this).data('rol')
+        }, function(data) {
+
+          var type = 'error';
+
+          if (data.success) {
+
+            var type = 'success';
+
+            span.removeClass('desactivar-funcionalidad-rol').addClass('activar-funcionalidad-rol')
+
+            icon.removeClass('checked').addClass('unchecked');
+
+          }
+
+          notificate(type, data.message);
+        })
+
       });
 
-      $('#modal-funcionalidad-rol').on('show.bs.modal', function(e) {
+      $('tbody').on('click', '.activar-funcionalidad-rol', function() {
 
-        var modal = $(this);
-        var info = 'Usted va a vincular la funcionalidad XXX con el rol YYY. Si está seguro puede proceder a confirmar el cambio.';
-        modal.find('.modal-body span').html(info);
+        var url = "{{ path('seguridad_activar_funcionalidad_rol') }}";
+
+        var span = $(this);
+
+        var icon = $(this).find('i');
+
+        $.get(url, {
+          funcionalidad: $(this).data('funcionalidad'),
+          rol: $(this).data('rol')
+        }, function(data) {
+
+          var type = 'error';
+
+          if (data.success) {
+
+            var type = 'success';
+
+            span.removeClass('activar-funcionalidad-rol').addClass('desactivar-funcionalidad-rol')
+
+            icon.removeClass('unchecked').addClass('checked');
+
+          }
+
+          notificate(type, data.message);
+        })
+
       });
 
-      $('#confirmar-funcionalidad-rol').on('click',function(){
-        $('#modal-funcionalidad-rol').modal('hide');
-        console.log('confirmó');
+      $('tbody').on('click', '.desactivar-funcionalidad-accion', function() {
+
+        var url = "{{ path('seguridad_desactivar_funcionalidad_accion') }}";
+
+        var span = $(this);
+
+        var icon = $(this).find('i');
+
+        $.get(url, {
+          funcionalidad: $(this).data('funcionalidad'),
+          accion: $(this).data('accion')
+        }, function(data) {
+
+          var type = 'error';
+
+          if (data.success) {
+
+            var type = 'success';
+
+            span.removeClass('desactivar-funcionalidad-accion').addClass('activar-funcionalidad-accion')
+
+            icon.removeClass('checked').addClass('unchecked');
+
+          }
+
+          notificate(type, data.message);
+        })
+
+      });
+
+      $('tbody').on('click', '.activar-funcionalidad-accion', function() {
+
+        var url = "{{ path('seguridad_activar_funcionalidad_accion') }}";
+
+        var span = $(this);
+
+        var icon = $(this).find('i');
+
+        $.get(url, {
+          funcionalidad: $(this).data('funcionalidad'),
+          accion: $(this).data('accion')
+        }, function(data) {
+
+          var type = 'error';
+
+          if (data.success) {
+
+            var type = 'success';
+
+            span.removeClass('activar-funcionalidad-accion').addClass('desactivar-funcionalidad-accion')
+
+            icon.removeClass('unchecked').addClass('checked');
+
+          }
+
+          notificate(type, data.message);
+        })
+
       });
 
     });
@@ -95,11 +206,15 @@
 
                     {% set descripcion = "Haga click para activar/desactivar."%}
                     <td>
+
                       {% if funcionalidadesRolesMatriz[fk][rk]or rol.slug == 'ROLE_SUPER_ADMIN' %}
-                        <span class="desactivar-funcionalidad-rol" title="{{descripcion}}">
-                          <i class="fa fa-check pointer"></i>
+                        <span class="desactivar-funcionalidad-rol" title="{{descripcion}}" data-funcionalidad="{{fk}}" data-rol="{{rk}}">
+                          <i class="fa fa-check pointer checked"></i>
                         </span>
                       {% else %}
+                        <span class="activar-funcionalidad-rol" title="{{descripcion}}" data-funcionalidad="{{fk}}" data-rol="{{rk}}">
+                          <i class="fa fa-check pointer unchecked"></i>
+                        </span>
                       {% endif %}
                     </td>
                   {% endfor %}
@@ -143,10 +258,16 @@
                     {% for funcionalidad in funcionalidades %}
                       {% set fk = funcionalidad.id %}
 
+                      {% set descripcion = "Haga click para activar/desactivar."%}
                       <td>
                         {% if funcionalidadesAccionesMatriz[fk][ak] %}
-                          <i class="fa fa-check pointer"></i>
+                        <span class="desactivar-funcionalidad-accion" title="{{descripcion}}" data-funcionalidad="{{fk}}" data-accion="{{ak}}">
+                          <i class="fa fa-check pointer checked"></i>
+                        </span>
                         {% else %}
+                        <span class="activar-funcionalidad-accion" title="{{descripcion}}" data-funcionalidad="{{fk}}" data-accion="{{ak}}">
+                          <i class="fa fa-check pointer unchecked"></i>
+                        </span>
                         {% endif %}
                       </td>
                     {% endfor %}
@@ -160,27 +281,6 @@
         <!-- /.box-body -->
       </div>
 
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="modal-funcionalidad-rol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title" id="modaLabel">¿Está seguro?</h4>
-        </div>
-        <div class="modal-body">
-          <span>...</span>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" id="confirmar-funcionalidad-rol">Confirmar</button>
-        </div>
-      </div>
     </div>
   </div>
 
