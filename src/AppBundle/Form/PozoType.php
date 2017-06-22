@@ -29,7 +29,7 @@ class PozoType extends AbstractType
                     "BES" => "BES",
                     "NINGUNO" => ""
                 ),
-                'choices_as_values' => true,
+                // 'choices_as_values' => true,
                 'label' => 'Sistema de extracción',
                 'attr' => [ 'class' => 'select2']
             ))

@@ -16,7 +16,6 @@ use Symfony\Component\Validator\Constraints\Valid;
 
 class UsuarioType extends AbstractType
 {
-
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
@@ -24,7 +23,6 @@ class UsuarioType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
             ->add('email', EmailType::class, array(
                 'label' => false,
@@ -39,7 +37,6 @@ class UsuarioType extends AbstractType
 
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-
             $usuario = $event->getData();
 
             $form = $event->getForm();
@@ -56,7 +53,6 @@ class UsuarioType extends AbstractType
             // If no data is passed to the form, the data is "null".
             // This should be considered a new "Usuario"
             if (!$usuario || null === $usuario->getId()) {
-
                 $form
                 ->add('plainPassword', RepeatedType::class, array(
                     'type' => PasswordType::class,
@@ -65,32 +61,30 @@ class UsuarioType extends AbstractType
                     'second_options' => array('label' => false,'attr' => array('placeholder'=>'Repita la contraseña')),
                     'invalid_message' => 'Las contraseñas ingresadas no coinciden',
                 ))
-                ->add('roles',ChoiceType::class,array(
+                ->add('roles', ChoiceType::class, array(
                     'choices' => $aRoles,
                     'label' => 'Rol',
                     'expanded' => true,
-                    'choices_as_values'=> true,
-	                'required' => true,
+                    // 'choices_as_values'=> true,
+                    'required' => true,
                     'mapped' => false
                 ))
                 ->add('enabled', null, array(
                     'label' => 'Habilitado'
                 ));
-
-            }else{
-
+            } else {
                 $roles = $usuario->getRoles();
                 // deseteo el ROL por defecto que agrega FOS_USER
                 unset($roles[1]);
 
-	            $form->remove('plainPassword');
-	            $form->remove('password');
+                $form->remove('plainPassword');
+                $form->remove('password');
 
-                $form->add('roles',ChoiceType::class,array(
+                $form->add('roles', ChoiceType::class, array(
                     'choices'  => $aRoles,
                     'data'     => $roles[0],
                     'label'    => 'Rol',
-                    'choices_as_values'=> true,
+                    // 'choices_as_values'=> true,
                     'expanded' => true,
                     'required' => true,
                     'mapped'   => false
@@ -98,11 +92,8 @@ class UsuarioType extends AbstractType
                 ->add('enabled', null, array(
                     'label' => 'Habilitado'
                 ));
-
             }
-
         });
-
     }
 
     /**
@@ -114,7 +105,7 @@ class UsuarioType extends AbstractType
             'data_class' => 'UsuarioBundle\Entity\Usuario',
             'error_bubbling' => true,
             'constraints' => new Valid(),
-	        'validation_groups' => array('Registracion')
+            'validation_groups' => array('Registracion')
         ));
     }
 

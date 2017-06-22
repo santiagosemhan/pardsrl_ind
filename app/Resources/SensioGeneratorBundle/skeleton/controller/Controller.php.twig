@@ -31,9 +31,9 @@ class {{ controller }}Controller extends Controller
             // ...
         ));
         {%- else -%}
-        return $this->render('{{ action.template }}', array(
+        return $this->render('{{ action.template }}', [
             // ...
-        ));
+        ]);
         {%- endif %}
 
     }

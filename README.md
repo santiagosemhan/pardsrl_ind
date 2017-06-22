@@ -1,4 +1,4 @@
-Pard Srl ind
+Pard Srl v2
 ===========
 
-Inspeccion no destructiva de tuberías.
+Erp orientado a la industria petrolera argentina.
