@@ -183,3 +183,34 @@ function overlayBox(boxId){
 function removeOverlayBox(boxId){
     $(boxId).find('.overlay').remove();
 }
+
+function notificate(type,text){
+    new Noty({
+        text: text,
+        type: type,
+        layout: 'bottomRight',
+        theme: 'sunset',
+        progressBar: true,
+        closeWith: ['click', 'button'],
+        animation: {
+          open: 'noty_effects_open',
+          close: 'noty_effects_close'
+        },
+        timeout: 3000,
+        id: false,
+        force: false,
+        killer: false,
+        queue: 'global',
+        container: false,
+        buttons: [],
+        sounds: {
+          sources: [],
+          volume: 1,
+          conditions: []
+        },
+        titleCount: {
+          conditions: []
+        },
+        modal: false
+    }).show();
+}
