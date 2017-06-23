@@ -10,25 +10,27 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Nombre</th>
                                 <th>Modelo</th>
                                 <th>Tel</th>
                                 <th>Email</th>
-                                <th>Id</th>
+                                <th>Compañía</th>
                                 <th>Activo</th>
-                                <th>Fechacreacion</th>
-                                <th>Fechaactualizacion</th>
+                                <th>Creado/th>
+                                <th>Actualizado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for equipo in equipos %}
                             <tr>
+                                <td>{{ equipo.id }}</td>
                                 <td><a href="{{ path('equipo_show', { 'id': equipo.id }) }}">{{ equipo.nombre }}</a></td>
                                 <td>{{ equipo.modelo }}</td>
                                 <td>{{ equipo.tel }}</td>
                                 <td>{{ equipo.email }}</td>
-                                <td>{{ equipo.id }}</td>
+                                <td>{{ equipo.compania.nombre }}</td>
                                 <td>{% if equipo.activo %}<span class="label label-success">Si</span{% else %}<span class="label label-danger">No</span>{% endif %}</td>
                                 <td>{% if equipo.fechaCreacion %}{{ equipo.fechaCreacion|date('d/m/Y H:i:s') }}{% endif %}</td>
                                 <td>{% if equipo.fechaActualizacion %}{{ equipo.fechaActualizacion|date('d/m/Y H:i:s') }}{% endif %}</td>                                <td>
@@ -55,4 +57,3 @@
     <a class="btn btn-primary" href="{{ path('equipo_new') }}">Nuevo equipo</a>
 
 {% endblock %}
-

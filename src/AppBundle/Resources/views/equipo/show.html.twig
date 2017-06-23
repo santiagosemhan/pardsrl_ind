@@ -10,6 +10,10 @@
                 <table class="table">
                     <tbody>
                         <tr>
+                          <th>Id</th>
+                          <td>{{ equipo.id }}</td>
+                        </tr>
+                        <tr>
                             <th>Nombre</th>
                             <td>{{ equipo.nombre }}</td>
                         </tr>
@@ -26,19 +30,19 @@
                             <td>{{ equipo.email }}</td>
                         </tr>
                         <tr>
-                            <th>Id</th>
-                            <td>{{ equipo.id }}</td>
+                            <th>Compañía</th>
+                            <td>{{ equipo.compania.nombre }}</td>
                         </tr>
                         <tr>
                             <th>Activo</th>
                             <td>{% if equipo.activo %}<span class="label label-success">Si</span{% else %}<span class="label label-danger">No</span>{% endif %}</td>
                         </tr>
                         <tr>
-                            <th>Fechacreacion</th>
+                            <th>Creado</th>
                             <td>{% if equipo.fechaCreacion %}{{ equipo.fechaCreacion|date('d-m-Y H:i:s') }}{% endif %}</td>
                         </tr>
                         <tr>
-                            <th>Fechaactualizacion</th>
+                            <th>Actualizado</th>
                             <td>{% if equipo.fechaActualizacion %}{{ equipo.fechaActualizacion|date('d-m-Y H:i:s') }}{% endif %}</td>
                         </tr>
                     </tbody>
