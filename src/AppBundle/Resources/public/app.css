@@ -45,6 +45,11 @@ a:hover, a:active, a:focus {
     color: #545194;
 }
 
+.form-control:focus {
+    border-color: #545194;
+    box-shadow: none;
+}
+
 .box.box-filter, .box.box-primary{
     border-top-color: #545194;
 }
@@ -66,6 +71,10 @@ a:hover, a:active, a:focus {
     border-color: #122b40;
 }
 
+.select2-dropdown .select2-search__field:focus, .select2-search--inline .select2-search__field:focus {
+    outline: none;
+    border: 1px solid #545194;
+}
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
     z-index: 3;
     color: #fff;
