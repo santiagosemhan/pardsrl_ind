@@ -33,3 +33,43 @@ li.notificacion-no-leida a{
 .login-page, .register-page {
     background: #E4E5E6;
 }
+/**************************************/
+
+a {
+    color: #545194;
+}
+
+a:hover, a:active, a:focus {
+    outline: none;
+    text-decoration: none;
+    color: #545194;
+}
+
+.box.box-filter, .box.box-primary{
+    border-top-color: #545194;
+}
+
+
+.btn.btn-primary{
+  background-color: #545194;
+  border-color: #3b3a6d;
+}
+
+.btn-primary.disabled.focus, .btn-primary.disabled:focus, .btn-primary.disabled:hover, .btn-primary[disabled].focus, .btn-primary[disabled]:focus, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary.focus, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:hover{
+  background-color: #545194;
+  border-color: #3b3a6d;
+}
+
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
+    color: #fff;
+    background-color: #3b3a6d;
+    border-color: #122b40;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #545194;
+    border-color: #3b3a6d;
+}

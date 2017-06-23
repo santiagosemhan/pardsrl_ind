@@ -17,7 +17,7 @@
 
             $('.cerrar-novedad').click(function(e){
 
-                overlayBox('.box-primary');
+                overlayBox('.box-novedades');
 
                 var href = e.currentTarget.href;
 
@@ -25,7 +25,7 @@
 
                     $('#modal-cerrar-novedad .modal-body').html(data);
 
-                    removeOverlayBox('.box-primary');
+                    removeOverlayBox('.box-novedades');
 
                     $('#modal-cerrar-novedad').modal('show',this);
                 });
@@ -80,7 +80,7 @@
 {% block content %}
 
     {% if form %}
-        <div class="box box-default">
+        <div class="box box-primary">
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-7">
@@ -140,7 +140,7 @@
                 </div>
             </div>
         </div>
-        <div class="box box-primary">
+        <div class="box box-novedades">
             <div class="box-header with-border">
                 <h3 class="box-title">Listado últimas novedades</h3>
             </div><!-- /.box-header -->
