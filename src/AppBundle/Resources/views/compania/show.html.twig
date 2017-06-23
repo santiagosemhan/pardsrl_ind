@@ -10,6 +10,10 @@
                 <table class="table">
                     <tbody>
                         <tr>
+                          <th>Id</th>
+                          <td>{{ companium.id }}</td>
+                        </tr>
+                        <tr>
                             <th>Nombre</th>
                             <td>{{ companium.nombre }}</td>
                         </tr>
@@ -22,19 +26,15 @@
                             <td>{{ companium.acronimo }}</td>
                         </tr>
                         <tr>
-                            <th>Id</th>
-                            <td>{{ companium.id }}</td>
-                        </tr>
-                        <tr>
                             <th>Activo</th>
                             <td>{% if companium.activo %}<span class="label label-success">Si</span{% else %}<span class="label label-danger">No</span>{% endif %}</td>
                         </tr>
                         <tr>
-                            <th>Fechacreacion</th>
+                            <th>Creado</th>
                             <td>{% if companium.fechaCreacion %}{{ companium.fechaCreacion|date('d-m-Y H:i:s') }}{% endif %}</td>
                         </tr>
                         <tr>
-                            <th>Fechaactualizacion</th>
+                            <th>Actualizado</th>
                             <td>{% if companium.fechaActualizacion %}{{ companium.fechaActualizacion|date('d-m-Y H:i:s') }}{% endif %}</td>
                         </tr>
                         <tr>
