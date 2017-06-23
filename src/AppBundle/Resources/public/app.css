@@ -45,6 +45,10 @@ a:hover, a:active, a:focus {
     color: #545194;
 }
 
+.nav-tabs-custom>.nav-tabs>li.active {
+    border-top-color: #545194;
+}
+
 .text-active-green{
     color: #06D6A0 !important;
 }
