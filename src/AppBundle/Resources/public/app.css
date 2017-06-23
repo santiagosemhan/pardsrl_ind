@@ -45,6 +45,10 @@ a:hover, a:active, a:focus {
     color: #545194;
 }
 
+.text-active-green{
+    color: #06D6A0 !important;
+}
+
 .form-control:focus {
     border-color: #545194;
     box-shadow: none;

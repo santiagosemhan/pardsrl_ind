@@ -68,7 +68,7 @@ class Builder implements ContainerAwareInterface
                         )
                     )
                          ->setUri('#')
-                         ->setExtra('icon', 'fa fa-circle-o text-aqua')
+                         ->setExtra('icon', 'fa fa-circle-o text-active-green')
                          ->setAttribute('class', 'treeview');
 
                     $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
@@ -202,7 +202,6 @@ class Builder implements ContainerAwareInterface
     public function generaMenu(Menu $nodoRaiz, $menuBuilder)
     {
         if (! $nodoRaiz->tieneHijosActivos()) {
-
             if ($nodoRaiz->esLink()) {
                 if ($nodoRaiz->getPadre() && !$nodoRaiz->getPadre()->esHeader()) {
                     $key = $nodoRaiz->getPadre()->getNombre();
@@ -216,33 +215,30 @@ class Builder implements ContainerAwareInterface
                     $menuBuilder->addChild($nodoRaiz->getNombre(), array('route' => $ruta))->setExtra('icon', 'fa ' . $nodoRaiz->getClaseIcono());
                 }
             }
+        } else {
+            $esHeader = $nodoRaiz->esHeader();
 
-        }else{
+            if ($esHeader) {
+                $menuBuilder->addChild($nodoRaiz->getNombre())->setAttribute('class', 'header');
+            } else {
+                if (!$nodoRaiz->getPadre()->esHeader()) {
+                    $key = $nodoRaiz->getPadre()->getNombre();
 
-	        $esHeader = $nodoRaiz->esHeader();
+                    $menuBuilder = $menuBuilder[$key];
+                }
 
-	        if ($esHeader) {
-		        $menuBuilder->addChild($nodoRaiz->getNombre())->setAttribute('class', 'header');
-	        } else{
-
-		        if (!$nodoRaiz->getPadre()->esHeader()) {
-			        $key = $nodoRaiz->getPadre()->getNombre();
-
-			        $menuBuilder = $menuBuilder[$key];
-		        }
-
-		        $menuBuilder->addChild(
-			        $nodoRaiz->getNombre(),
-			        array(
-				        'childrenAttributes' => array(
-					        'class' => 'treeview-menu',
-				        ),
-			        )
-		        )
+                $menuBuilder->addChild(
+                    $nodoRaiz->getNombre(),
+                    array(
+                        'childrenAttributes' => array(
+                            'class' => 'treeview-menu',
+                        ),
+                    )
+                )
                 ->setUri('#')
                 ->setExtra('icon', 'fa ' . $nodoRaiz->getClaseIcono())
                 ->setAttribute('class', 'treeview');
-	        }
+            }
 
 
             foreach ($nodoRaiz->getHijosActivos() as $item) {
@@ -250,21 +246,17 @@ class Builder implements ContainerAwareInterface
             }
 
 
-	        if (!$esHeader) {
-		        if (!$menuBuilder->getChild($nodoRaiz->getNombre())->hasChildren()) {
-			        $menuBuilder->removeChild($nodoRaiz->getNombre());
-		        }
-	        }
-	        else {
-		        $ultimoNodo = $menuBuilder->getLastChild()->getName();
+            if (!$esHeader) {
+                if (!$menuBuilder->getChild($nodoRaiz->getNombre())->hasChildren()) {
+                    $menuBuilder->removeChild($nodoRaiz->getNombre());
+                }
+            } else {
+                $ultimoNodo = $menuBuilder->getLastChild()->getName();
 
-		        if ($ultimoNodo == $nodoRaiz->getNombre()) {
-			        $menuBuilder->removeChild($ultimoNodo);
-		        }
-	        }
-
+                if ($ultimoNodo == $nodoRaiz->getNombre()) {
+                    $menuBuilder->removeChild($ultimoNodo);
+                }
+            }
         }
-
     }
-
 }
