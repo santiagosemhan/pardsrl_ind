@@ -11,19 +11,19 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class PersonaEliminadaEvent extends Event
 {
-	const NAME = 'persona.eliminada';
+    const NAME = 'persona.eliminada';
 
-	protected $persona;
+    protected $persona;
 
-	protected $plainPass;
+    protected $plainPass;
 
-	public function __construct(Persona $persona)
-	{
-		$this->persona = $persona;
-	}
+    public function __construct(Persona $persona)
+    {
+        $this->persona = $persona;
+    }
 
-	public function getPersona()
-	{
-		return $this->persona;
-	}
+    public function getPersona()
+    {
+        return $this->persona;
+    }
 }

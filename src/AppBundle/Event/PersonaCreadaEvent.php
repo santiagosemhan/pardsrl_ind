@@ -11,19 +11,19 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class PersonaCreadaEvent extends Event
 {
-	const NAME = 'persona.creada';
+    const NAME = 'persona.creada';
 
-	protected $persona;
+    protected $persona;
 
-	protected $plainPass;
+    protected $plainPass;
 
-	public function __construct(Persona $persona)
-	{
-		$this->persona = $persona;
-	}
+    public function __construct(Persona $persona)
+    {
+        $this->persona = $persona;
+    }
 
-	public function getPersona()
-	{
-		return $this->persona;
-	}
+    public function getPersona()
+    {
+        return $this->persona;
+    }
 }
