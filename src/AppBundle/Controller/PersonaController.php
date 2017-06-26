@@ -27,7 +27,7 @@ class PersonaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-	    $roles = $em->getRepository('UsuarioBundle:Rol')->findAll();
+        $roles = $em->getRepository('UsuarioBundle:Rol')->findAll();
 
         $personas = $em->getRepository('AppBundle:Persona')->findAll();
 
@@ -44,7 +44,7 @@ class PersonaController extends Controller
         return $this->render('AppBundle:persona:index.html.twig', array(
             'personas'    => $personas,
             'delete_form' => $deleteForm->createView(),
-	        'roles'       => $roles
+            'roles'       => $roles
         ));
     }
 
@@ -59,35 +59,33 @@ class PersonaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $rol = $form->get('usuario')->get('roles')->getData();
 
-	        $rol = $form->get('usuario')->get('roles')->getData();
+            $persona->getUsuario()->setRoles(array());
+            $persona->getUsuario()->addRole($rol);
 
-	        $persona->getUsuario()->setRoles(array());
-	        $persona->getUsuario()->addRole($rol);
+            $em = $this->getDoctrine()->getManager();
 
-        	$em = $this->getDoctrine()->getManager();
+            $configuracion = new Configuracion();
 
-	        $configuracion = new Configuracion();
+            $configuracion->setPersona($persona);
 
-	        $configuracion->setPersona($persona);
-
-	        $persona->setConfiguracion($configuracion);
+            $persona->setConfiguracion($configuracion);
 
             $em->persist($persona);
 
-	        $em->flush();
+            $em->flush();
 
-	        $dispatcher = $this->get('event_dispatcher');
+            $dispatcher = $this->get('event_dispatcher');
 
-	        $event = new PersonaCreadaEvent($persona);
+            $event = new PersonaCreadaEvent($persona);
 
-	        $dispatcher->dispatch(PersonaCreadaEvent::NAME, $event);
+            $dispatcher->dispatch(PersonaCreadaEvent::NAME, $event);
 
             // set flash messages
             $this->get('session')->getFlashBag()->add('success', 'El registro se ha guardado satisfactoriamente.');
 
             return $this->redirectToRoute('persona_index');
-
         }
 
         return $this->render('AppBundle:persona:new.html.twig', array(
@@ -102,8 +100,6 @@ class PersonaController extends Controller
      */
     public function showAction(Persona $persona)
     {
-
-
         return $this->render('AppBundle:persona:show.html.twig', array(
             'persona' => $persona
         ));
@@ -120,12 +116,11 @@ class PersonaController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-
             $rol = $editForm->get('usuario')->get('roles')->getData();
 
             $persona->getUsuario()->setRoles(array());
             $persona->getUsuario()->addRole($rol);
-            
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($persona);
             $em->flush();
@@ -153,22 +148,21 @@ class PersonaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try{
+            try {
                 $em = $this->getDoctrine()->getManager();
 
                 $em->remove($persona);
 
-	            $dispatcher = $this->get('event_dispatcher');
+                $dispatcher = $this->get('event_dispatcher');
 
-	            $event = new PersonaEliminadaEvent($persona);
+                $event = new PersonaEliminadaEvent($persona);
 
-	            $dispatcher->dispatch(PersonaEliminadaEvent::NAME, $event);
+                $dispatcher->dispatch(PersonaEliminadaEvent::NAME, $event);
 
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add('success', 'El registro se ha dado de baja satisfactoriamente.');
-            }catch(\Exception $e){
-
+            } catch (\Exception $e) {
                 $this->get('session')->getFlashBag()->add('error', 'Hubo un error al intentar eliminar el registro.');
             }
         }
@@ -199,49 +193,43 @@ class PersonaController extends Controller
      */
     public function perfilAction(Request $request)
     {
+        $persona = $this->getUser()->getPersona();
 
-    	$persona = $this->getUser()->getPersona();
+        $configuracion = $persona->getConfiguracion();
 
-	    $configuracion = $persona->getConfiguracion();
+        if (!$configuracion) {
+            $configuracion = new Configuracion();
 
-	    if(!$configuracion){
+            $configuracion->setPersona($persona);
+        }
 
-	    	$configuracion = new Configuracion();
+        $form = $this->createForm(ConfiguracionType::class, $configuracion);
 
-		    $configuracion->setPersona($persona);
+        $form->handleRequest($request);
 
-	    }
-
-    	$form = $this->createForm(ConfiguracionType::class,$configuracion);
-
-	    $form->handleRequest($request);
-
-	    if ($form->isSubmitted() && $form->isValid()) {
-
-		    $em = $this->getDoctrine()->getManager();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
 
 
-		    $config = array();
+            $config = array();
 
 
-		    foreach ($form->getIterator() as $key => $child) {
+            foreach ($form->getIterator() as $key => $child) {
+                $config[$key] = $child->getData();
+            }
 
-			    $config[$key] = $child->getData();
-		    }
+            $configuracion->setPersona($persona);
 
-	    	$configuracion->setPersona($persona);
+            $configuracion->setConfiguracion($config);
 
-		    $configuracion->setConfiguracion($config);
+            $em->persist($configuracion);
 
-		    $em->persist($configuracion);
-
-		    $em->flush();
-
-	    }
+            $em->flush();
+        }
 
         return $this->render('AppBundle:persona:perfil.html.twig', array(
-        	'form'      => $form->createView(),
-	        'persona'   => $persona
+            'form'      => $form->createView(),
+            'persona'   => $persona
         ));
     }
 }
