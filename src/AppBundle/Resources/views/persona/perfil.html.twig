@@ -32,6 +32,7 @@
         var form = modal.find('form');
 
         var button = $(this);
+        button.html('<i class="fa fa-refresh fa-spin"></i> <span class="text">Confirmando</span>');
         button.attr('disabled','disabled');
 
         $.ajax({
@@ -44,6 +45,7 @@
             if(!data.updated){
               $('#modal-cambiar-password .modal-body span').html(data.content);
               button.prop("disabled", false);
+              button.html('Confirmar')
 
             }else{
 
