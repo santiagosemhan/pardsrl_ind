@@ -10,7 +10,6 @@ class CambiarPasswordControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/cambiar-password');
+        $crawler = $client->request('GET', '/cambiar_password');
     }
-
 }

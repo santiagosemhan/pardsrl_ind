@@ -10,4 +10,8 @@ namespace UsuarioBundle\Repository;
  */
 class AccionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getQb()
+    {
+        return $this->createQueryBuilder('ac');
+    }
 }

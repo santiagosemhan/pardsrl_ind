@@ -35,7 +35,7 @@ class CambiarPasswordController extends Controller
         $usuario = $this->getUser();
 
         $form = $this->createForm(CambiarPasswordType::class, $usuario, [
-            'action' => $this->generateUrl('cambiar-password-form'),
+            'action' => $this->generateUrl('cambiar_password_form'),
         ]);
 
         $form->handleRequest($request);
