@@ -23,11 +23,11 @@ usuario_acceso_denegado:
     path: /usuario/acceso-denegado
     defaults: { _controller: UsuarioBundle:Default:accessDenied}
 
-cambiar-password:
-    path:     /usuarios/{id}/cambiar-password
+cambiar_password:
+    path:     /usuarios/{id}/cambiar_password
     defaults: { _controller: UsuarioBundle:CambiarPassword:cambiarPassword }
 
 
-cambiar-password-form:
-    path:     /usuarios/cambiar-password-form
+cambiar_password_form:
+    path:     /usuarios/cambiar_password_form
     defaults: { _controller: UsuarioBundle:CambiarPassword:cambiarPasswordForm }

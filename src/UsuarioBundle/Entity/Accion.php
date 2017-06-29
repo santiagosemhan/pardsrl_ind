@@ -27,7 +27,7 @@ class Accion
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=50)
+     * @ORM\Column(name="nombre", type="string", length=100)
      */
     private $nombre;
 
@@ -41,7 +41,7 @@ class Accion
     /**
      * @var string
      *
-     * @ORM\Column(name="ruta", type="string", length=50, unique=true)
+     * @ORM\Column(name="ruta", type="string", length=100, unique=true)
      */
     private $ruta;
 
