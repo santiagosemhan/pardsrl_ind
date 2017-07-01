@@ -48,7 +48,7 @@ class FirewallListener
 
                                 $dispatcher = $this->container->get('event_dispatcher');
 
-                                $accesoDenegadoevent = new AccesoDenegadoEvent($ruta, $masterRequest->getPathInfo());
+                                $accesoDenegadoevent = new AccesoDenegadoEvent($masterRequest->getPathInfo(), $ruta);
 
                                 $dispatcher->dispatch(AccesoDenegadoEvent::NAME, $accesoDenegadoevent);
 
