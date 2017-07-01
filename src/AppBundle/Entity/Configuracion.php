@@ -28,21 +28,20 @@ class Configuracion
      */
     private $configuracion;
 
-	/**
-	 * @ORM\OneToOne(targetEntity="AppBundle\Entity\Persona", inversedBy="configuracion" , cascade={"persist","remove"})
-	 * @ORM\JoinColumn(name="persona_id", referencedColumnName="id")
-	 */
-	private $persona;
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Persona", inversedBy="configuracion" , cascade={"persist","remove"})
+     * @ORM\JoinColumn(name="persona_id", referencedColumnName="id")
+     */
+    private $persona;
 
-	public function __construct() {
+    public function __construct()
+    {
+        $defConfig = $this->getDefault();
 
-		$defConfig = $this->getDefault();
+        $this->setConfiguracion($defConfig);
+    }
 
-		$this->setConfiguracion($defConfig);
-
-	}
-
-	/**
+    /**
      * Get id
      *
      * @return int
@@ -101,28 +100,27 @@ class Configuracion
     }
 
 
-    public function getConfig($key){
+    public function getConfig($key)
+    {
+        $aConfig = $this->getConfiguracion();
 
-    	$aConfig = $this->getConfiguracion();
+        if (is_null($aConfig)) {
+            return null;
+        }
 
-	    if(is_null($aConfig)) return null;
-
-    	return array_key_exists($key,$aConfig) ? $aConfig[$key] : null;
-
+        return array_key_exists($key, $aConfig) ? $aConfig[$key] : null;
     }
 
-	/**
-	 * @return array
-	 */
-    public function getDefault(){
-
-	    return array(
-		    'historicoPozo'       => true,
-		    'historicoManiobras'  => true,
-		    'tiempoRealPozo'      => true,
-		    'tiempoRealManiobras' => true
-	    );
+    /**
+     * @return array
+     */
+    public function getDefault()
+    {
+        return array(
+            'historicoPozo'       => true,
+            'historicoManiobras'  => true,
+            'tiempoRealPozo'      => true,
+            'tiempoRealManiobras' => true
+        );
     }
-
-
 }

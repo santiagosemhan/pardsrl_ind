@@ -1,3 +1,7 @@
 log_authentication:
     path:     /authentication
     defaults: { _controller: UsuarioBundle:Log:authenticationLog }
+
+log_acceso_denegado:
+    path:     acceso_denegado
+    defaults: { _controller: UsuarioBundle:Log:AccesoDenegadoLog }
