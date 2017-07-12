@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% set __title = 'Maniobra' %}
+
+{% block content %}
+<div class="box box-default">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ maniobra.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nombre</th>
+                            <td>{{ maniobra.nombre }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="box-footer">
+                    <a class="btn btn-primary" href="{{ path('maniobra_edit', { 'id': maniobra.id }) }}"> Editar</a>
+                    <a class="btn btn-default" href="{{ path('maniobra_index') }}"> Volver al Listado</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
