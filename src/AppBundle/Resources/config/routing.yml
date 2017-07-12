@@ -63,6 +63,10 @@ app_reportes:
     resource: "@AppBundle/Resources/config/routing/reportes.yml"
     prefix:   /reportes
 
-app_instrumento:
-        resource: "@AppBundle/Resources/config/routing/instrumento.yml"
-        prefix:   /instrumento
+# app_instrumento:
+#     resource: "@AppBundle/Resources/config/routing/instrumento.yml"
+#     prefix:   /instrumento
+
+app_maniobra:
+    resource: "@AppBundle/Resources/config/routing/maniobra.yml"
+    prefix:   /maniobra

@@ -1,0 +1,24 @@
+maniobra_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Maniobra:index" }
+    methods:  GET
+
+maniobra_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Maniobra:show" }
+    methods:  GET
+
+maniobra_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Maniobra:new" }
+    methods:  [GET, POST]
+
+maniobra_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Maniobra:edit" }
+    methods:  [GET, POST]
+
+maniobra_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Maniobra:delete" }
+    methods:  DELETE
