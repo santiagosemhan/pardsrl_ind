@@ -69,4 +69,4 @@ app_reportes:
 
 app_maniobra:
     resource: "@AppBundle/Resources/config/routing/maniobra.yml"
-    prefix:   /maniobra
+    prefix:   /maniobras
