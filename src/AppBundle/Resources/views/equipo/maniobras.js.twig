@@ -269,6 +269,18 @@ function inicializarHistoricoManiobras(){
                     },
                     plotOptions: {
                         turboThreshold: 10,
+                        series: {
+                            lineWidth: 2,
+                            states: {
+                                hover:{
+                                    lineWidth: 3,
+                                },
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            enableMouseTracking: false
+                        }
                         {#series: {#}
                         {#lineWidth: 2,#}
                         {#states: {#}
@@ -458,8 +470,8 @@ $(document).ready(function(){
             labels: {
                 rotation: -45
             },
-//                    tickPixelInterval: 150,
-//                    maxZoom: 20 * 1000,
+            //tickPixelInterval: 150,
+            //maxZoom: 20 * 1000,
             type: 'datetime',
             dateTimeLabelFormats: {
                 millisecond: '%H:%M:%S',
