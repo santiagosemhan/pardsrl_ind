@@ -7,7 +7,7 @@ if (typeof $.LiveData === "undefined") {
 
 function EquipoController() {
 
-    this.baseURL = {% if api.enabled %} "{{ api.url | raw  }}" {% else %} "{{ http_channel }}://"+server.getBaseWs() {% endif %};
+    this.baseURL = {% if api.enabled %} "{{ api.url | raw  }}" {% else %} server.getBaseWs() {% endif %};
 
 }
 

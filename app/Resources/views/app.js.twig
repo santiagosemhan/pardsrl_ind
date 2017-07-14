@@ -8,6 +8,8 @@ if (typeof jQuery === "undefined") {
 $.LiveData = {};
 
 $.LiveData.serverConfig = {
+    'channel': '{{ http_channel }}',
+    //'channel': 'https',
     'server' : '{{ node_server.ip }}',
     'port'   : '{{ node_server.port }}',
     'notifications_namespace' : '{{ node_server.notifications_namespace }}'
@@ -57,13 +59,12 @@ $.LiveData.oauth2 = {
 {% endif %}
 
 $.LiveData.server = {
+    getChannel               : function(){ return $.LiveData.serverConfig.channel},
     getIp                    : function(){ return $.LiveData.serverConfig.server},
     getPort                  : function(){ return $.LiveData.serverConfig.port},
     getNotificationNamespace : function(){ return $.LiveData.serverConfig.notifications_namespace},
-    getBaseWs                : function(){ return this.getIp()+':'+this.getPort()},
-    getWsNotifications       : function(){
-        return this.getBaseWs()+'/'+this.getNotificationNamespace();
-    }
+    getBaseWs                : function(){ return this.getChannel()+'://'+this.getIp()+':'+this.getPort()},
+    getWsNotifications       : function(){ return this.getBaseWs()+'/'+this.getNotificationNamespace()}
 };
 
 $.LiveData.notifications = {
