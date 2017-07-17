@@ -6,7 +6,6 @@ use AppBundle\Entity\Base\BaseClass;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-
 /**
  * Equipo
  *
@@ -70,7 +69,7 @@ class Equipo extends BaseClass
     private $intervenciones;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EstadisticaTemporal", mappedBy="equipo")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EstadisticaTemporal", mappedBy="equipo", cascade={"persist","remove"})
      */
     private $estadisticas;
 
@@ -83,7 +82,7 @@ class Equipo extends BaseClass
     {
         return $this->id;
     }
-    
+
     /**
      * Set nombre
      *
@@ -333,25 +332,24 @@ class Equipo extends BaseClass
 
     public function getWebSocketNamespace()
     {
-        return strtolower(str_replace(' ','',$this->getNombreCompleto()));
+        return strtolower(str_replace(' ', '', $this->getNombreCompleto()));
     }
 
-	/**
-	 * Retorna la intervencion asociada al equipo en el caso de que esté interviniendo.
-	 * False en el caso de que no esté activo en algun Pozo
-	 *
-	 * @return bool| Intervencion
-	 */
+    /**
+     * Retorna la intervencion asociada al equipo en el caso de que esté interviniendo.
+     * False en el caso de que no esté activo en algun Pozo
+     *
+     * @return bool| Intervencion
+     */
     public function getIntervencionActual()
     {
+        $intervencion =  $this->getIntervenciones()->last();
 
-    	$intervencion =  $this->getIntervenciones()->last();
 
+        if ($intervencion && $intervencion->esApertura()) {
+            return $intervencion;
+        }
 
-	    if( $intervencion && $intervencion->esApertura()){
-	    	return $intervencion;
-	    }
-
-	    return false;
+        return false;
     }
 }

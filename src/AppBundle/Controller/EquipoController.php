@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Intervencion;
+use AppBundle\Entity\EstadisticaTemporal;
 use AppBundle\Form\EstadisticaGeneralFechaFilterType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,14 +57,21 @@ class EquipoController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $estadisticaTemporal = new EstadisticaTemporal();
+
+            $estadisticaTemporal->setEquipo($equipo);
+
+            $equipo->addEstadistica($estadisticaTemporal);
+
             $em->persist($equipo);
+
             $em->flush();
 
             // set flash messages
             $this->get('session')->getFlashBag()->add('success', 'El registro se ha guardado satisfactoriamente.');
 
             return $this->redirectToRoute('equipo_index');
-
         }
 
         return $this->render('AppBundle:equipo:new.html.twig', array(
@@ -78,8 +86,6 @@ class EquipoController extends Controller
      */
     public function showAction(Equipo $equipo)
     {
-
-
         return $this->render('AppBundle:equipo:show.html.twig', array(
             'equipo' => $equipo
         ));
@@ -123,13 +129,13 @@ class EquipoController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try{
+            try {
                 $em = $this->getDoctrine()->getManager();
                 $em->remove($equipo);
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add('success', 'El registro se ha dado de baja satisfactoriamente.');
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
                 $this->get('session')->getFlashBag()->add('error', 'Hubo un error al intentar eliminar el registro.');
             }
         }
@@ -159,9 +165,11 @@ class EquipoController extends Controller
      * @param Equipo $equipo
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function graficasAction(Request $request, Equipo $equipo){
-
-	    if( ! $this->puedeAccederAlEquipo($equipo)) throw $this->createNotFoundException() ;
+    public function graficasAction(Request $request, Equipo $equipo)
+    {
+        if (! $this->puedeAccederAlEquipo($equipo)) {
+            throw $this->createNotFoundException() ;
+        }
 
         $intervencionRepository = $this->getDoctrine()->getRepository('AppBundle:Intervencion');
 
@@ -174,34 +182,28 @@ class EquipoController extends Controller
 
         $fechaInicioIntervencion = null;
 
-	    $descripcion = null;
+        $descripcion = null;
 
-	    if(!$intervenciones->isEmpty()){
-
+        if (!$intervenciones->isEmpty()) {
             $intervencionActual = $intervenciones->first();
 
-            if($intervencionActual->getPozo()->estaAbierto()){
-
+            if ($intervencionActual->getPozo()->estaAbierto()) {
                 $fechaInicioIntervencion = $intervencionActual->getFecha();
 
                 $pozo = $intervencionActual->getPozo()->getAcronimo();
-
-            }else{
+            } else {
                 //si está cerrado busco la intervencion de apertura
                 $intervencion = $intervenciones->get(1);
 
-                if($intervencion){
+                if ($intervencion) {
                     $fechaInicioIntervencion = $intervencion->getFecha();
 
-	                $pozo = $intervencion->getPozo()->getAcronimo();
-
+                    $pozo = $intervencion->getPozo()->getAcronimo();
                 }
-
             }
 
-		    $descripcion = sprintf("Intervención iniciada el día <strong>%s</strong> sobre el pozo <strong>%s</strong>",$fechaInicioIntervencion->format('d-m-Y H:i'),$pozo);
-
-	    }
+            $descripcion = sprintf("Intervención iniciada el día <strong>%s</strong> sobre el pozo <strong>%s</strong>", $fechaInicioIntervencion->format('d-m-Y H:i'), $pozo);
+        }
 
 
         $resolucionPlumas     = $this->getParameter('historicos.plumas.resolucion');
@@ -211,9 +213,9 @@ class EquipoController extends Controller
         return $this->render('AppBundle:equipo:graficas.html.twig', array(
             'equipo'                    => $equipo,
             'fechaInicioIntervencion'   => $fechaInicioIntervencion,
-	        'resolucionPlumas'          => $resolucionPlumas,
-	        'resolucionManiobras'       => $resolucionManiobras,
-	        'descripcion'               => $descripcion
+            'resolucionPlumas'          => $resolucionPlumas,
+            'resolucionManiobras'       => $resolucionManiobras,
+            'descripcion'               => $descripcion
 
         ));
     }
@@ -226,35 +228,37 @@ class EquipoController extends Controller
      * @param Equipo $equipo
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function graficasHistoricasAction(Request $request, Equipo $equipo,$fintervencion,$fdesde,$fhasta){
+    public function graficasHistoricasAction(Request $request, Equipo $equipo, $fintervencion, $fdesde, $fhasta)
+    {
+        if (! $this->puedeAccederAlEquipo($equipo)) {
+            throw $this->createNotFoundException() ;
+        }
 
-	    if( ! $this->puedeAccederAlEquipo($equipo)) throw $this->createNotFoundException() ;
+        $resolucionPlumas     = $this->getParameter('historicos.plumas.resolucion');
 
-	    $resolucionPlumas     = $this->getParameter('historicos.plumas.resolucion');
-
-	    $resolucionManiobras  = $this->getParameter('historicos.maniobras.resolucion');
+        $resolucionManiobras  = $this->getParameter('historicos.maniobras.resolucion');
 
 
-	    $intervRepository = $this->getDoctrine()->getRepository("AppBundle:Intervencion");
+        $intervRepository = $this->getDoctrine()->getRepository("AppBundle:Intervencion");
 
-	    $fecha = \DateTime::createFromFormat('YmdHi', $fintervencion);
+        $fecha = \DateTime::createFromFormat('YmdHi', $fintervencion);
 
-	    $intervencion = $intervRepository->getUltimaIntervencionAperturaByEquipoyFecha($equipo,$fecha)->getQuery()->getOneOrNullResult();
+        $intervencion = $intervRepository->getUltimaIntervencionAperturaByEquipoyFecha($equipo, $fecha)->getQuery()->getOneOrNullResult();
 
-		$fecha = $intervencion->getFecha()->format("d-m-Y H:i");
+        $fecha = $intervencion->getFecha()->format("d-m-Y H:i");
 
-		$pozo = $intervencion->getPozo()->getAcronimo();
+        $pozo = $intervencion->getPozo()->getAcronimo();
 
-	    $descripcion = sprintf("Intervención iniciada el día <strong>%s</strong> sobre el pozo <strong>%s</strong>",$fecha,$pozo);
+        $descripcion = sprintf("Intervención iniciada el día <strong>%s</strong> sobre el pozo <strong>%s</strong>", $fecha, $pozo);
 
         return $this->render('AppBundle:equipo:graficas_historicas.html.twig', array(
             'equipo'        => $equipo,
             'fdesde'        => $fdesde,
             'fhasta'        => $fhasta,
             'fintervencion' => $fintervencion,
-	        'resolucionPlumas'          => $resolucionPlumas,
-	        'resolucionManiobras'       => $resolucionManiobras,
-	        'descripcion'               => $descripcion
+            'resolucionPlumas'          => $resolucionPlumas,
+            'resolucionManiobras'       => $resolucionManiobras,
+            'descripcion'               => $descripcion
         ));
     }
 
@@ -267,7 +271,9 @@ class EquipoController extends Controller
      */
     public function instrumentosAction(Request $request, Equipo $equipo)
     {
-	    if( ! $this->puedeAccederAlEquipo($equipo)) throw $this->createNotFoundException() ;
+        if (! $this->puedeAccederAlEquipo($equipo)) {
+            throw $this->createNotFoundException() ;
+        }
 
         return $this->render('AppBundle:equipo:instrumentos.html.twig', array(
             'equipo' => $equipo
@@ -283,10 +289,11 @@ class EquipoController extends Controller
      */
     public function estadisticasAction(Request $request, Equipo $equipo)
     {
+        if (! $this->puedeAccederAlEquipo($equipo)) {
+            throw $this->createNotFoundException() ;
+        }
 
-	    if( ! $this->puedeAccederAlEquipo($equipo)) throw $this->createNotFoundException() ;
-
-	    $intervencionRepository = $this->getDoctrine()->getRepository('AppBundle:Intervencion');
+        $intervencionRepository = $this->getDoctrine()->getRepository('AppBundle:Intervencion');
 
         $intervencionQb = $intervencionRepository->getUltimaIntervencionByEquipo($equipo);
 
@@ -298,7 +305,6 @@ class EquipoController extends Controller
         //dump($intervencion);
 
         if ($intervencion && $intervencion->getPozo()->estaAbierto()) {
-
         } else {
             //Puede ser que exista una intervencion pero haya sido un cierre
             $intervencion = null;
@@ -313,33 +319,32 @@ class EquipoController extends Controller
         ));
     }
 
-    public function estadisticasDatosAction(Request $request, $equipo_id, $intervencion_id){
+    public function estadisticasDatosAction(Request $request, $equipo_id, $intervencion_id)
+    {
+        $equipo = $this->getDoctrine()->getManager()->find('AppBundle:Equipo', $equipo_id);
 
-            $equipo = $this->getDoctrine()->getManager()->find('AppBundle:Equipo',$equipo_id);
+        $intervencion = $this->getDoctrine()->getManager()->find('AppBundle:Intervencion', $intervencion_id);
 
-            $intervencion = $this->getDoctrine()->getManager()->find('AppBundle:Intervencion',$intervencion_id);
+        $estadisticas = $intervencion->getEquipo()->getEstadisticas();
 
-            $estadisticas = $intervencion->getEquipo()->getEstadisticas();
+        $datos = null;
 
-	        $datos = null;
+        if (!$estadisticas->isEmpty()) {
+            $datos = $estadisticas->first()->getDatos();
+        }
 
-            if(!$estadisticas->isEmpty()){
-                $datos = $estadisticas->first()->getDatos();
-            }
+        $novedadRepository = $this->getDoctrine()->getRepository('AppBundle:Novedad');
 
-            $novedadRepository = $this->getDoctrine()->getRepository('AppBundle:Novedad');
+        $maniobraActualAsistida = $novedadRepository->getActualAsistidaByIntervencion($intervencion)->getQuery()->getOneOrNullResult();
 
-            $maniobraActualAsistida = $novedadRepository->getActualAsistidaByIntervencion($intervencion)->getQuery()->getOneOrNullResult();
+        $maniobraActualAutomatica = $novedadRepository->getActualAutomaticaByIntervencion($intervencion)->getQuery()->getOneOrNullResult();
 
-            $maniobraActualAutomatica = $novedadRepository->getActualAutomaticaByIntervencion($intervencion)->getQuery()->getOneOrNullResult();
+        $estadisticaManiobra = [];
 
-            $estadisticaManiobra = [];
+        $fechaActual = new \DateTime();
 
-            $fechaActual = new \DateTime();
-
-            if($maniobraActualAsistida){
-
-                $estadisticaManiobra['actual_asistida'] = array(
+        if ($maniobraActualAsistida) {
+            $estadisticaManiobra['actual_asistida'] = array(
                     'maniobra'          => $maniobraActualAsistida->getManiobra(),
                     'iniciado'          => $maniobraActualAsistida->getInicio()->format('d/m/Y H:i:s'),
                     'parcial_maniobra'  => $maniobraActualAsistida->getParcialManiobra(),
@@ -347,12 +352,10 @@ class EquipoController extends Controller
                     'cant_alertas'      => $maniobraActualAsistida->getCantidadAlertas(),
                     'tiempo_parcial'    => $maniobraActualAsistida->getInicio()->diff($fechaActual)->format('%a %H:%I')
                 );
+        }
 
-            }
-
-            if($maniobraActualAutomatica){
-
-                $estadisticaManiobra['actual_automatica'] = array(
+        if ($maniobraActualAutomatica) {
+            $estadisticaManiobra['actual_automatica'] = array(
                     'maniobra'          => $maniobraActualAutomatica->getManiobra(),
                     'iniciado'          => $maniobraActualAutomatica->getInicio()->format('d/m/Y H:i:s'),
                     'parcial_maniobra'  => $maniobraActualAutomatica->getParcialManiobra(),
@@ -360,8 +363,7 @@ class EquipoController extends Controller
                     'cant_alertas'      => $maniobraActualAutomatica->getCantidadAlertas(),
                     'tiempo_parcial'    => $maniobraActualAutomatica->getInicio()->diff($fechaActual)->format('%a %H:%I')
                 );
-
-            }
+        }
 
 
 
@@ -376,12 +378,13 @@ class EquipoController extends Controller
     /**
      * Muestra la pantalla de graficas individuales estadisticas para un equipo
      */
-    public function estadisticasIndividualesAction(Request $request, Equipo $equipo){
+    public function estadisticasIndividualesAction(Request $request, Equipo $equipo)
+    {
+        if (! $this->puedeAccederAlEquipo($equipo)) {
+            throw $this->createNotFoundException() ;
+        }
 
-
-	    if( ! $this->puedeAccederAlEquipo($equipo)) throw $this->createNotFoundException() ;
-
-	    $desde = new \DateTime('now');
+        $desde = new \DateTime('now');
 
         $desde = $desde->modify('-1 year');
 
@@ -392,14 +395,13 @@ class EquipoController extends Controller
             'hasta' => $hasta
         );
 
-        $form = $this->createForm(EstadisticaGeneralFechaFilterType::class,$rangoFechas, array(
+        $form = $this->createForm(EstadisticaGeneralFechaFilterType::class, $rangoFechas, array(
             'method'        => 'POST'
         ));
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             $desde = $data['desde'];
@@ -407,26 +409,23 @@ class EquipoController extends Controller
             $hasta = $data['hasta'];
         }
 
-        return $this->render('AppBundle:equipo:estadisticas_individuales.html.twig',array(
+        return $this->render('AppBundle:equipo:estadisticas_individuales.html.twig', array(
             'form'        => $form->createView(),
             'equipo'      => $equipo,
             'fecha_desde' => $desde->format('Y-m-d'),
             'fecha_hasta' => $hasta->format('Y-m-d')
         ));
-
     }
 
-    private function puedeAccederAlEquipo($equipo){
+    private function puedeAccederAlEquipo($equipo)
+    {
+        $personas = $equipo->getPersonas();
 
-	    $personas = $equipo->getPersonas();
+        //si el usuario no tiene asignado el equipo en cuestión
+        if (!$personas->contains($this->getUser()->getPersona())) {
+            return false;
+        }
 
-	    //si el usuario no tiene asignado el equipo en cuestión
-	    if( !$personas->contains($this->getUser()->getPersona())){
-		    return false;
-	    }
-
-	    return true;
+        return true;
     }
-
-
 }
