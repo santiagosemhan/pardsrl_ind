@@ -279,7 +279,7 @@ function inicializarHistoricoManiobras(){
                             marker: {
                                 enabled: false
                             },
-                            enableMouseTracking: false
+                            enableMouseTracking: true
                         }
                         {#series: {#}
                         {#lineWidth: 2,#}
@@ -345,6 +345,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.mtv,
                             yAxis: 0,
                             tooltip: {
+                                pointFormat: '',
                                 valueSuffix: ' ',
                                 valueDecimals: 0
                             }
@@ -355,16 +356,17 @@ function inicializarHistoricoManiobras(){
                             color: '#40DFFF',
                             yAxis: 0,
                             tooltip: {
+                                pointFormat: '',
                                 valueDecimals: 0
                             }
                         }, {
-
                             name: 'Viento mayor a 45 Km/h',
                             type: 'line',
                             color: '#CBD2D4',
                             data: data.datos.vto,
                             yAxis: 0,
                             tooltip: {
+                                pointFormat: '',
                                 valueDecimals: 0
                             }
                         }, {
@@ -374,6 +376,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.adef,
                             yAxis: 0,
                             tooltip: {
+                                pointFormat: '',
                                 valueDecimals: 0
                             }
                         }, {
@@ -382,6 +385,10 @@ function inicializarHistoricoManiobras(){
                             color: '#FC3A1C',
                             data: data.datos.aexe,
                             yAxis: 0,
+                            tooltip: {
+                                pointFormat: '',
+                                valueDecimals: 0
+                            }
                         }, {
                             name: 'Tension mayor a 120 Klb',
                             type: 'line',
@@ -389,6 +396,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.tmay,
                             yAxis: 0,
                             tooltip: {
+                                pointFormat: '',
                                 valueDecimals: 0
                             }
                         }, {
@@ -398,6 +406,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.ppel,
                             yAxis: 0,
                             tooltip: {
+                                pointFormat: '',
                                 valueDecimals: 0
                             }
                         }
