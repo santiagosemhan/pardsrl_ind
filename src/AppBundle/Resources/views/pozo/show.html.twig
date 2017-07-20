@@ -63,8 +63,8 @@
                         <tr>
                             <th>Equipo</th>
                             <td>
-                                {%  if pozo.intervencionActual %}
-                                    <a href="{{ path('equipo_show', { 'id': pozo.intervencionActual.equipo.id }) }}">{{ pozo.intervencionActual.equipo | upper }}</a>
+                                {%  if pozo.estaAbierto %}
+                                    <a href="{{ path('equipo_show', { 'id': pozo.ultimaIntervencion.equipo.id }) }}">{{ pozo.ultimaIntervencion.equipo | upper }}</a>
                                 {% else %}
                                     -
                                 {% endif %}

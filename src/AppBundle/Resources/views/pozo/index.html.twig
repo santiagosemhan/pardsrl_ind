@@ -35,10 +35,10 @@
                                 <td>{{ pozo.sistemaExtraccion }}</td>
                                 <td>{{ pozo.latitud }}</td>
                                 <td>{{ pozo.longitud }}</td>
-                                <td>{% if pozo.estadoUltimaIntervencion == 1 %}<span class="label label-warning">Cerrado</span{% else %}<span class="label label-success">Abierto</span>{% endif %}</td>
+                                <td>{% if pozo.estaAbierto == 0 %}<span class="label label-warning">Cerrado</span{% else %}<span class="label label-success">Abierto</span>{% endif %}</td>
                                 <td>
-                                    {%  if pozo.intervencionActual %}
-                                        <a href="{{ path('equipo_show', { 'id': pozo.intervencionActual.equipo.id }) }}">{{ pozo.intervencionActual.equipo | upper }}</a>
+                                    {%  if pozo.estaAbierto %}
+                                        <a href="{{ path('equipo_show', { 'id': pozo.ultimaIntervencion.equipo.id }) }}">{{ pozo.ultimaIntervencion.equipo | upper }}</a>
                                     {% else %}
                                         -
                                     {% endif %}
@@ -70,4 +70,3 @@
     <a class="btn btn-primary" href="{{ path('pozo_new') }}">Nuevo pozo</a>
 
 {% endblock %}
-

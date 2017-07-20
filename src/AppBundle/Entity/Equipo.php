@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Base\BaseClass;
+use AppBundle\Entity\Intervencion;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -336,18 +337,27 @@ class Equipo extends BaseClass
     }
 
     /**
-     * Retorna la intervencion asociada al equipo en el caso de que esté interviniendo.
-     * False en el caso de que no esté activo en algun Pozo
+     * Retorna la última intervención del equipo.
      *
-     * @return bool| Intervencion
+     * @return Intervencion | null
      */
-    public function getIntervencionActual()
+    public function getUltimaIntervencion()
     {
         $intervencion =  $this->getIntervenciones()->last();
 
+        return $intervencion;
+    }
+
+    /**
+     * Retorna si el equipo se encuentra interviniendo o no
+     * @return boolean
+     */
+    public function estaInterviniendo()
+    {
+        $intervencion = $this->getUltimaIntervencion();
 
         if ($intervencion && $intervencion->esApertura()) {
-            return $intervencion;
+            return true;
         }
 
         return false;

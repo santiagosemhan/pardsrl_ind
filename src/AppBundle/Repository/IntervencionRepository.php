@@ -10,7 +10,6 @@ namespace AppBundle\Repository;
  */
 class IntervencionRepository extends \Doctrine\ORM\EntityRepository
 {
-
     public function getQb()
     {
         return $this->createQueryBuilder('interv');
@@ -19,12 +18,12 @@ class IntervencionRepository extends \Doctrine\ORM\EntityRepository
     public function getUltimasIntervencionesByPozo($pozo)
     {
         $qb = $this->getQb()
-            ->innerJoin('interv.pozo','pozo')
+            ->innerJoin('interv.pozo', 'pozo')
             ->where('pozo = :pozo')
-            ->orderBy('interv.fecha','DESC')
-            ->orderBy('interv.fechaCreacion','DESC');
+            ->orderBy('interv.fecha', 'DESC')
+            ->orderBy('interv.fechaCreacion', 'DESC');
 
-        $qb->setParameter('pozo',$pozo);
+        $qb->setParameter('pozo', $pozo);
 
         return $qb;
     }
@@ -32,19 +31,18 @@ class IntervencionRepository extends \Doctrine\ORM\EntityRepository
     public function getUltimasIntervencionesByEquipo($equipo)
     {
         $qb = $this->getQb()
-            ->innerJoin('interv.equipo','equipo')
+            ->innerJoin('interv.equipo', 'equipo')
             ->where('equipo = :equipo')
-            ->orderBy('interv.fecha','DESC')
-            ->orderBy('interv.fechaCreacion','DESC');
+            ->orderBy('interv.fecha', 'DESC')
+            ->orderBy('interv.fechaCreacion', 'DESC');
 
-        $qb->setParameter('equipo',$equipo);
+        $qb->setParameter('equipo', $equipo);
 
         return $qb;
     }
 
     public function getUltimaIntervencionByEquipo($equipo)
     {
-
         $intervencionesQb = $this->getUltimasIntervencionesByEquipo($equipo);
 
         $intervencionesQb->setMaxResults(1);
@@ -52,21 +50,31 @@ class IntervencionRepository extends \Doctrine\ORM\EntityRepository
         return $intervencionesQb;
     }
 
-    public function getIntervencionesByEquipos($equipos){
 
+    public function getUltimaIntervencionByPozo($pozo)
+    {
+        $intervencionesQb = $this->getUltimasIntervencionesByPozo($pozo);
+
+        $intervencionesQb->setMaxResults(1);
+
+        return $intervencionesQb;
+    }
+
+    public function getIntervencionesByEquipos($equipos)
+    {
         $qb = $this->getQb()
-            ->innerJoin('interv.equipo','equipo')
+            ->innerJoin('interv.equipo', 'equipo')
             ->where('equipo IN (:equipos)')
-            ->orderBy('interv.fecha','DESC')
-            ->orderBy('interv.fechaCreacion','DESC');
+            ->orderBy('interv.fecha', 'DESC')
+            ->orderBy('interv.fechaCreacion', 'DESC');
 
-        $qb->setParameter('equipos',$equipos);
+        $qb->setParameter('equipos', $equipos);
 
         return $qb;
     }
 
-    public function getIntervencionesCerradasByEquipo($equipos){
-
+    public function getIntervencionesCerradasByEquipo($equipos)
+    {
         $qb = $this->getIntervencionesByEquipos($equipos);
 
         $qb->andWhere('interv.accion = 1');
@@ -74,26 +82,25 @@ class IntervencionRepository extends \Doctrine\ORM\EntityRepository
         return $qb;
     }
 
-    public function getIntervencionByEquipoyFecha($equipo,$fecha){
+    public function getIntervencionByEquipoyFecha($equipo, $fecha)
+    {
+        $qb = $this->getIntervencionesByEquipos($equipo);
 
-    	$qb = $this->getIntervencionesByEquipos($equipo);
+        $qb->andWhere('interv.fecha = :fecha');
 
-    	$qb->andWhere('interv.fecha = :fecha');
+        $qb->setParameter('fecha', $fecha);
 
-    	$qb->setParameter('fecha',$fecha);
-
-    	return $qb;
+        return $qb;
     }
 
-    public function getUltimaIntervencionAperturaByEquipoyFecha($equipo,$fecha){
+    public function getUltimaIntervencionAperturaByEquipoyFecha($equipo, $fecha)
+    {
+        $qb = $this->getIntervencionByEquipoyFecha($equipo, $fecha);
 
-    	$qb = $this->getIntervencionByEquipoyFecha($equipo,$fecha);
+        $qb->andWhere('interv.accion = 0');
 
-    	$qb->andWhere('interv.accion = 0');
+        $qb->setMaxResults(1);
 
-    	$qb->setMaxResults(1);
-
-    	return $qb;
+        return $qb;
     }
-
 }

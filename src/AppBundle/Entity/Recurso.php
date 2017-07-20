@@ -11,67 +11,68 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="recurso")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RecursoRepository")
  */
-class Recurso extends BaseClass {
-	/**
-	 * @var int
-	 *
-	 * @ORM\Column(name="id", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
+class Recurso extends BaseClass
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="recurso", type="string", length=255)
-	 */
-	private $recurso;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="recurso", type="string", length=255)
+     */
+    private $recurso;
 
-	/**
-	 * @var int
-	 *
-	 * @ORM\Column(name="objeto_id", type="integer")
-	 */
-	private $objetoId;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="objeto_id", type="integer")
+     */
+    private $objetoId;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="url", type="string", length=500)
-	 */
-	private $url;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=500)
+     */
+    private $url;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="nombre_archivo", type="string", length=255)
-	 */
-	private $nombreArchivo;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre_archivo", type="string", length=255)
+     */
+    private $nombreArchivo;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="extension", type="string", length=10)
-	 */
-	private $extension;
-
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="observaciones", type="string", nullable=true, length=500)
-	 */
-	private $observaciones;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="extension", type="string", length=10)
+     */
+    private $extension;
 
 
-	/**
-	 * @var
-	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TipoRecurso", inversedBy="recursos")
-	 * @ORM\JoinColumn(name="tipo_recurso", referencedColumnName="id", nullable=false)
-	 */
-	private $tipoRecurso;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observaciones", type="string", nullable=true, length=500)
+     */
+    private $observaciones;
+
+
+    /**
+     * @var
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TipoRecurso", inversedBy="recursos")
+     * @ORM\JoinColumn(name="tipo_recurso", referencedColumnName="id", nullable=false)
+     */
+    private $tipoRecurso;
 
 
     /**
@@ -252,5 +253,4 @@ class Recurso extends BaseClass {
     {
         return $this->tipoRecurso;
     }
-
 }

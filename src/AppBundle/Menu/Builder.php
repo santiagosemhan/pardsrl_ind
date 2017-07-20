@@ -70,41 +70,53 @@ class Builder implements ContainerAwareInterface
                          ->setUri('#')
                          ->setExtra('icon', 'fa fa-circle-o text-active-green')
                          ->setAttribute('class', 'treeview');
+                    if ($this->securityManager->isGranted($this->rol, 'equipo_graficas') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
+                        $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
+                            'Gráficas',
+                            array( 'route' => 'equipo_graficas', 'routeParameters' => array( 'id' => $equipo->getId() ) )
+                        )->setExtra('icon', 'fa fa-bar-chart');
+                    }
+                    if ($this->securityManager->isGranted($this->rol, 'equipo_instrumentos') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
+                        $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
+                            'Instrumentos',
+                            array( 'route'           => 'equipo_instrumentos',
+                                   'routeParameters' => array( 'id' => $equipo->getId() )
+                            )
+                        )->setExtra('icon', 'fa  fa-cogs');
+                    }
+                    if ($this->securityManager->isGranted($this->rol, 'equipo_estadisticas') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
+                        $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
+                            'Estadística Actual',
+                            array( 'route'           => 'equipo_estadisticas',
+                                   'routeParameters' => array( 'id' => $equipo->getId() )
+                            )
+                        )->setExtra('icon', 'fa  fa-line-chart');
+                    }
+                    if ($this->securityManager->isGranted($this->rol, 'equipo_estadisticas_individuales') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
+                        $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
+                            'Estadísticas Individuales',
+                            array( 'route'           => 'equipo_estadisticas_individuales',
+                                   'routeParameters' => array( 'id' => $equipo->getId() )
+                            ))->setExtra('icon', 'fa  fa-line-chart');
+                    }
+                    if ($this->securityManager->isGranted($this->rol, 'intervencion_equipo_index') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
+                        $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
+                          'Ver Intervenciones',
+                          [
+                            'route' => 'intervencion_equipo_index',
+                            'routeParameters' => ['id' => $equipo->getId()]
+                          ]
+                        )->setExtra('icon', 'fa  fa-wrench');
+                    }
+                    if ($this->securityManager->isGranted($this->rol, 'novedad_nueva') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
+                        $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
+                          'Registra Novedades',
+                          array( 'route' => 'novedad_nueva', 'routeParameters' => array( 'id' => $equipo->getId() ) )
+                      )->setExtra('icon', 'fa  fa-bell-o');
+                    }
+                    if ($equipo->estaInterviniendo()) {
+                        $intervencionActual = $equipo->getUltimaIntervencion();
 
-                    $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
-                        'Gráficas',
-                        array( 'route' => 'equipo_graficas', 'routeParameters' => array( 'id' => $equipo->getId() ) )
-                    )->setExtra('icon', 'fa fa-bar-chart');
-
-                    $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
-                        'Instrumentos',
-                        array( 'route'           => 'equipo_instrumentos',
-                               'routeParameters' => array( 'id' => $equipo->getId() )
-                        )
-                    )->setExtra('icon', 'fa  fa-cogs');
-
-                    $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
-                        'Estadística Actual',
-                        array( 'route'           => 'equipo_estadisticas',
-                               'routeParameters' => array( 'id' => $equipo->getId() )
-                        )
-                    )->setExtra('icon', 'fa  fa-line-chart');
-
-                    $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
-                        'Estadísticas Individuales',
-                        array( 'route'           => 'equipo_estadisticas_individuales',
-                               'routeParameters' => array( 'id' => $equipo->getId() )
-                        )
-                    )->setExtra('icon', 'fa  fa-line-chart');
-
-                    $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
-                        'Registra Novedades',
-                        array( 'route' => 'novedad_nueva', 'routeParameters' => array( 'id' => $equipo->getId() ) )
-                    )->setExtra('icon', 'fa  fa-bell-o');
-
-                    $intervencionActual = $equipo->getIntervencionActual();
-
-                    if ($intervencionActual) {
                         $device = $this->container->get('mobile_detect.mobile_detector');
 
                         $lat = $intervencionActual->getPozo()->getLatitud();
@@ -144,60 +156,6 @@ class Builder implements ContainerAwareInterface
 
         return $menu;
     }
-
-
-//    public function generaMenu(Menu $nodoRaiz, $menuBuilder)
-//    {
-//        if ($nodoRaiz->tieneHijosActivos()) {
-//            $esHeader = $nodoRaiz->esHeader();
-//
-//            if ($esHeader) {
-//                $menuBuilder->addChild($nodoRaiz->getNombre())->setAttribute('class', 'header');
-//            } else {
-//                $menuBuilder->addChild(
-//                    $nodoRaiz->getNombre(),
-//                    array(
-//                        'childrenAttributes' => array(
-//                            'class' => 'treeview-menu',
-//                        ),
-//                    )
-//                )
-//                    ->setUri('#')
-//                    ->setExtra('icon', 'fa ' . $nodoRaiz->getClaseIcono())
-//                    ->setAttribute('class', 'treeview');
-//            }
-//
-//            foreach ($nodoRaiz->getHijosActivos() as $item) {
-//                $this->generaMenu($item, $menuBuilder);
-//            }
-//
-//            if (!$esHeader) {
-//		        if (!$menuBuilder->getChild($nodoRaiz->getNombre())->hasChildren()) {
-//			        $menuBuilder->removeChild($nodoRaiz->getNombre());
-//		        }
-//	        } else {
-//		        $ultimoNodo = $menuBuilder->getLastChild()->getName();
-//
-//		        if ($ultimoNodo == $nodoRaiz->getNombre()) {
-//			        $menuBuilder->removeChild($ultimoNodo);
-//		        }
-//	        }
-//        } else {
-//            if ($nodoRaiz->esLink()) {
-//                if ($nodoRaiz->getPadre()) {
-//                    $key = $nodoRaiz->getPadre()->getNombre();
-//
-//                    $menuBuilder = $menuBuilder[$key];
-//                }
-//
-//                $ruta = $nodoRaiz->getAccion()->getRuta();
-//
-//                if ($this->securityManager->isGranted($this->rol, $ruta) || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
-//                    $menuBuilder->addChild($nodoRaiz->getNombre(), array('route' => $ruta))->setExtra('icon', 'fa ' . $nodoRaiz->getClaseIcono());
-//                }
-//            }
-//        }
-//    }
 
     public function generaMenu(Menu $nodoRaiz, $menuBuilder)
     {
