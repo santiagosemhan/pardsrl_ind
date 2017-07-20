@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Base\BaseClass;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,8 +29,11 @@ class Intervencion extends BaseClass
     /**
      * @var \DateTime
      *
+     * @Assert\LessThanOrEqual(value= "NOW", message="La fecha ingresada no puede ser mayor a la fecha del día de hoy")
+     *
      * @ORM\Column(name="fecha", type="datetime")
      */
+
     private $fecha;
 
     /**
@@ -74,7 +80,7 @@ class Intervencion extends BaseClass
     {
         return $this->id;
     }
-    
+
     /**
      * Set fecha
      *
@@ -216,8 +222,9 @@ class Intervencion extends BaseClass
 
     public function esApertura()
     {
-        if($this->getAccion() == 0 )
+        if ($this->getAccion() == 0) {
             return true;
+        }
 
         return false;
     }
@@ -225,9 +232,29 @@ class Intervencion extends BaseClass
 
     public function esCierre()
     {
-        if($this->getAccion() == 1)
+        if ($this->getAccion() == 1) {
             return true;
+        }
 
         return false;
+    }
+
+
+     /**
+      * @Assert\Callback
+      */
+    public function isFechaValid(ExecutionContextInterface $context)
+    {
+        $violation = "La fecha ingresada no puede ser menor a la fecha de la última intervención";
+
+        if ($this->getPozo() && $this->getPozo()->getUltimaIntervencion()) {
+            if ($this->getFecha() <= $this->getPozo()->getUltimaIntervencion()->getFecha()) {
+                $context->buildViolation($violation)
+                ->atPath('fecha')
+                ->addViolation();
+            }
+        }
+
+        return true;
     }
 }

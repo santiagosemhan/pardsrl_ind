@@ -98,15 +98,15 @@
                                         <td>{{ equipo.modelo }}</td>
                                         <td>{% if equipo.activo %}<span class="label label-success">Si</span{% else %}<span class="label label-danger">No</span>{% endif %}</td>
                                         <td>
-                                            {%  if equipo.intervencionActual %}
-                                                <a href="{{ path('pozo_show', { 'id': equipo.intervencionActual.pozo.id }) }}">{{ equipo.intervencionActual.pozo }}</a>
+                                            {%  if equipo.estaInterviniendo %}
+                                                <a href="{{ path('pozo_show', { 'id': equipo.ultimaIntervencion.pozo.id }) }}">{{ equipo.ultimaIntervencion.pozo }}</a>
                                             {% else %}
                                                 -
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {%  if equipo.intervencionActual %}
-                                                {{ equipo.intervencionActual.fecha |date('d/m/Y H:i:s')  }}
+                                            {%  if equipo.estaInterviniendo %}
+                                                {{ equipo.ultimaIntervencion.fecha |date('d/m/Y H:i:s')  }}
                                             {% else %}
                                                 -
                                             {% endif %}

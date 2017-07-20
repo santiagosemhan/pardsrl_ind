@@ -4,7 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Intervencion;
 use AppBundle\Entity\Pozo;
+use AppBundle\Entity\Equipo;
 use AppBundle\Form\IntervencionType;
+use AppBundle\Form\IntervencionPozoType;
+use AppBundle\Form\IntervencionEquipoType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
@@ -23,132 +26,120 @@ class IntervencionController extends Controller
      */
     public function indexAction(Request $request, Pozo $pozo)
     {
+        $intervencionRep = $this->getDoctrine()->getRepository(Intervencion::class);
 
-        $intervencionRep = $this->getDoctrine()->getRepository('AppBundle:Intervencion');
+        $ultimaIntervencion = $intervencionRep->getUltimaIntervencionByPozo($pozo)->getQuery()->getOneOrNullResult();
 
-        $intervencion = $this->inicializarIntervencion($pozo);
+        $intervencion = $this->inicializarIntervencion($ultimaIntervencion, $pozo);
 
-        $equiposActivos = $this->getDoctrine()->getRepository('AppBundle:Equipo')->findBy(array('activo' => true));
+        $equiposActivos = $this->getDoctrine()->getRepository(Equipo::class)->findBy(array('activo' => true));
 
         $equiposElegibles = new ArrayCollection();
 
-        foreach ($equiposActivos as $equipo){
-            $ultimaIntervencion = $intervencionRep->getUltimaIntervencionByEquipo($equipo)->getQuery()->getOneOrNullResult();
-
-            //si el equipo no tiene intervenciones o si la intervencion que tiene fue un cierre
-            if(!$ultimaIntervencion || $ultimaIntervencion->getAccion() == 1){
+        foreach ($equiposActivos as $equipo) {
+            if (!$equipo->estaInterviniendo()) {
                 $equiposElegibles->add($equipo);
             }
         }
 
-        $form = $this->createForm(IntervencionType::class, $intervencion, array(
+        $form = $this->createForm(IntervencionEquipoType::class, $intervencion, array(
+            'action' => $this->generateUrl('intervencion_index', array('id' => $pozo->getId())),
+            'method' => 'POST',
             'equipos_elegibles' => $equiposElegibles,
-            'action' => $this->generateUrl('intervencion_nueva', array('id' => $pozo->getId())),
-            'method' => 'POST',
-        ));
-
-        $intervenciones = $this->getUltimasIntervenciones($pozo, $request->query->get('page', 1));
-
-        return $this->render('AppBundle:intervencion:index.html.twig', array(
-            'form' => $form->createView(),
-            'intervenciones' => $intervenciones,
-	        'pozo' => $pozo
-        ));
-    }
-
-
-
-    public function nuevaAction(Request $request, Pozo $pozo)
-    {
-        $intervencion = new Intervencion();
-
-        $intervencion->setPozo($pozo);
-
-        $form = $this->createForm(IntervencionType::class, $intervencion, array(
-            'action' => $this->generateUrl('intervencion_nueva', array('id' => $pozo->getId())),
-            'method' => 'POST',
+            'ultima_intervencion' => $ultimaIntervencion
         ));
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
 
-            $fechaIntervencion = $intervencion->getFecha();
+            $em->persist($intervencion);
+            $em->flush();
 
-            $fechaHoy = new \DateTime('NOW');
-
-            if ($fechaIntervencion > $fechaHoy) {
-                $form->get('fecha')->addError(new FormError('La fecha ingresada no puede ser mayor a la fecha del dia de hoy'));
-            } else {
-
-                $ultimaIntervencion = $pozo->getUltimaIntervencion();
-
-                if ($ultimaIntervencion) {
-
-                    $fechaUltimaIntervencion = $ultimaIntervencion->getFecha();
-
-                    //si estoy realizando una apertura
-                    if ($intervencion->getAccion() == 0) {
-                        $msgUltimaIntervencion = 'La fecha ingresada no puede ser menor a la fecha de cierre de la última intervención';
-                    } else {
-                        $msgUltimaIntervencion = 'La fecha ingresada no puede ser menor a la fecha de apertura de la última intervención';
-                    }
-
-                    if ($fechaIntervencion < $fechaUltimaIntervencion) {
-                        $form->get('fecha')->addError(new FormError($msgUltimaIntervencion));
-                    }
-
-                }
-
-            }
-
-            if ($form->isValid()) {
-
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($intervencion);
-                $em->flush();
-
-                $this->get('session')->getFlashBag()->add('success',
+            $this->get('session')->getFlashBag()->add('success',
                     'La intervención se ha registrado satisfactoriamente.');
 
 
-                return $this->redirectToRoute('intervencion_index', array('id' => $pozo->getid()));
-            }
+            return $this->redirectToRoute('intervencion_index', array('id' => $pozo->getid()));
         }
 
-        $intervenciones = $this->getUltimasIntervenciones($pozo, $request->query->get('page', 1));
-
-        return $this->render('AppBundle:intervencion:index.html.twig', array(
-            'form' => $form->createView(),
-            'intervenciones' => $intervenciones,
-	        'pozo'          => $pozo
-        ));
-
-    }
-
-    /**
-     * Obtiene las últimas intervenciones realizadas sobre el pozo.
-     *
-     * @param Pozo $pozo
-     * @param $page
-     * @return \Doctrine\ORM\QueryBuilder|\Knp\Component\Pager\Pagination\PaginationInterface
-     */
-    private function getUltimasIntervenciones(Pozo $pozo, $page)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $intervenciones = $em->getRepository('AppBundle:Intervencion')->getUltimasIntervencionesByPozo($pozo);
+        $intervenciones = $intervencionRep->getUltimasIntervencionesByPozo($pozo);
 
         $paginator = $this->get('knp_paginator');
 
         $intervenciones = $paginator->paginate(
             $intervenciones,
-            $page  /* page number */,
+            $request->query->get('page', 1),
             10/* limit per page */
         );
 
-        return $intervenciones;
+        return $this->render('AppBundle:intervencion:index.html.twig', array(
+            'form' => $form->createView(),
+            'intervenciones' => $intervenciones,
+            'pozo' => $pozo
+        ));
+    }
+
+
+
+    public function intervencionesEquipoAction(Request $request, Equipo $equipo)
+    {
+        //TODO Refactorizar este controller
+
+        $em = $this->getDoctrine()->getManager();
+
+        $intervencionRepository = $em->getRepository(Intervencion::class);
+
+        $intervencionesQb = $intervencionRepository->getUltimasIntervencionesByEquipo($equipo);
+
+        $ultimaIntervencion = $intervencionRepository->getUltimaIntervencionByEquipo($equipo)->getQuery()->getOneOrNullResult();
+
+        $nuevaIntervencion = $this->inicializarIntervencion($ultimaIntervencion, null, $equipo);
+
+        $pozosActivos = $em->getRepository(Pozo::class)->findBy(array('activo' => true));
+
+        $pozosElegibles = new ArrayCollection();
+
+        foreach ($pozosActivos as $pozo) {
+            if (!$pozo->estaAbierto()) {
+                $pozosElegibles->add($pozo);
+            }
+        }
+
+        $form = $this->createForm(IntervencionPozoType::class, $nuevaIntervencion, [
+            'pozos_elegibles' => $pozosElegibles,
+            'ultima_intervencion' => $ultimaIntervencion,
+            'action' => $this->generateUrl('intervencion_equipo_index', array('id' => $equipo->getId())),
+            'method' => 'POST'
+        ]);
+
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em->persist($nuevaIntervencion);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'La intervención se ha registrado satisfactoriamente.');
+
+            return $this->redirectToRoute('intervencion_equipo_index', array('id' => $equipo->getid()));
+        }
+
+
+        $paginator = $this->get('knp_paginator');
+
+        $intervenciones = $paginator->paginate(
+            $intervencionesQb,
+            $request->query->get('page', 1)/* page number */,
+            10/* limit per page */
+        );
+
+        return $this->render('AppBundle:intervencion:intervenciones_equipo.html.twig', [
+          'equipo' => $equipo,
+          'form' => $form->createView(),
+          'intervenciones' => $intervenciones
+        ]);
     }
 
 
@@ -159,7 +150,7 @@ class IntervencionController extends Controller
      * @param Pozo $pozo
      * @return Intervencion
      */
-    private function inicializarIntervencion(Pozo $pozo)
+    private function inicializarIntervencion($ultimaIntervencion = null, Pozo $pozo = null, Equipo $equipo = null)
     {
         $intervencion = new Intervencion();
 
@@ -167,12 +158,16 @@ class IntervencionController extends Controller
 
         $intervencion->setFecha($fechaHoy);
 
-        $intervencion->setPozo($pozo);
+        if ($pozo) {
+            $intervencion->setPozo($pozo);
+        }
+
+        if ($equipo) {
+            $intervencion->setEquipo($equipo);
+        }
 
         //por defecto se considera que la intervencion a realizar es una apertura de pozo
         $intervencion->setAccion(0);
-
-        $ultimaIntervencion = $pozo->getUltimaIntervencion();
 
         if ($ultimaIntervencion) {
             $accion = $ultimaIntervencion->getAccion();
@@ -185,5 +180,4 @@ class IntervencionController extends Controller
 
         return $intervencion;
     }
-
 }

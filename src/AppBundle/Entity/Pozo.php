@@ -88,7 +88,7 @@ class Pozo extends BaseClass
     {
         return $this->id;
     }
-    
+
     /**
      * Set nombre
      *
@@ -320,11 +320,11 @@ class Pozo extends BaseClass
      *
      * @return Intervencion|null
      */
-    public function getUltimaIntervencion(){
-
+    public function getUltimaIntervencion()
+    {
         $intervencion = null;
 
-        if( $this->getIntervenciones()->count()){
+        if ($this->getIntervenciones()->count()) {
             $intervencion = $this->getIntervenciones()->last();
         }
 
@@ -337,21 +337,22 @@ class Pozo extends BaseClass
      *
      * @return int 0 (abierto) 1 (cerrado)
      */
-    public function getEstadoUltimaIntervencion(){
-
+    public function getEstadoUltimaIntervencion()
+    {
         $estado = 1; //Por defecto el pozo se encuentra cerrado
 
         $ultimaIntervencion = $this->getUltimaIntervencion();
 
-        if($ultimaIntervencion){
-           $estado = $ultimaIntervencion->getAccion();
+        if ($ultimaIntervencion) {
+            $estado = $ultimaIntervencion->getAccion();
         }
 
         return $estado;
     }
 
 
-    public function estaAbierto(){
+    public function estaAbierto()
+    {
         return !$this->getEstadoUltimaIntervencion();
     }
 
@@ -360,24 +361,4 @@ class Pozo extends BaseClass
     {
         return $this->getNombre();
     }
-
-	/**
-	 * Retorna la intervencion asociada al equipo en el caso de que esté interviniendo.
-	 * False en el caso de que no esté activo en algun Pozo
-	 *
-	 * @return bool| Intervencion
-	 */
-	public function getIntervencionActual()
-	{
-
-		$intervencion =  $this->getIntervenciones()->last();
-
-
-		if( $intervencion && $intervencion->esApertura()){
-			return $intervencion;
-		}
-
-		return false;
-	}
-
 }
