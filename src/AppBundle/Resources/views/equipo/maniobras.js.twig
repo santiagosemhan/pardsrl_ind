@@ -140,7 +140,7 @@ function afterSetExtremesHstman(e){
 
             extremo = new Date().getTime();
 
-        }else if(e.trigger == "navigator"){
+        }else if(e.trigger == "navigator" || e.trigger == "rangeSelectorInput"){
 
             extremo = Math.round(e.max);
         }
@@ -345,7 +345,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.mtv,
                             yAxis: 0,
                             tooltip: {
-                                pointFormat: '',
+                                pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}<br/>',
                                 valueSuffix: ' ',
                                 valueDecimals: 0
                             }
@@ -356,7 +356,7 @@ function inicializarHistoricoManiobras(){
                             color: '#40DFFF',
                             yAxis: 0,
                             tooltip: {
-                                pointFormat: '',
+                                pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}<br/>',
                                 valueDecimals: 0
                             }
                         }, {
@@ -366,7 +366,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.vto,
                             yAxis: 0,
                             tooltip: {
-                                pointFormat: '',
+                                pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}<br/>',
                                 valueDecimals: 0
                             }
                         }, {
@@ -376,7 +376,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.adef,
                             yAxis: 0,
                             tooltip: {
-                                pointFormat: '',
+                                pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}<br/>',
                                 valueDecimals: 0
                             }
                         }, {
@@ -386,7 +386,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.aexe,
                             yAxis: 0,
                             tooltip: {
-                                pointFormat: '',
+                                pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}<br/>',
                                 valueDecimals: 0
                             }
                         }, {
@@ -396,7 +396,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.tmay,
                             yAxis: 0,
                             tooltip: {
-                                pointFormat: '',
+                                pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}<br/>',
                                 valueDecimals: 0
                             }
                         }, {
@@ -406,7 +406,7 @@ function inicializarHistoricoManiobras(){
                             data: data.datos.ppel,
                             yAxis: 0,
                             tooltip: {
-                                pointFormat: '',
+                                pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}<br/>',
                                 valueDecimals: 0
                             }
                         }
