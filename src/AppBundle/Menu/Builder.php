@@ -112,7 +112,7 @@ class Builder implements ContainerAwareInterface
                     }
                     if ($this->securityManager->isGranted($this->rol, 'novedad_nueva') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
                         $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
-                          'Registra Novedades',
+                          'Registrar Novedades',
                           array( 'route' => 'novedad_nueva', 'routeParameters' => array( 'id' => $equipo->getId() ) )
                       )->setExtra('icon', 'fa  fa-bell-o');
                     }
