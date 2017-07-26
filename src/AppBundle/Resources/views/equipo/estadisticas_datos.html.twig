@@ -1,3 +1,5 @@
+{% import _self as macros %}
+
 <div class="row">
     <div class="col-md-12">
         <div id="estadisticas-datos" class="box">
@@ -14,28 +16,28 @@
                         <div class="col-md-12" style="margin-bottom: 10px;">
                             <div style="text-align: center">ESTADO GENERAL</div>
 
-                            {{  _self.generarIndicadorLuminico('NINA',datos.estado_general.luminicas.nina,'div') }}
+                            {{  macros.generarIndicadorLuminico('NINA',datos.estado_general.luminicas.nina,'div') }}
 
-                            {{  _self.generarIndicadorLuminico('ONLINE',datos.estado_general.luminicas.online,'div') }}
+                            {{  macros.generarIndicadorLuminico('ONLINE',datos.estado_general.luminicas.online,'div') }}
 
                             <div class="col-md-4">ÚLTIMO DATO: {{ datos.estado_general.texto.udato }}</div>
                             <div class="col-md-6">
                                 <ul class="nav nav-pills nav-stacked">
 
-                                    <li>{{  _self.generarIndicadorLuminico('Peso',datos.estado_general.luminicas.peso,'a') }}</li>
+                                    <li>{{  macros.generarIndicadorLuminico('Peso',datos.estado_general.luminicas.peso,'a') }}</li>
 
-                                    <li>{{  _self.generarIndicadorLuminico('Llave',datos.estado_general.luminicas.llave,'a') }}</li>
+                                    <li>{{  macros.generarIndicadorLuminico('Llave',datos.estado_general.luminicas.llave,'a') }}</li>
 
-                                    <li>{{  _self.generarIndicadorLuminico('B Pozo',datos.estado_general.luminicas.b_pozo,'a') }}</li>
+                                    <li>{{  macros.generarIndicadorLuminico('B Pozo',datos.estado_general.luminicas.b_pozo,'a') }}</li>
                                 </ul>
                             </div><!-- /.col -->
                             <div class="col-md-6">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li>{{  _self.generarIndicadorLuminico('Viento',datos.estado_general.luminicas.viento,'a') }}</li>
+                                    <li>{{  macros.generarIndicadorLuminico('Viento',datos.estado_general.luminicas.viento,'a') }}</li>
 
-                                    <li>{{  _self.generarIndicadorLuminico('H2SP',datos.estado_general.luminicas.h2sp,'a') }}</li>
+                                    <li>{{  macros.generarIndicadorLuminico('H2SP',datos.estado_general.luminicas.h2sp,'a') }}</li>
 
-                                    <li>{{  _self.generarIndicadorLuminico('H2SBP',datos.estado_general.luminicas.h2sbp,'a') }}</li>
+                                    <li>{{  macros.generarIndicadorLuminico('H2SBP',datos.estado_general.luminicas.h2sbp,'a') }}</li>
                                 </ul>
                             </div><!-- /.col -->
                         </div>
