@@ -53,6 +53,10 @@ a:hover, a:active, a:focus {
     color: #06D6A0 !important;
 }
 
+.text-active-red{
+    color: #ff6338 !important;
+}
+
 .form-control:focus {
     border-color: #545194;
     box-shadow: none;

@@ -78,7 +78,7 @@
                             <td>{% if recurso.fechaCreacion %}{{ recurso.fechaCreacion|date('d/m/Y H:i:s') }}{% endif %}</td>
                             <td>{{ recurso.creadoPor }}</td>
                             <td>
-                                {% set link = "http://%s/%s.%s"| format(recurso.url,recurso.nombreArchivo,recurso.extension) %}
+                                {% set link = "{{http_channel}}://%s/%s.%s"| format(recurso.url,recurso.nombreArchivo,recurso.extension) %}
 
                                 <a title="Descargar PDF"   class="btn btn-default btn-sm" href="{{ link }}" target="_blank"><i class="fa fa-fw fa-file-pdf-o"></i></a>
 

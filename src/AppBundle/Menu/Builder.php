@@ -59,6 +59,8 @@ class Builder implements ContainerAwareInterface
                 $menu->addChild('MIS EQUIPOS')->setAttribute('class', 'header');
 
                 foreach ($misEquipos as $equipo) {
+                    $cssClass = $equipo->estaInterviniendo() ? 'text-active-green' : 'text-active-red';
+
                     $menu->addChild(
                         strtoupper($equipo->getNombreCompleto()),
                         array(
@@ -68,7 +70,7 @@ class Builder implements ContainerAwareInterface
                         )
                     )
                          ->setUri('#')
-                         ->setExtra('icon', 'fa fa-circle-o text-active-green')
+                         ->setExtra('icon', "fa fa-circle-o $cssClass")
                          ->setAttribute('class', 'treeview');
                     if ($this->securityManager->isGranted($this->rol, 'equipo_graficas') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
                         $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
