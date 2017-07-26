@@ -19,7 +19,7 @@ class NotificacionesController extends Controller
 
         $qb = $notificacionRepository->getByPersona($user->getPersona());
 
-        $notificaciones = $notificacionRepository->getUltimos($qb,5)->getQuery()->getResult();
+        $notificaciones = $notificacionRepository->getUltimos($qb, 5)->getQuery()->getResult();
 
         $cantNoLeidas = $notificacionRepository->getCantidadPersonalesNoLeidas($user->getPersona());
 
@@ -31,15 +31,15 @@ class NotificacionesController extends Controller
 
     public function notificacionesSistemaAction()
     {
-	    $user = $this->getUser();
+        $user = $this->getUser();
 
-	    $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
         $notificacionRepository = $em->getRepository('AppBundle:Notificacion');
 
         $qb = $notificacionRepository->getSistema();
 
-        $notificaciones = $notificacionRepository->getUltimos($qb,5)->getQuery()->getResult();
+        $notificaciones = $notificacionRepository->getUltimos($qb, 5)->getQuery()->getResult();
 
         $cantNoLeidas = $notificacionRepository->getCantidadSistemaNoLeidas($user->getPersona());
 
@@ -51,83 +51,78 @@ class NotificacionesController extends Controller
 
     public function timelineAction(Request $request, $filtro)
     {
+        $em = $this->getDoctrine()->getManager();
 
-	    $em = $this->getDoctrine()->getManager();
+        $persona = $this->getUser()->getPersona();
 
-	    $persona = $this->getUser()->getPersona();
+        $notificacionRepository = $em->getRepository('AppBundle:Notificacion');
 
-	    $notificacionRepository = $em->getRepository('AppBundle:Notificacion');
+        switch ($filtro) {
 
-	    switch ($filtro){
+            case 'alertas':
+                $qb = $notificacionRepository->getSistema();
 
-		    case 'alertas':
-			    $qb = $notificacionRepository->getSistema();
+                break;
+            case 'notificaciones':
+                $qb = $notificacionRepository->getByPersona($persona);
 
-			    break;
-		    case 'notificaciones':
-			    $qb = $notificacionRepository->getByPersona($persona);
+                break;
+            default:
+                $qb = $notificacionRepository->getTodasNotificaciones($persona);
 
-			    break;
-		    default:
-			    $qb = $notificacionRepository->getTodasNotificaciones($persona);
-
-			    break;
-	    }
+                break;
+        }
 
 
-	    $qb = $notificacionRepository->getUltimos($qb,30);
+        $qb = $notificacionRepository->getUltimos($qb, 30);
 
-		$eventos = array();
+        $eventos = array();
 
-	    foreach ($qb->getQuery()->getResult() as $evento){
+        foreach ($qb->getQuery()->getResult() as $evento) {
+            $k = $evento->getfechaCreacion()->format('d M. Y');
 
-	    	$k = $evento->getfechaCreacion()->format('d M. Y');
+            $type = null;
 
-		    $type = null;
+            $eventos[$k][] = $evento;
+        }
 
-			$eventos[$k][] = $evento;
-	    }
-
-	    return $this->render('AppBundle:notificaciones:timeline.html.twig', array(
-			'eventos' => $eventos
-	    ));
+        return $this->render('AppBundle:notificaciones:timeline.html.twig', array(
+            'eventos' => $eventos
+        ));
     }
 
-	/**
-	 * Marca como leida una notificacion dada.
-	 *
-	 * @param Request $request
-	 * @param Notificacion $notificacion
-	 *
-	 * @return JsonResponse
-	 */
+    /**
+     * Marca como leida una notificacion dada.
+     *
+     * @param Request $request
+     * @param Notificacion $notificacion
+     *
+     * @return JsonResponse
+     */
     public function marcarComoLeidaAction(Request $request, Notificacion $notificacion, $leida)
     {
+        $response = array(
+            'status' => 'success',
+            'data'   => null
+        );
 
-    	$response = array(
-    		'status' => 'success',
-		    'data'   => null
-	    );
+        try {
+            $persona = $this->getUser()->getPersona();
 
-    	try{
-		    $persona = $this->getUser()->getPersona();
+            $notificacion->setLeidaPor($persona, $leida);
 
-		    $notificacion->setLeidaPor($persona,$leida);
+            $em = $this->getDoctrine()->getManager();
 
-		    $em = $this->getDoctrine()->getManager();
+            $em->persist($notificacion);
 
-		    $em->persist($notificacion);
+            $em->flush();
 
-		    $em->flush();
+            $response['data'] = $notificacion->toArray();
+        } catch (\Exception $e) {
+            $response['msg'] = 'error';
+            $response['msg'] = $e->getMessage();
+        }
 
-		    $response['data'] = $notificacion->toArray();
-
-	    }catch(\Exception $e){
-		    $response['msg'] = 'error';
-	    	$response['msg'] = $e->getMessage();
-	    }
-
-	    return new JsonResponse($response);
+        return new JsonResponse($response);
     }
-
 }

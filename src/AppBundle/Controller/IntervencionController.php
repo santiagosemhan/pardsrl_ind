@@ -5,10 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Intervencion;
 use AppBundle\Entity\Pozo;
 use AppBundle\Entity\Equipo;
-use AppBundle\Form\IntervencionType;
 use AppBundle\Form\IntervencionPozoType;
 use AppBundle\Form\IntervencionEquipoType;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,23 +24,17 @@ class IntervencionController extends Controller
      */
     public function indexAction(Request $request, Pozo $pozo)
     {
-        $intervencionRep = $this->getDoctrine()->getRepository(Intervencion::class);
+        $em = $this->getDoctrine()->getManager();
 
-        $ultimaIntervencion = $intervencionRep->getUltimaIntervencionByPozo($pozo)->getQuery()->getOneOrNullResult();
+        $intervencionesManager = $this->get('manager.intervenciones');
 
-        $intervencion = $this->inicializarIntervencion($ultimaIntervencion, $pozo);
+        $ultimaIntervencion = $intervencionesManager->getUltimaIntervencionByPozo($pozo->getId());
 
-        $equiposActivos = $this->getDoctrine()->getRepository(Equipo::class)->findBy(array('activo' => true));
+        $nuevaIntervencion = $intervencionesManager->inicializarIntervencion($ultimaIntervencion->getId(), $pozo->getId());
 
-        $equiposElegibles = new ArrayCollection();
+        $equiposElegibles = $intervencionesManager->getEquiposElegibles();
 
-        foreach ($equiposActivos as $equipo) {
-            if (!$equipo->estaInterviniendo()) {
-                $equiposElegibles->add($equipo);
-            }
-        }
-
-        $form = $this->createForm(IntervencionEquipoType::class, $intervencion, array(
+        $form = $this->createForm(IntervencionEquipoType::class, $nuevaIntervencion, array(
             'action' => $this->generateUrl('intervencion_index', array('id' => $pozo->getId())),
             'method' => 'POST',
             'equipos_elegibles' => $equiposElegibles,
@@ -54,7 +46,7 @@ class IntervencionController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $em->persist($intervencion);
+            $em->persist($nuevaIntervencion);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success',
@@ -64,7 +56,7 @@ class IntervencionController extends Controller
             return $this->redirectToRoute('intervencion_index', array('id' => $pozo->getid()));
         }
 
-        $intervenciones = $intervencionRep->getUltimasIntervencionesByPozo($pozo);
+        $intervenciones = $intervencionesManager->getUltimasIntervencionesByPozo($pozo->getId());
 
         $paginator = $this->get('knp_paginator');
 
@@ -85,27 +77,17 @@ class IntervencionController extends Controller
 
     public function intervencionesEquipoAction(Request $request, Equipo $equipo)
     {
-        //TODO Refactorizar este controller
-
         $em = $this->getDoctrine()->getManager();
 
-        $intervencionRepository = $em->getRepository(Intervencion::class);
+        $intervencionesManager = $this->get('manager.intervenciones');
 
-        $intervencionesQb = $intervencionRepository->getUltimasIntervencionesByEquipo($equipo);
+        $intervencionesQb = $intervencionesManager->getUltimasIntervencionesByEquipo($equipo->getId());
 
-        $ultimaIntervencion = $intervencionRepository->getUltimaIntervencionByEquipo($equipo)->getQuery()->getOneOrNullResult();
+        $ultimaIntervencion = $intervencionesManager->getUltimaIntervencionByEquipo($equipo->getId());
 
-        $nuevaIntervencion = $this->inicializarIntervencion($ultimaIntervencion, null, $equipo);
+        $pozosElegibles = $intervencionesManager->getPozosElegibles();
 
-        $pozosActivos = $em->getRepository(Pozo::class)->findBy(array('activo' => true));
-
-        $pozosElegibles = new ArrayCollection();
-
-        foreach ($pozosActivos as $pozo) {
-            if (!$pozo->estaAbierto()) {
-                $pozosElegibles->add($pozo);
-            }
-        }
+        $nuevaIntervencion = $intervencionesManager->inicializarIntervencion($ultimaIntervencion->getId(), null, $equipo->getId());
 
         $form = $this->createForm(IntervencionPozoType::class, $nuevaIntervencion, [
             'pozos_elegibles' => $pozosElegibles,
@@ -140,44 +122,5 @@ class IntervencionController extends Controller
           'form' => $form->createView(),
           'intervenciones' => $intervenciones
         ]);
-    }
-
-
-    /**
-     * Inicializa una intervencion para un determinado pozo.
-     * Revisa la próxima intervencion a realizar.
-     *
-     * @param Pozo $pozo
-     * @return Intervencion
-     */
-    private function inicializarIntervencion($ultimaIntervencion = null, Pozo $pozo = null, Equipo $equipo = null)
-    {
-        $intervencion = new Intervencion();
-
-        $fechaHoy = new \DateTime('NOW');
-
-        $intervencion->setFecha($fechaHoy);
-
-        if ($pozo) {
-            $intervencion->setPozo($pozo);
-        }
-
-        if ($equipo) {
-            $intervencion->setEquipo($equipo);
-        }
-
-        //por defecto se considera que la intervencion a realizar es una apertura de pozo
-        $intervencion->setAccion(0);
-
-        if ($ultimaIntervencion) {
-            $accion = $ultimaIntervencion->getAccion();
-
-            //si la ultima intervencion efectuada fue una apertura, el formulario debe permitir solamente cerrar el pozo.
-            if ($accion == 0) {
-                $intervencion->setAccion(1);
-            }
-        }
-
-        return $intervencion;
     }
 }
