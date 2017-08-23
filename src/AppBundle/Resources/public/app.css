@@ -49,6 +49,10 @@ a:hover, a:active, a:focus {
     border-top-color: #545194;
 }
 
+.bg-active-green{
+    background-color: #06D6A0 !important;
+}
+
 .text-active-green{
     color: #06D6A0 !important;
 }

@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-7">
                         <div class="col-md-12" style="margin-bottom: 10px;">
-                            <div style="text-align: center">ESTADO GENERAL</div>
+                            <h4 class="page-header" style="text-align: center;">ESTADO GENERAL</h4>
 
                             {{  macros.generarIndicadorLuminico('NINA',datos.estado_general.luminicas.nina,'div') }}
 
@@ -42,7 +42,7 @@
                             </div><!-- /.col -->
                         </div>
                         <div class="col-md-6">
-                            <div style="text-align: center">ACTUAL AUTOMÁTICO</div>
+                            <div style="text-align: center; font-weight:bold;">ACTUAL AUTOMÁTICO</div>
                             <ul class="nav nav-pills nav-stacked">
 
                                 {% set valor = (estadistica_maniobra.actual_automatica is defined and estadistica_maniobra.actual_automatica.maniobra) ? estadistica_maniobra.actual_automatica.maniobra : "-" %}
@@ -67,7 +67,7 @@
                             </ul>
                         </div><!-- /.col -->
                         <div class="col-md-6">
-                            <div style="text-align: center">ACTUAL ASISTIDO</div>
+                            <div style="text-align: center; font-weight:bold;">ACTUAL ASISTIDO</div>
                             <ul class="nav nav-pills nav-stacked">
                                 {% set valor = (estadistica_maniobra.actual_asistida is defined and estadistica_maniobra.actual_asistida.maniobra ) ? estadistica_maniobra.actual_asistida.maniobra : "-" %}
                                 <li><a href="#">Maniobra:<span class="pull-right text-green"><strong> {{ valor }}</strong></span></a></li>
@@ -91,7 +91,7 @@
                         </div><!-- /.col -->
                     </div>
                     <div class="col-md-5" style="margin-top: 10px">
-                        <div style="text-align: center">HISTORICO POZO ACTUAL</div>
+                        <h4 class="page-header" style="text-align: center;">HISTORICO POZO ACTUAL</h4>
                         <div class="col-md-6">
                             <ul class="nav nav-pills nav-stacked">
                                 {% if datos.historico.t_total is defined %}
@@ -107,21 +107,39 @@
                         </div><!-- /.col -->
                         <div class="col-md-6">
                             <ul class="nav nav-pills nav-stacked">
-
-                                {% if datos.historico.cant_vb is defined %}
-                                    <li><a href="#">Cant Vb:<span class="pull-right text-green"><strong> {{ datos.historico.cant_vb }}</strong></span></a></li>
+                                <div><i class="fa fa-arrow-up text-green"></i>&nbsp;<strong>SACA</strong></div>
+                                {% if datos.historico.saca.cant_vb is defined %}
+                                    <li><a href="#">Cant Vb:<span class="pull-right text-green"><strong> {{ datos.historico.saca.cant_vb }}</strong></span></a></li>
                                 {% endif %}
-                                {% if datos.historico.prom_vb is defined %}
-                                    <li><a href="#">Prom Vb:<span class="pull-right text-green"><strong> {{ datos.historico.prom_vb }}</strong></span></a></li>
+                                {% if datos.historico.saca.prom_vb is defined %}
+                                    <li><a href="#">Prom Vb:<span class="pull-right text-green"><strong> {{ datos.historico.saca.prom_vb }}</strong></span></a></li>
                                 {% endif %}
-                                {% if datos.historico.cant_tbg is defined %}
-                                    <li><a href="#">Cant Tbg:<span class="pull-right text-green"><strong> {{ datos.historico.cant_tbg }}</strong></span></a></li>
+                                {% if datos.historico.saca.cant_tbg is defined %}
+                                    <li><a href="#">Cant Tbg:<span class="pull-right text-green"><strong> {{ datos.historico.saca.cant_tbg }}</strong></span></a></li>
                                 {% endif %}
-                                {% if datos.historico.prom_tbg is defined %}
-                                    <li><a href="#">Prom Tbg:<span class="pull-right text-green"><strong> {{ datos.historico.prom_tbg }}</strong></span></a></li>
+                                {% if datos.historico.saca.prom_tbg is defined %}
+                                    <li><a href="#">Prom Tbg:<span class="pull-right text-green"><strong> {{ datos.historico.saca.prom_tbg }}</strong></span></a></li>
                                 {% endif %}
-                                {% if datos.historico.cant_alertas is defined %}
-                                    <li><a href="#">Cant Alertas:<span class="pull-right text-green"><strong> {{ datos.historico.cant_alertas }} </strong></span></a></li>
+                                {% if datos.historico.saca.cant_alertas is defined %}
+                                    <li><a href="#">Cant Alertas:<span class="pull-right text-green"><strong> {{ datos.historico.saca.cant_alertas }} </strong></span></a></li>
+                                {% endif %}
+                            </ul>
+                            <ul class="nav nav-pills nav-stacked">
+                                <div><i class="fa fa-arrow-down text-red"></i>&nbsp;<strong>BAJA</strong></div>
+                                {% if datos.historico.baja.cant_vb is defined %}
+                                    <li><a href="#">Cant Vb:<span class="pull-right text-green"><strong> {{ datos.historico.baja.cant_vb }}</strong></span></a></li>
+                                {% endif %}
+                                {% if datos.historico.baja.prom_vb is defined %}
+                                    <li><a href="#">Prom Vb:<span class="pull-right text-green"><strong> {{ datos.historico.baja.prom_vb }}</strong></span></a></li>
+                                {% endif %}
+                                {% if datos.historico.baja.cant_tbg is defined %}
+                                    <li><a href="#">Cant Tbg:<span class="pull-right text-green"><strong> {{ datos.historico.baja.cant_tbg }}</strong></span></a></li>
+                                {% endif %}
+                                {% if datos.historico.baja.prom_tbg is defined %}
+                                    <li><a href="#">Prom Tbg:<span class="pull-right text-green"><strong> {{ datos.historico.baja.prom_tbg }}</strong></span></a></li>
+                                {% endif %}
+                                {% if datos.historico.baja.cant_alertas is defined %}
+                                    <li><a href="#">Cant Alertas:<span class="pull-right text-green"><strong> {{ datos.historico.baja.cant_alertas }} </strong></span></a></li>
                                 {% endif %}
                             </ul>
                         </div><!-- /.col -->
