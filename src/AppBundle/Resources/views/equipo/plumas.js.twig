@@ -196,6 +196,7 @@ function inicializarHistoricoPlumas(){
                         events: {
                             load: establecerIntervaloRecargaHstpl
                         },
+                        alignTicks: false
                     },
                     legend: {
                         enabled: true
@@ -288,7 +289,7 @@ function inicializarHistoricoPlumas(){
                             },
                             min: 0,
                             // max: 60,
-                            //tickInterval: 10,
+                            tickInterval: 25,
 
                         }, { // Tertiary yAxis
                             gridLineWidth: 0,
@@ -306,7 +307,8 @@ function inicializarHistoricoPlumas(){
                             },
                             opposite: true,
                             min: 0,
-                            max: 3000
+                            max: 3000,
+                            tickInterval: 500
                         }
                     ],
                     credits: {
