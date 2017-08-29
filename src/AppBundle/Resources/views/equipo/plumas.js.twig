@@ -203,6 +203,10 @@ function inicializarHistoricoPlumas(){
                     plotOptions: {
                         turboThreshold: 10
                     },
+                    exporting: {
+                      sourceWidth: 4000,
+                      filename: 'hstpl_{{equipo.nombreCompleto | replace({' ': '_'}) }}'
+                    },
                     rangeSelector: {
                         selected: 4,
                         allButtonsEnabled: true,
