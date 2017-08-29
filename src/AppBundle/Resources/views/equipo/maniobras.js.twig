@@ -267,6 +267,10 @@ function inicializarHistoricoManiobras(){
                             width: null
                         }
                     },
+                    exporting: {
+                      sourceWidth: 4000,
+                      filename: 'hstman_{{equipo.nombreCompleto | replace({' ': '_'}) }}'
+                    },
                     plotOptions: {
                         turboThreshold: 10,
                         series: {
