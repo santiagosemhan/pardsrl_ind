@@ -234,10 +234,9 @@ class EquipoController extends Controller
             throw $this->createNotFoundException() ;
         }
 
-        $resolucionPlumas     = $this->getParameter('historicos.plumas.resolucion');
+        $resolucionPlumas     = $request->get('resolucion_plumas', $this->getParameter('historicos.plumas.resolucion'));
 
-        $resolucionManiobras  = $this->getParameter('historicos.maniobras.resolucion');
-
+        $resolucionManiobras  = $request->get('resolucion_maniobras', $this->getParameter('historicos.maniobras.resolucion'));
 
         $intervRepository = $this->getDoctrine()->getRepository("AppBundle:Intervencion");
 
