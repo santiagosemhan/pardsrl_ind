@@ -66,6 +66,16 @@ app.get('/historico', function (req, res) {
     `&resolution=${req.query.resolucion}`
   )
 
+
+  if(parseInt(req.query.tipo) === 1){
+
+    error = 'Estamos actualizando nuestro servicio de datos. En breve volverá a tener información'
+
+    res.status(500).send('{ "status": "error" , "detail" : "' + error + '" }')
+
+    return
+  }
+
   request({
     uri
   }, function (error, response, body) {
