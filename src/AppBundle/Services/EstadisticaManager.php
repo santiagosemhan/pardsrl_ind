@@ -5,11 +5,11 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\Equipo;
 use AppBundle\Entity\Persona;
+use AppBundle\Entity\Intervencion;
 use Doctrine\ORM\EntityManager;
 
 class EstadisticaManager
 {
-
     private $em;
 
     public function __construct(EntityManager $em)
@@ -17,13 +17,13 @@ class EstadisticaManager
         $this->em = $em;
     }
 
-    public function getDistribucionOperacionesPorEquipo(Persona $persona,$desde,$hasta){
-
+    public function getDistribucionOperacionesPorEquipo(Persona $persona, $desde, $hasta)
+    {
         $equipos = $persona->getEquiposActivos();
 
         $distribucionPorEquipoQb = $this->em
             ->getRepository('AppBundle:EstadisticaFinal')
-            ->getDistribucionOperacionesPorEquipo($equipos,$desde,$hasta);
+            ->getDistribucionOperacionesPorEquipo($equipos, $desde, $hasta);
 
         $distribucionPorEquipo = $distribucionPorEquipoQb->getQuery()->getResult();
 
@@ -31,33 +31,31 @@ class EstadisticaManager
 
         $data =  array();
 
-        if($distribucionPorEquipo){
-
-            foreach ($distribucionPorEquipo as $distribucion){
+        if ($distribucionPorEquipo) {
+            foreach ($distribucionPorEquipo as $distribucion) {
                 $total = $total + $distribucion['cant'];
             }
 
 
-            foreach ($distribucionPorEquipo as $distribucion){
+            foreach ($distribucionPorEquipo as $distribucion) {
                 $data[] =  array(
                     'name' => $distribucion['acronimo'].' '.$distribucion['nombre'],
                     'y'    =>($distribucion['cant'] / $total),
                     'distribucion' => $distribucion['cant']
                 );
             }
-
         }
 
         return $data;
     }
 
-    public function getDistribucionOperacionesPorYacimiento(Persona $persona,$desde,$hasta){
-
+    public function getDistribucionOperacionesPorYacimiento(Persona $persona, $desde, $hasta)
+    {
         $equipos = $persona->getEquiposActivos();
 
         $distribucionPorYacimientoQb = $this->em
             ->getRepository('AppBundle:EstadisticaFinal')
-            ->getDistribucionOperacionesPorYacimiento($equipos,$desde,$hasta);
+            ->getDistribucionOperacionesPorYacimiento($equipos, $desde, $hasta);
 
         $distribucionPorYacimiento = $distribucionPorYacimientoQb->getQuery()->getResult();
 
@@ -65,8 +63,7 @@ class EstadisticaManager
 
         $data =  array();
 
-        if($distribucionPorYacimiento) {
-
+        if ($distribucionPorYacimiento) {
             foreach ($distribucionPorYacimiento as $distribucion) {
                 $total = $total + $distribucion['cant'];
             }
@@ -79,97 +76,89 @@ class EstadisticaManager
                     'distribucion' => $distribucion['cant']
                 );
             }
-
         }
 
         return $data;
     }
 
 
-    public function getPromediosCanoHora(Persona $persona,$desde,$hasta)
+    public function getPromediosCanoHora(Persona $persona, $desde, $hasta)
     {
         $equipos = $persona->getEquiposActivos();
 
         $promediosCanosHoraQb = $this->em
             ->getRepository('AppBundle:EstadisticaFinal')
-            ->getPromediosCanosHora($equipos,$desde,$hasta);
+            ->getPromediosCanosHora($equipos, $desde, $hasta);
 
         $promediosCanosHora = $promediosCanosHoraQb->getQuery()->getResult();
 
         $data =  array();
 
-        if($promediosCanosHora) {
-
+        if ($promediosCanosHora) {
             foreach ($promediosCanosHora as $promedio) {
                 $data[] = array(
                     'name' => $promedio['acronimo'] . ' ' . $promedio['nombre'],
                     'y'    => floatval($promedio['promTbg'])
                 );
             }
-
         }
 
         return $data;
     }
 
-    public function getPromediosVarillasHora(Persona $persona,$desde,$hasta)
+    public function getPromediosVarillasHora(Persona $persona, $desde, $hasta)
     {
         $equipos = $persona->getEquiposActivos();
 
         $promediosVarillasHoraQb = $this->em
             ->getRepository('AppBundle:EstadisticaFinal')
-            ->getPromedioVarillasHora($equipos,$desde,$hasta);
+            ->getPromedioVarillasHora($equipos, $desde, $hasta);
 
         $promediosVarillasHora = $promediosVarillasHoraQb->getQuery()->getResult();
 
         $data =  array();
 
-        if($promediosVarillasHora) {
-
-
+        if ($promediosVarillasHora) {
             foreach ($promediosVarillasHora as $promedio) {
                 $data[] = array(
                     'name' => $promedio['acronimo'] . ' ' . $promedio['nombre'],
                     'y'    => floatval($promedio['promVb'])
                 );
             }
-
         }
 
         return $data;
     }
 
-    public function getFactorTiempoUtil(Persona $persona,$desde,$hasta)
+    public function getFactorTiempoUtil(Persona $persona, $desde, $hasta)
     {
         $equipos = $persona->getEquiposActivos();
 
         $factorTiempoUtilQb = $this->em
             ->getRepository('AppBundle:EstadisticaFinal')
-            ->getFactorTiempoUtil($equipos,$desde,$hasta);
+            ->getFactorTiempoUtil($equipos, $desde, $hasta);
 
         $factorTiempoUtil = $factorTiempoUtilQb->getQuery()->getResult();
 
         $data =  array();
 
-        if($factorTiempoUtil) {
-
+        if ($factorTiempoUtil) {
             foreach ($factorTiempoUtil as $promedio) {
                 $data[] = array(
                     'name' => $promedio['acronimo'] . ' ' . $promedio['nombre'],
                     'y'    => floatval($promedio['ftu'])
                 );
             }
-
         }
 
         return $data;
     }
 
-    public function getDistribucionOperacionesIndividualesPorYacimiento(Equipo $equipo,$desde,$hasta){
-
+    public function getDistribucionOperacionesIndividualesPorYacimiento(Equipo $equipo, $desde, $hasta)
+    {
         $distribucionPorYacimientoQb = $this->em
             ->getRepository('AppBundle:EstadisticaFinal')
-            ->getDistribucionOperacionesIndividualesPorYacimiento($equipo,$desde,$hasta);
+            ->getDistribucionOperacionesIndividualesPorYacimiento($equipo, $desde, $hasta);
 
         $distribucionPorYacimiento = $distribucionPorYacimientoQb->getQuery()->getResult();
 
@@ -177,8 +166,7 @@ class EstadisticaManager
 
         $data =  array();
 
-        if($distribucionPorYacimiento) {
-
+        if ($distribucionPorYacimiento) {
             foreach ($distribucionPorYacimiento as $distribucion) {
                 $total = $total + $distribucion['cant'];
             }
@@ -188,95 +176,111 @@ class EstadisticaManager
                 $data[] = array(
                     'name' => $distribucion['nombre'],
                     'y' => ($distribucion['cant'] / $total),
-	                'distribucion' => $distribucion['cant']
+                    'distribucion' => $distribucion['cant']
                 );
             }
-
         }
 
         return $data;
     }
 
-    public function getPromediosIndividualesCanoHora(Equipo $equipo,$desde,$hasta)
+    public function getPromediosIndividualesCanoHora(Equipo $equipo, $desde, $hasta)
     {
-
         $promediosCanosHoraQb = $this->em
             ->getRepository('AppBundle:EstadisticaFinal')
-            ->getPromediosIndividualesCanosHora($equipo,$desde,$hasta);
+            ->getPromediosIndividualesCanosHora($equipo, $desde, $hasta);
 
         $promediosCanosHora = $promediosCanosHoraQb->getQuery()->getResult();
 
         $data =  array();
 
-        if($promediosCanosHora) {
-
+        if ($promediosCanosHora) {
             foreach ($promediosCanosHora as $promedio) {
+                $intervencionCierreQb = $this->em->getRepository(Intervencion::class)
+                  ->getIntervencionCierreByEquipoYFechaApertura($equipo, $promedio['fecha']);
+
+                $intervencionCierre = $intervencionCierreQb->getQuery()->getOneOrNullResult();
+
+                $fhasta = $intervencionCierre->getFecha()->format('U') * 1000;
+
                 $data[] = array(
                     'x' => $promedio['fecha']->getTimestamp()*1000,
                     'desc' => $promedio['fecha']->format('d-m-Y H:i:s') . ' ' . $promedio['acronimo'],
-	                'fintervencion' => $promedio['fecha']->format('YmdHi'),
+                    'fintervencion' => $promedio['fecha']->format('YmdHi'),
+                    'fdesde' => intval($promedio['fecha']->format('U')) * 1000,
+                    'fhasta' => $fhasta,
                     'y'    => floatval($promedio['promTbg'])
                 );
             }
-
         }
 
         return $data;
     }
 
-    public function getPromediosIndividualesVarillasHora(Equipo $equipo,$desde,$hasta)
+    public function getPromediosIndividualesVarillasHora(Equipo $equipo, $desde, $hasta)
     {
-
         $promediosCanosHoraQb = $this->em
             ->getRepository('AppBundle:EstadisticaFinal')
-            ->getPromediosIndividualesVarillasHora($equipo,$desde,$hasta);
+            ->getPromediosIndividualesVarillasHora($equipo, $desde, $hasta);
 
         $promediosCanosHora = $promediosCanosHoraQb->getQuery()->getResult();
 
         $data =  array();
 
-        if($promediosCanosHora) {
-
+        if ($promediosCanosHora) {
             foreach ($promediosCanosHora as $promedio) {
+                $intervencionCierreQb = $this->em->getRepository(Intervencion::class)
+                  ->getIntervencionCierreByEquipoYFechaApertura($equipo, $promedio['fecha']);
+
+                $intervencionCierre = $intervencionCierreQb->getQuery()->getOneOrNullResult();
+
+                $fhasta = $intervencionCierre->getFecha()->format('U') * 1000;
+
                 $data[] = array(
-	                'x' => $promedio['fecha']->getTimestamp()*1000,
-	                'desc' => $promedio['fecha']->format('d-m-Y H:i:s') . ' ' . $promedio['acronimo'],
+                    'x' => $promedio['fecha']->getTimestamp()*1000,
+                    'desc' => $promedio['fecha']->format('d-m-Y H:i:s') . ' ' . $promedio['acronimo'],
                     'fintervencion' => $promedio['fecha']->format('YmdHi'),
+                    'fdesde' => intval($promedio['fecha']->format('U')) * 1000,
+                    'fhasta' => $fhasta,
                     'y'    => floatval($promedio['promVb'])
                 );
             }
-
         }
 
         return $data;
     }
 
 
-    public function getIndividualesFactorTiempoUtil(Equipo $equipo,$desde,$hasta)
+    public function getIndividualesFactorTiempoUtil(Equipo $equipo, $desde, $hasta)
     {
-
         $promediosCanosHoraQb = $this->em
             ->getRepository('AppBundle:EstadisticaFinal')
-            ->getIndividualesFactorTiempoUtil($equipo,$desde,$hasta);
+            ->getIndividualesFactorTiempoUtil($equipo, $desde, $hasta);
 
         $promediosCanosHora = $promediosCanosHoraQb->getQuery()->getResult();
 
         $data =  array();
 
-        if($promediosCanosHora) {
-
+        if ($promediosCanosHora) {
             foreach ($promediosCanosHora as $promedio) {
+                $intervencionCierreQb = $this->em->getRepository(Intervencion::class)
+                  ->getIntervencionCierreByEquipoYFechaApertura($equipo, $promedio['fecha']);
+
+                $intervencionCierre = $intervencionCierreQb->getQuery()->getOneOrNullResult();
+
+                $fhasta = $intervencionCierre->getFecha()->format('U') * 1000;
+
                 $data[] = array(
                     'y'             => floatval($promedio['ftu']),
                     'x' => $promedio['fecha']->getTimestamp()*1000,
-	                'desc'          => $promedio['fecha']->format('d-m-Y H:i:s') . ' ' . $promedio['acronimo'],
-                    'fintervencion' => $promedio['fecha']->format('YmdHi')
+                    'desc'          => $promedio['fecha']->format('d-m-Y H:i:s') . ' ' . $promedio['acronimo'],
+                    'fintervencion' => $promedio['fecha']->format('YmdHi'),
+                    'fdesde' => intval($promedio['fecha']->format('U')) * 1000,
+                    'fhasta' => $fhasta
                 );
             }
-
         }
 
         return $data;
     }
-
 }

@@ -30,7 +30,7 @@ equipo_graficas:
 
 equipo_graficas_historicas:
     path: /{id}/graficas_historicas/{fintervencion}/{fdesde}/{fhasta}
-    defaults: { _controller: "AppBundle:Equipo:graficasHistoricas", fintervencion: __fintervencion__ }
+    defaults: { _controller: "AppBundle:Equipo:graficasHistoricas"}
     methods: [GET]
 
 equipo_instrumentos:
