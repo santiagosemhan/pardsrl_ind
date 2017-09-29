@@ -3,7 +3,7 @@
 
         var data = {{ data | raw }};
 
-        var url = '{{ path('equipo_graficas_historicas', { 'id': equipo.id , 'fdesde': fdesde , 'fhasta': fhasta }) }}';
+        var url = '{{ path('equipo_graficas_historicas', { 'id': equipo.id ,'fintervencion':'__fintervencion__' , 'fdesde': '__fdesde__' , 'fhasta': '__fhasta__' }) }}';
 
         $('#factor-tiempo-util').highcharts({
             chart: {
@@ -60,8 +60,13 @@
                     events: {
                         click: function (e) {
 
+                          url = url
+                          .replace(/__fintervencion__/g, e.point.fintervencion)
+                          .replace(/__fdesde__/g, e.point.fdesde)
+                          .replace(/__fhasta__/g, e.point.fhasta)
+
                             window.open(
-                                url.replace(/__fintervencion__/g, e.point.fintervencion),
+                                url,
                                 '_blank'
                             );
 

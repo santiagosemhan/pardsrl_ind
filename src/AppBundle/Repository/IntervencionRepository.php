@@ -103,4 +103,27 @@ class IntervencionRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb;
     }
+
+    public function getIntervencionCierreByEquipoYFechaApertura($equipo, $fechaApertura)
+    {
+
+        // SELECT * from intervencion
+        // where equipo_id = 1
+        // and `fecha`> '2017-07-20 15:32:00'
+        // and accion = 1
+        // order by fecha ASC
+        // LIMIT 1
+        $qb = $this->getQb()
+            ->andWhere('interv.fecha > :fecha_apertura')
+            ->andWhere('interv.equipo = :equipo')
+            ->andWhere('interv.accion = 1')
+            ->orderBy('interv.fecha', 'ASC');
+
+        $qb->setParameter('fecha_apertura', $fechaApertura);
+        $qb->setParameter('equipo', $equipo);
+
+        $qb->setMaxResults(1);
+
+        return $qb;
+    }
 }
