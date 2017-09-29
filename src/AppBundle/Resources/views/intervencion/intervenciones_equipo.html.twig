@@ -51,12 +51,11 @@
           <table class="table table-hover">
             <tbody>
               <tr>
-                <th>ID</th>
-                <th>Accion</th>
                 <th>Pozo</th>
                 <th>Yacimiento</th>
                 <th>Compañía</th>
-                <th>Fecha intervencion</th>
+                <th>Fecha Apertura</th>
+                <th>Fecha Cierre</th>
                 <th>Registrado el día</th>
                 <th>Creado Por</th>
               </tr>
@@ -67,20 +66,13 @@
               {% endif %}
               {% for intervencion in intervenciones %}
                 <tr>
-                  <td>{{ intervencion.id }}</td>
-                  <td>
-                    {% if intervencion.accion == 0 %}
-                      <span class="label label-success">Apertura</span>
-                    {% else %}
-                      <span class="label label-warning">Cierre</span>
-                    {% endif %}
-                  </td>
                   <td>{{ intervencion.pozo }}</td>
-                  <td>{{ intervencion.pozo.yacimiento }}</td>
-                  <td>{{ intervencion.pozo.yacimiento.compania }}</td>
-                  <td>{{ intervencion.fecha is empty ? "" : intervencion.fecha | date('d/m/Y H:i:s') }}</td>
-                  <td>{{ intervencion.fechaCreacion | date('d/m/Y H:i:s') }}</td>
-                  <td>{{ intervencion.creadoPor }}</td>
+                  <td>{{ intervencion.yacimiento }}</td>
+                  <td>{{ intervencion.compania }}</td>
+                  <td><p class="text-green"><strong>{{ intervencion.fecha_apertura | date('d/m/Y H:i:s') }}<strong></p></td>
+                  <td><p class="text-red"><strong>{{ intervencion.fecha_cierre is empty ? "-- Actualmente Interviniendo -- " : intervencion.fecha_cierre | date('d/m/Y H:i:s') }}</strong></p></td>
+                  <td>{{ intervencion.creado | date('d/m/Y H:i:s') }}</td>
+                  <td>{{ intervencion.creado_por }}</td>
                 </tr>
               {% endfor %}
 
