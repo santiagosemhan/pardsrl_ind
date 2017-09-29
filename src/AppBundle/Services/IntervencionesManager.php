@@ -44,6 +44,11 @@ class IntervencionesManager
         return $this->getIntervencionRepository()->getUltimaIntervencionByPozo($pozoId)->getQuery()->getOneOrNullResult();
     }
 
+    public function getIntervencionCierre($equipoId, $fechaApertura)
+    {
+        return $this->getIntervencionRepository()->getIntervencionCierreByEquipoYFechaApertura($equipoId, $fechaApertura)->getQuery()->getOneOrNullResult();
+    }
+
     public function getPozosElegibles()
     {
         $pozosActivos = $this->em->getRepository(Pozo::class)->findBy(array('activo' => true));

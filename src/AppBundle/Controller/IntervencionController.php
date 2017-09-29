@@ -81,8 +81,6 @@ class IntervencionController extends Controller
 
         $intervencionesManager = $this->get('manager.intervenciones');
 
-        $intervencionesQb = $intervencionesManager->getUltimasIntervencionesByEquipo($equipo->getId());
-
         $ultimaIntervencion = $intervencionesManager->getUltimaIntervencionByEquipo($equipo->getId());
 
         $pozosElegibles = $intervencionesManager->getPozosElegibles();
@@ -111,8 +109,29 @@ class IntervencionController extends Controller
 
         $paginator = $this->get('knp_paginator');
 
-        $intervenciones = $paginator->paginate(
-            $intervencionesQb,
+        $intervencionesQb = $intervencionesManager->getUltimasIntervencionesByEquipo($equipo->getId());
+
+        //filtro solamente aquellas que sean apertura
+        $intervenciones = $intervencionesQb->andWhere('interv.accion = 0')->getQuery()->getResult();
+
+        $intervArr = [];
+
+        foreach ($intervenciones as $intervencion) {
+            $intervencionCierre = $intervencionesManager->getIntervencionCierre($equipo->getId(), $intervencion->getFecha());
+
+            $intervArr[] = [
+              'pozo' => $intervencion->getPozo(),
+              'yacimiento' => $intervencion->getPozo()->getYacimiento(),
+              'compania' => $intervencion->getPozo()->getYacimiento()->getCompania(),
+              'fecha_apertura' => $intervencion->getFecha(),
+              'fecha_cierre' =>  $intervencionCierre ? $intervencionCierre->getFecha() : null ,
+              'creado' => $intervencion->getFechaCreacion(),
+              'creado_por' => $intervencion->getCreadoPor()
+            ];
+        }
+
+        $intervencionesPag = $paginator->paginate(
+            $intervArr,
             $request->query->get('page', 1)/* page number */,
             10/* limit per page */
         );
@@ -120,7 +139,7 @@ class IntervencionController extends Controller
         return $this->render('AppBundle:intervencion:intervenciones_equipo.html.twig', [
           'equipo' => $equipo,
           'form' => $form->createView(),
-          'intervenciones' => $intervenciones
+          'intervenciones' => $intervencionesPag
         ]);
     }
 }
