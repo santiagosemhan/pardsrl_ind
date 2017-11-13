@@ -55,7 +55,7 @@ app.get('/historico', function (req, res) {
   res.setHeader('Cache-Control', 'no-cache')
 
   let filters = {
-    metrics: ['hta','anem','bpozo','llave'],
+    metrics: ['hta','anem','bpozo','llave','haparejo'],
     from: parseInt(req.query.desde),
     to: parseInt(req.query.hasta)
   }
