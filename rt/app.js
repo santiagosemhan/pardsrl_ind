@@ -74,7 +74,7 @@ app.get('/historico', function (req, res) {
     return
   }
 
-  let uri = `${config.historico_script}req.query.equipo?filters=${JSON.stringify(filters)}&resolution=${req.query.resolucion}`
+  let uri = `${config.historico_script}${req.query.equipo}?filters=${JSON.stringify(filters)}&resolution=${req.query.resolucion}`
 
   request({
     uri
