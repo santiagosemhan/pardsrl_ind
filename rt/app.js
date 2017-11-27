@@ -63,9 +63,9 @@ app.get('/historico', function (req, res) {
   let histogramType = parseInt(req.query.tipo)
 
   if( histogramType === 0){ //es histórico de plumas
-      filters.metrics: ['hta','anem','bpozo','llave','haparejo']
+      filters.metrics =  ['hta','anem','bpozo','llave','haparejo']
   }else if (histogramType === 1) { //histórico de maniobras
-      filters.metrics: ['adef','aexe','mtv','pbp','ppel','tmay','vto']
+      filters.metrics =  ['adef','aexe','mtv','pbp','ppel','tmay','vto']
   }else{
     error = 'Estamos actualizando nuestro servicio de datos. En breve volverá a tener información'
 
