@@ -55,26 +55,26 @@ app.get('/historico', function (req, res) {
   res.setHeader('Cache-Control', 'no-cache')
 
   let filters = {
-    metrics: ['hta','anem','bpozo','llave','haparejo'],
+    metrics: [],
     from: parseInt(req.query.desde),
     to: parseInt(req.query.hasta)
   }
 
-  let uri = config.historico_script.concat(
-    req.query.equipo,
-    `?filters=${JSON.stringify(filters)}`,
-    `&resolution=${req.query.resolucion}`
-  )
+  let histogramType = parseInt(req.query.tipo)
 
-
-  if(parseInt(req.query.tipo) === 1){
-
+  if( histogramType === 0){ //es histórico de plumas
+      filters.metrics: ['hta','anem','bpozo','llave','haparejo']
+  }else if (histogramType === 1) { //histórico de maniobras
+      filters.metrics: ['adef','aexe','mtv','pbp','ppel','tmay','vto']
+  }else{
     error = 'Estamos actualizando nuestro servicio de datos. En breve volverá a tener información'
 
     res.status(500).send('{ "status": "error" , "detail" : "' + error + '" }')
 
     return
   }
+
+  let uri = `${config.historico_script}req.query.equipo?filters=${JSON.stringify(filters)}&resolution=${req.query.resolucion}`)
 
   request({
     uri
