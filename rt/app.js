@@ -94,7 +94,7 @@ app.get('/historico', function (req, res) {
           item.rows.forEach((row) => {
             rows.push([
               moment(row.time).tz(config.timezone).valueOf(),
-              row.mean
+              row.max
             ])
 
           })
