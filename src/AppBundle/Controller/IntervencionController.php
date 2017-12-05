@@ -30,7 +30,9 @@ class IntervencionController extends Controller
 
         $ultimaIntervencion = $intervencionesManager->getUltimaIntervencionByPozo($pozo->getId());
 
-        $nuevaIntervencion = $intervencionesManager->inicializarIntervencion($ultimaIntervencion->getId(), $pozo->getId());
+        $intervencionId = $ultimaIntervencion ? $ultimaIntervencion->getId() : null;
+
+        $nuevaIntervencion = $intervencionesManager->inicializarIntervencion($intervencionId, $pozo->getId());
 
         $equiposElegibles = $intervencionesManager->getEquiposElegibles();
 
