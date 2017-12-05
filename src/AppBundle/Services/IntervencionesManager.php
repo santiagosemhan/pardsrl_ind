@@ -96,7 +96,7 @@ class IntervencionesManager
 
         $equipo = $equipoId ? $this->em->getRepository(Equipo::class)->find($equipoId) : null;
 
-        $ultimaIntervencion = $this->em->getRepository(Intervencion::class)->find($ultimaIntervencionId);
+        $ultimaIntervencion = $ultimaIntervencionId ? $this->em->getRepository(Intervencion::class)->find($ultimaIntervencionId) : null;
 
         $intervencion = new Intervencion();
 
