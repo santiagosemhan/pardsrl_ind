@@ -140,7 +140,7 @@ function afterSetExtremesHstman(e){
 
             extremo = new Date().getTime();
 
-        }else if(e.trigger == "navigator" || e.trigger == "rangeSelectorInput"){
+        }else if(e.trigger == "navigator" || e.trigger == "rangeSelectorInput" || e.trigger == "zoom"){
 
             extremo = Math.round(e.max);
         }
