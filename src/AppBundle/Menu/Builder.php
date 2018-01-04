@@ -47,11 +47,11 @@ class Builder implements ContainerAwareInterface
                 $menu->addChild('Dashboard', array( 'route' => 'dashboard' ))->setExtra('icon', 'fa fa-area-chart');
             }
 
-            if ($this->securityManager->isGranted($this->rol,
-                    'reporte_index') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')
-            ) {
-                $menu->addChild('Reportes', array( 'route' => 'reporte_index' ))->setExtra('icon', 'fa fa-file-text-o');
-            }
+            // if ($this->securityManager->isGranted($this->rol,
+            //         'reporte_index') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')
+            // ) {
+            //     $menu->addChild('Reportes', array( 'route' => 'reporte_index' ))->setExtra('icon', 'fa fa-file-text-o');
+            // }
 
             //TODO siempre se están generando estas rutas si el usuario tiene asignado equipos
 
@@ -109,6 +109,15 @@ class Builder implements ContainerAwareInterface
                             'routeParameters' => ['id' => $equipo->getId()]
                           ]
                         )->setExtra('icon', 'fa  fa-wrench');
+                    }
+                    if ($this->securityManager->isGranted($this->rol, 'transporte_equipo_index') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
+                        $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(
+                          'Ver Transportes',
+                          [
+                            'route' => 'transporte_equipo_index',
+                            'routeParameters' => ['id' => $equipo->getId()]
+                          ]
+                        )->setExtra('icon', 'fa  fa-location-arrow');
                     }
                     if ($this->securityManager->isGranted($this->rol, 'novedad_nueva') || $this->usuario->hasRole('ROLE_SUPER_ADMIN')) {
                         $menu[ strtoupper($equipo->getNombreCompleto()) ]->addChild(

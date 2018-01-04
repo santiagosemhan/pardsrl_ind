@@ -59,9 +59,9 @@ app_notificaciones:
     resource: "@AppBundle/Resources/config/routing/notificaciones.yml"
     prefix:   /notificaciones
 
-app_reportes:
-    resource: "@AppBundle/Resources/config/routing/reportes.yml"
-    prefix:   /reportes
+app_recursos:
+    resource: "@AppBundle/Resources/config/routing/recursos.yml"
+    prefix:   /recursos
 
 # app_instrumento:
 #     resource: "@AppBundle/Resources/config/routing/instrumento.yml"
@@ -70,3 +70,7 @@ app_reportes:
 app_maniobra:
     resource: "@AppBundle/Resources/config/routing/maniobra.yml"
     prefix:   /maniobras
+
+app_transporte:
+    resource: "@AppBundle/Resources/config/routing/transporte.yml"
+    prefix:   /transportes
