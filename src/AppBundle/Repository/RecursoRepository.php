@@ -10,46 +10,44 @@ namespace AppBundle\Repository;
  */
 class RecursoRepository extends \Doctrine\ORM\EntityRepository
 {
+    const REPORTE_SLUG = "reporte";
 
-	public function getQb()
-	{
-		return $this->createQueryBuilder('rec');
-	}
+    public function getQb()
+    {
+        return $this->createQueryBuilder('rec');
+    }
 
-	public function getRecursosByTipo($tipo = null){
+    public function getRecursosByTipo($tipo = null)
+    {
+        $qb = $this->getQb()
+            ->where('rec.tipoRecurso = :tipo')
+            ->andWhere('rec.activo = true');
 
-		$qb = $this->getQb()
-			->where('rec.tipoRecurso = :tipo')
-			->andWhere('rec.activo = true');
+        $qb->setParameter('tipo', $tipo);
 
-		$qb->setParameter('tipo',$tipo);
+        return $qb;
+    }
 
-		return $qb;
+    public function getReportes()
+    {
+        $trRepositoy = $this->getEntityManager()->getRepository('AppBundle:TipoRecurso');
 
-	}
+        $tipoReporte = $trRepositoy->getBySlug(self::REPORTE_SLUG)->getQuery()->getOneOrNullResult();
 
-	public function getReportes(){
+        return $this->getRecursosByTipo($tipoReporte);
+    }
 
-		$trRepositoy = $this->getEntityManager()->getRepository('AppBundle:TipoRecurso');
+    public function getExtensiones()
+    {
+        $qb = $this->getQb()->select('rec.extension')->distinct(true);
 
-		$tipoReporte = $trRepositoy->getBySlug('reporte')->getQuery()->getOneOrNullResult();
+        return $qb;
+    }
 
-		return $this->getRecursosByTipo($tipoReporte);
+    public function getRecursos()
+    {
+        $qb = $this->getQb()->select('rec.recurso')->distinct(true);
 
-	}
-
-	public function getExtensiones(){
-
-		$qb = $this->getQb()->select('rec.extension')->distinct(true);
-
-		return $qb;
-	}
-
-	public function getRecursos(){
-
-		$qb = $this->getQb()->select('rec.recurso')->distinct(true);
-
-		return $qb;
-
-	}
+        return $qb;
+    }
 }

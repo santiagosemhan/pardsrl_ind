@@ -4,6 +4,6 @@ namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ReporteControllerTest extends WebTestCase
+class RecursoControllerTest extends WebTestCase
 {
 }

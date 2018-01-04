@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% set __title = 'Transportes registrados del equipo ' ~ equipo %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Kms Recorridos</th>
+                            <th>Valocidad Máxima</th>
+                            <th>Velocidad Promedio</th>
+                            <th>Tiempo Total</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for transporte in transportes %}
+                        <tr>
+                            <td>{{ transporte.id }}</td>
+                            <td>{% if transporte.inicio %}{{ transporte.inicio|date('d/m/Y H:i:s') }}{% endif %}</td>
+                            <td>{% if transporte.fin %}{{ transporte.fin|date('d/m/Y H:i:s') }}{% endif %}</td>
+                            <td>{{ transporte.kmsRecorridos }}</td>
+                            <td>{{ transporte.velocidadMaxima }}</td>
+                            <td>{{ transporte.velocidadPromedio }}</td>
+                            <td>{{ transporte.tiempoTotal }}</td>
+                            <td>
+                                <a title="Ver reporte" class="btn btn-default btn-sm" href="{{ path('transporte_reporte_dtm', { 'id': transporte.id }) }}" target="_blank"><i class="fa fa-file-text-o"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+        {{ knp_pagination_render(transportes) }}
+
+    </div>
+</div>
+
+{# <div class="delete-obj-form hidden">
+    {{ form_start(delete_form) }}
+    <input type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+</div> #}
+
+{# <a class="btn btn-primary" href="{{ path('compania_new') }}">Nueva Compañia</a> #}
+
+{% endblock content %}
