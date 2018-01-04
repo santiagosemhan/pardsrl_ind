@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% set __title = 'Tablero de Reportes' %}
+{% set __title = 'Buscador de recursos' %}
 
 {% block content %}
     <div class="row">
@@ -64,7 +64,7 @@
 
                         {% if recursos is empty %}
                             <tr>
-                                <td colspan="9">Hasta el momento no se han registrado reportes.</td>
+                                <td colspan="9">Hasta el momento no se han registrado recursos.</td>
                             </tr>
                         {% endif %}
                         {% for recurso in recursos %}

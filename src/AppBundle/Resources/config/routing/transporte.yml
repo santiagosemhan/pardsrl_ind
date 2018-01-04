@@ -1,0 +1,8 @@
+transporte_equipo_index:
+    path: /equipo/{id}/
+    defaults: { _controller: "AppBundle:Transporte:indexByEquipo" }
+    methods: [GET,POST]
+
+transporte_reporte_dtm:
+    path:     /{id}/reporte_dtm
+    defaults: { _controller: AppBundle:Transporte:reporteDTM }
