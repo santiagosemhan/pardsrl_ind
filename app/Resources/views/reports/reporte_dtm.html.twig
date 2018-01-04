@@ -38,6 +38,25 @@
 
   <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
 
+  <style>
+    @media print {
+
+      .print-green{
+        color: #06D6A0 !important;
+      }
+
+      .print-red{
+        color: #ff6338 !important;
+      }
+
+      *,
+      *:before,
+      *:after {
+        color: inherit !important;
+      }
+    }
+  </style>
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -102,7 +121,7 @@
           <tr>
             <td>{{transporte.kmsRecorridos}}</td>
             <td>{{transporte.velocidadMaxima}}</td>
-            <td style="color: red">{{transporte.velocidadPromedio}}</td>
+            <td class="print-red" style="color: red">{{transporte.velocidadPromedio}}</td>
             <td>{{transporte.tiempoTotal}}</td>
           </tr>
           </tbody>
@@ -112,6 +131,14 @@
     </div>
     <!-- /.row -->
     <div class="row">
+
+      <div class="col-xs-12">
+        <p style="margin-top: 10px; text-align: right">
+          <span><i class="fa fa-square print-green" style="color: #06D6A0;margin:0 2px 0 0 ;-webkit-print-color-adjust: exact;" aria-hidden="true"></i>Inicio</span>
+          <span><i class="fa fa-square print-red" style="color: #ff6338;margin:0 2px 0 5px ;-webkit-print-color-adjust: exact;" aria-hidden="true"></i>Fin</span>
+        </p>
+      </div>
+
       <div class="col-xs-12"><div id="map" style="height: 400px"></div></div>
 
       {% if mapbox_enabled %}
@@ -128,24 +155,16 @@
 
             let coordinates = {{ coordinates | raw }}
 
-            let polyline = L.polyline(coordinates, {color: '#44ffb7'}).addTo(map);
+            let polyline = L.polyline(coordinates, {color: '#0044FF'}).addTo(map);
 
-            
+
 
             var inicioMarker = new L.marker(coordinates[0],{
-            icon: L.mapbox.marker.icon({
-                'marker-size': 'small',
-                'marker-symbol': 'circle',
-                'marker-color': '#3bb2d0'
-              })
+              icon: L.mapbox.marker.icon({'marker-symbol': 'circle-stroked', 'marker-color': '06D6A0'})
             }).addTo(map);
 
             var finMarker = new L.marker(coordinates[coordinates.length -1],{
-            icon: L.mapbox.marker.icon({
-                'marker-size': 'small',
-                'marker-symbol': 'circle',
-                'marker-color': '#3bb2d0'
-              })
+              icon: L.mapbox.marker.icon({'marker-symbol': 'circle', 'marker-color': 'ff6338'})
             }).addTo(map);
 
 
@@ -159,6 +178,7 @@
       {% endif %}
 
     </div>
+
     <div class="row">
       <!-- accepted payments column -->
       <div class="col-xs-12">
