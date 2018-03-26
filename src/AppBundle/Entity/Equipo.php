@@ -6,6 +6,7 @@ use AppBundle\Entity\Base\BaseClass;
 use AppBundle\Entity\Intervencion;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Equipo
@@ -60,6 +61,21 @@ class Equipo extends BaseClass
     private $email;
 
     /**
+     * @var string
+     *
+     * @Assert\Uuid(message="Por favor ingrese un uuid válido")
+     * @ORM\Column(name="uuid", type="string", length=100, nullable=true)
+     */
+    private $uuid;
+
+    /**
+    * @var bool
+    *
+    * @ORM\Column(name="conectado", type="boolean")
+    */
+    private $conectado = false;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Persona", inversedBy="equipos")
      */
     private $personas;
@@ -73,7 +89,6 @@ class Equipo extends BaseClass
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\EstadisticaTemporal", mappedBy="equipo", cascade={"persist","remove"})
      */
     private $estadisticas;
-
     /**
      * Get id
      *
@@ -178,6 +193,47 @@ class Equipo extends BaseClass
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set uuid
+     *
+     * @param string $uuid
+     *
+     * @return Equipo
+     */
+    public function setUUID($uuid)
+    {
+        $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    /**
+     * Get uuid
+     *
+     * @return string
+     */
+    public function getUUID()
+    {
+        return $this->uuid;
+    }
+
+
+    /**
+     * @return boolean
+     */
+    public function getConectado()
+    {
+        return $this->conectado;
+    }
+
+    /**
+     * @param boolean $conectado
+     */
+    public function setConectado($conectado)
+    {
+        $this->conectado = $conectado;
     }
 
     /**
