@@ -16,6 +16,9 @@ class EquipoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('uuid', null, [
+              'label' => 'UUID'
+            ])
             ->add('nombre')
             ->add('modelo')
             ->add('tel')
