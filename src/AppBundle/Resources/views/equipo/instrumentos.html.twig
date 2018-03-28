@@ -497,35 +497,45 @@
 
       var socket = io(websocket_connection);
 
-      //var socket = io('64.37.55.176:5140/tr-sai280');
+      socket.on('agent/message', function (payload) {
 
-      socket.on('trpl', function(data) {
+          try{
+              if(payload == undefined || payload == '') return false;
 
-        var data = JSON.parse(data);
+              payload = (typeof payload !== 'object') ? JSON.parse(payload) : payload;
 
-        if (data != null) {
+              var { metrics } = payload;
 
-          //obtengo el ultimo item
-          var item = data.pop();
+              metrics.forEach(( metric ) => {
 
-          if (item) {
+                var serie = null
+                let value = null
 
-            //console.log(item);
+                switch (metric.type) {
+                  case 'hta':
+                    $('#aparejo').highcharts().series[0].points[0].update(parseInt(metric.value));
+                    $('#aparejo').highcharts().series[1].points[0].update(parseInt((metric.value - parseInt(metric.value)) * 100));
+                    break;
+                  case 'anem':
+                    //anemometro
+                    $('#anemometro').highcharts().series[0].points[0].update(metric.value);
+                    break;
+                  case 'bpozo':
+                    //boca e pozo
+                    $('#boca-de-pozo').highcharts().series[0].points[0].update(metric.value);
+                    break;
+                  case 'llave':
+                    //lave
+                    $('#llave').highcharts().series[0].points[0].update(metric.value);
+                    break;
+                }
+              });
 
-            $('#aparejo').highcharts().series[0].points[0].update(parseInt(item.hta));
-
-            $('#aparejo').highcharts().series[1].points[0].update(parseInt((item.hta - parseInt(item.hta)) * 100));
-
-            //anemometro
-            $('#anemometro').highcharts().series[0].points[0].update(item.anem);
-
-            //lave
-            $('#llave').highcharts().series[0].points[0].update(item.llave);
-
-            //boca e pozo
-            $('#boca-de-pozo').highcharts().series[0].points[0].update(item.bpozo);
+          }catch(e){
+              console.log(e);
           }
-        }
+
+
       });
     });
   </script>

@@ -389,7 +389,7 @@ class Equipo extends BaseClass
 
     public function getWebSocketNamespace()
     {
-        return strtolower(str_replace(' ', '', $this->getNombreCompleto()));
+        return str_replace(' ', '', $this->getUUID());
     }
 
     /**
