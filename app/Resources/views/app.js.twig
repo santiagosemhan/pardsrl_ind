@@ -147,8 +147,9 @@ $(document).ready(function () {
     if(!(typeof Highcharts === 'undefined')){
 
         Highcharts.setOptions({
-            global: {
-                useUTC: false
+            time: {
+              useUTC: true,
+              timezone: 'America/Argentina/Buenos_Aires'
             },
             lang: {
                 loading: 'Cargando...',

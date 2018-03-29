@@ -7,41 +7,11 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="{{ asset('vendor/highstock-5.0.10/code/highstock.js') }}"></script>
+    <script src="{{ asset('vendor/highstock-6.0.7/code/highstock.js') }}"></script>
 
-    <script src="{{ asset('vendor/highstock-5.0.10/code/modules/exporting.js') }}"></script>
+    <script src="{{ asset('vendor/highstock-6.0.7/code/modules/exporting.js') }}"></script>
 
-    <script src="{{ asset('vendor/highstock-5.0.10/code/modules/offline-exporting.js') }}"></script>
-
-    <script type="application/javascript" language="JavaScript">
-        if(!(typeof Highcharts === undefined)){
-
-            Highcharts.setOptions({
-                global: {
-                    useUTC: false
-                },
-                lang: {
-                    loading: 'Cargando...',
-                    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    weekdays: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'],
-                    shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    exportButtonTitle: "Exportar",
-                    printButtonTitle: "Importar",
-                    rangeSelectorFrom: "De",
-                    rangeSelectorTo: "A",
-                    rangeSelectorZoom: "Periodo",
-                    downloadPNG: 'Descargar gráfica PNG',
-                    downloadJPEG: 'Descargar gráfica JPEG',
-                    downloadPDF: 'Descargar gráfica PDF',
-                    downloadSVG: 'Descargar gráfica SVG',
-                    printChart: 'Imprimir Gráfica',
-                    thousandsSep: ",",
-                    decimalPoint: '.'
-                }
-            });
-        }
-    </script>
-
+    <script src="{{ asset('vendor/highstock-6.0.7/code/modules/offline-exporting.js') }}"></script>
 
     <script type="application/javascript" language="JavaScript">
 
