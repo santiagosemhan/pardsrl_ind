@@ -51,7 +51,6 @@ twig:
          mapbox_default_style_url: "%mapbox.default_style_url%"
          mapbox_satellite_style_url: "%mapbox.satellite_style_url%"
          theme_color: "%theme_color%"
-         api: "%api%"
          config: "@manager.config"
          http_channel: "%http_channel%"
     debug: '%kernel.debug%'
