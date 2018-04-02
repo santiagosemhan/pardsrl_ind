@@ -6,49 +6,27 @@ if (typeof $.LiveData === "undefined") {
 }
 
 function EquipoController() {
-
-    this.baseURL = {% if api.enabled %} "{{ api.url | raw  }}" {% else %} server.getBaseWs() {% endif %};
-
+    this.baseURL = server.getBaseWs();
 }
 
 EquipoController.prototype.getHistoricoEquipos = function(equipoId, params, successCallback, errorCallback, timeoutCallback) {
+    var historicoEndPoint = this.baseURL+'/historico';
 
-
-    {% if api.enabled %}
-
-        var historicoEndPoint = this.baseURL+'/equipos/'+equipoId+'/historico';
-
-        $.LiveData.oauth2.requestData(
-                historicoEndPoint,
-                params,
-                'GET',
-                successCallback,
-                errorCallback
-        );
-
-
-    {% else %}
-
-        var historicoEndPoint = this.baseURL+'/historico';
-
-        $.ajax({
-            dataType: "json",
-            url: historicoEndPoint,
-            data: params,
-            success: successCallback ? successCallback : null,
-            error:   function(jqr, textStatus, errorThrown){
-                switch(jqr.status){
-                    case (500|404):
-                        errorCallback ? errorCallback(jqr,textStatus,errorThrown) : false;
-                        break;
-                    default:
-                        timeoutCallback ? timeoutCallback(jqr, textStatus, errorThrown) : false;
-                        break;
-                }
-            },
-            timeout: 120000
-        });
-
-
-    {% endif %}
+    $.ajax({
+        dataType: "json",
+        url: historicoEndPoint,
+        data: params,
+        success: successCallback ? successCallback : null,
+        error:   function(jqr, textStatus, errorThrown){
+            switch(jqr.status){
+                case (500|404):
+                    errorCallback ? errorCallback(jqr,textStatus,errorThrown) : false;
+                    break;
+                default:
+                    timeoutCallback ? timeoutCallback(jqr, textStatus, errorThrown) : false;
+                    break;
+            }
+        },
+        timeout: 120000
+    });
 };
