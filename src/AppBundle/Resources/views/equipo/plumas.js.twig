@@ -141,9 +141,9 @@ function afterSetExtremesHstpl(e){
 
         }else if(e.trigger == "navigator" || e.trigger == "rangeSelectorInput" || e.trigger == "zoom"){
 
-            var min = new Date(e.min);
+            var min = moment(e.min).utc();
 
-            var max = new Date(e.max);
+            var max = moment(e.max).utc();
 
             //console.log("seleccionado",e.min,e.max);
 
