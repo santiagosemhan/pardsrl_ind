@@ -87,13 +87,17 @@ class IntervencionController extends Controller
 
         $pozosElegibles = $intervencionesManager->getPozosElegibles();
 
+        if (!$ultimaIntervencion) {
+            $ultimaIntervencion = new Intervencion();
+        }
+
         $nuevaIntervencion = $intervencionesManager->inicializarIntervencion($ultimaIntervencion->getId(), null, $equipo->getId());
 
         $form = $this->createForm(IntervencionPozoType::class, $nuevaIntervencion, [
-            'pozos_elegibles' => $pozosElegibles,
-            'ultima_intervencion' => $ultimaIntervencion,
-            'action' => $this->generateUrl('intervencion_equipo_index', array('id' => $equipo->getId())),
-            'method' => 'POST'
+          'pozos_elegibles' => $pozosElegibles,
+          'ultima_intervencion' => $ultimaIntervencion,
+          'action' => $this->generateUrl('intervencion_equipo_index', array('id' => $equipo->getId())),
+          'method' => 'POST'
         ]);
 
 
@@ -107,7 +111,6 @@ class IntervencionController extends Controller
 
             return $this->redirectToRoute('intervencion_equipo_index', array('id' => $equipo->getid()));
         }
-
 
         $paginator = $this->get('knp_paginator');
 
