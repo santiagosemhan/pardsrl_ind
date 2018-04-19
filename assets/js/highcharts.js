@@ -7,8 +7,9 @@ require('highcharts/highcharts-3d')(Highcharts);
 require('highcharts/modules/solid-gauge')(Highcharts);
 
 Highcharts.setOptions({
-    global: {
-        useUTC: false
+    time: {
+      useUTC: true,
+      timezone: 'America/Argentina/Buenos_Aires'
     },
     lang: {
         loading: 'Cargando...',
