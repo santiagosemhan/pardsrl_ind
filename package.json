@@ -1,0 +1,47 @@
+{
+  "name": "pardsrl_v2",
+  "version": "1.7.0",
+  "description": "Pardsrl Web App",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "admin-lte": "^2.4.3",
+    "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "^1.8.0",
+    "datatables": "^1.10.13",
+    "datatables-bootstrap": "0.0.1",
+    "font-awesome": "^4.7.0",
+    "fs": "0.0.1-security",
+    "highcharts": "^6.1.0",
+    "ionicons": "^3.0.0",
+    "moment-timezone": "^0.5.16",
+    "noty": "^3.2.0-beta",
+    "pace-js": "^1.0.2",
+    "select2": "^4.0.6-rc.1",
+    "socket.io": "^2.1.0",
+    "uws": "^9.147.0"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.20.0",
+    "copy-webpack-plugin": "^4.5.1",
+    "webpack-notifier": "^1.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "./node_modules/.bin/encore dev",
+    "watch": "./node_modules/.bin/encore dev --watch",
+    "build:prod": "./node_modules/.bin/encore production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/santiagosemhan/pardsrl_v2.git"
+  },
+  "author": "Santiago Semhan <santiagosemhan@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/santiagosemhan/pardsrl_v2/issues"
+  },
+  "homepage": "https://github.com/santiagosemhan/pardsrl_v2#readme"
+}

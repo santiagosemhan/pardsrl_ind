@@ -335,10 +335,6 @@ function inicializarHistoricoManiobras(){
                         },
                         minRange: 900 * 1000 //un minuto
                     },
-                    tooltip: {
-                      split: false,
-                      shared: true,
-                    },
                     yAxis: [
                         { // Primary yAxis
                             gridLineWidth: 0,
@@ -355,9 +351,9 @@ function inicializarHistoricoManiobras(){
                         }
                     ],
                     tooltip: {
-                        shared: true
+                        shared: true,
+                        split: false,
                     },
-
                     series: [
                         {
                             name: 'Mov Tbg o Vb',

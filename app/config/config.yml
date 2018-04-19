@@ -121,3 +121,7 @@ knp_paginator:
     template:
         pagination: AppBundle:pager:sliding.html.twig     # sliding pagination controls template
         sortable:   KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+salva_jshrink:
+    enabled: true # if false {% jshrink %} tag will not compress the content
+    flaggedComments: true

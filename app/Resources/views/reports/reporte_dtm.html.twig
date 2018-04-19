@@ -27,14 +27,8 @@
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="{{ asset('dashboard/bootstrap/css/bootstrap.min.css') }}">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('dashboard/font-awesome/css/font-awesome.min.css') }}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="{{ asset('dashboard/ionicons/css/ionicons.min.css') }}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('dashboard/dist/css/AdminLTE.min.css') }}">
+
+  <link rel="stylesheet" href="{{ asset('build/reporte.css') }}">
 
   <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
 
@@ -145,6 +139,7 @@
 
           <script src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
 
+          {% jshrink %}
           <script type="application/javascript">
 
             L.mapbox.accessToken = "{{ mapbox_access_token }}";
@@ -174,6 +169,7 @@
             //map.setView([40, -74.50], 9);
 
           </script>
+          {% endjshrink %}
 
       {% endif %}
 

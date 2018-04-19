@@ -21,9 +21,10 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
+            new Salva\JshrinkBundle\SalvaJshrinkBundle(),
+            
             new AppBundle\AppBundle(),
             new UsuarioBundle\UsuarioBundle()
-
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -20,6 +20,7 @@ class Builder implements ContainerAwareInterface
             array(
                 'childrenAttributes' => array(
                     'class' => 'sidebar-menu',
+                    'data-widget' => 'tree'
                 ),
             )
         );
