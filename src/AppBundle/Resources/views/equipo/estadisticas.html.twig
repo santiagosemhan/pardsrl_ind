@@ -6,12 +6,9 @@
     {% if intervencion %}
         <script type="application/javascript" language="JavaScript">
 
-
             $(document).ready(function () {
-
-                //configuro para que se recargue cada 1 minuto.
+                // configuro para que se recargue cada 1 minuto.
                 setInterval(function() { recargarEstadisticas(); },90000);
-
             });
 
             function recargarEstadisticas(){

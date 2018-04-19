@@ -12,9 +12,7 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script src="{{ asset('vendor/highstock-6.0.7/code/highstock.js') }}"></script>
-    <script src="{{ asset('vendor/highstock-6.0.7/code/highcharts-3d.js') }}"></script>
-
+    <script src="{{ asset('build/highcharts.js') }}"></script>
 
     {% if mapbox_enabled %}
         <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>

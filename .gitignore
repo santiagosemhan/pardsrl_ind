@@ -14,8 +14,4 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-
-
-#custom node
-/rt/node_modules/
-/rt/config.js
+/node_modules/
