@@ -7,7 +7,7 @@ require('ionicons/dist/css/ionicons.min.css');
 require('select2/dist/css/select2.min.css');
 require('bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css');
 require('datatables-bootstrap/css/dataTables.bootstrap.min.css');
-require('pace-js/themes/green/pace-theme-flash.css');
+require('pace-js/themes/green/pace-theme-minimal.css');
 require('noty/lib/noty.css');
 require('noty/lib/themes/sunset.css');
 require('../../web/dashboard/Source-Sans-Pro/css/fonts.css');
