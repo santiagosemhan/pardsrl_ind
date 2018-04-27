@@ -7,3 +7,8 @@ intervencion_equipo_index:
     path: /equipo/{id}/
     defaults: { _controller: "AppBundle:Intervencion:intervencionesEquipo" }
     methods: [GET,POST]
+
+intervencion_reporte:
+    path: /{id}/reporte
+    defaults: { _controller: "AppBundle:Intervencion:reporteIntervencion" }
+    methods: [GET]
