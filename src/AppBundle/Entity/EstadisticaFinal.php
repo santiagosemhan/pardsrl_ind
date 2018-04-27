@@ -71,58 +71,58 @@ class EstadisticaFinal
     private $tiempoOnline;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="prom_canos_hora_saca_single", type="integer")
+     * @ORM\Column(name="prom_canos_hora_saca_single", type="float")
      */
     private $promCanosHoraSacaSingle;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="prom_canos_hora_baja_single", type="integer")
+     * @ORM\Column(name="prom_canos_hora_baja_single", type="float")
      */
     private $promCanosHoraBajaSingle;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="prom_canos_hora_saca_doble", type="integer")
+     * @ORM\Column(name="prom_canos_hora_saca_doble", type="float")
      */
     private $promCanosHoraSacaDoble;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="prom_canos_hora_baja_doble", type="integer")
+     * @ORM\Column(name="prom_canos_hora_baja_doble", type="float")
      */
     private $promCanosHoraBajaDoble;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="prom_vb_saca_single", type="integer")
+     * @ORM\Column(name="prom_vb_saca_single", type="float")
      */
     private $promVbSacaSingle;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="prom_vb_baja_single", type="integer")
+     * @ORM\Column(name="prom_vb_baja_single", type="float")
      */
     private $promVbBajaSingle;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="prom_vb_saca_doble", type="integer")
+     * @ORM\Column(name="prom_vb_saca_doble", type="float")
      */
     private $promVbSacaDoble;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="prom_vb_baja_doble", type="integer")
+     * @ORM\Column(name="prom_vb_baja_doble", type="float")
      */
     private $promVbBajaDoble;
 
