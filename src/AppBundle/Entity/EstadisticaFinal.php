@@ -71,6 +71,122 @@ class EstadisticaFinal
     private $tiempoOnline;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="prom_canos_hora_saca_single", type="integer")
+     */
+    private $promCanosHoraSacaSingle;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="prom_canos_hora_baja_single", type="integer")
+     */
+    private $promCanosHoraBajaSingle;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="prom_canos_hora_saca_doble", type="integer")
+     */
+    private $promCanosHoraSacaDoble;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="prom_canos_hora_baja_doble", type="integer")
+     */
+    private $promCanosHoraBajaDoble;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="prom_vb_saca_single", type="integer")
+     */
+    private $promVbSacaSingle;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="prom_vb_baja_single", type="integer")
+     */
+    private $promVbBajaSingle;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="prom_vb_saca_doble", type="integer")
+     */
+    private $promVbSacaDoble;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="prom_vb_baja_doble", type="integer")
+     */
+    private $promVbBajaDoble;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="vb_saca", type="integer")
+     */
+    private $vbSaca;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="vb_baja", type="integer")
+     */
+    private $vbBaja;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tbg_saca", type="integer")
+     */
+    private $tbgSaca;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tbg_baja", type="integer")
+     */
+    private $tbgBaja;
+
+    /**
+     * @var json
+     *
+     * @ORM\Column(name="series", type="json")
+     * Ejemplo: {
+     *          general:{
+     *             graficas:[{
+     *                 "nombre":"",
+     *                 "descripción":"",
+     *                 "grafica":""
+     *             }]
+     *         },
+     *         items:[{
+     *             "nro": 1,
+     *             "accion": "",
+     *             "cantidad": "",
+     *             "duracion": "",
+     *             "material": "",
+     *             "promedio": "",
+     *             "fecha_fin": "",
+     *             "combinacion": "",
+     *             "fecha_inicio": "",
+     *             graficas:[{
+     *               "nombre":"",
+     *               "descripción":"",
+     *               "grafica":""
+     *             }]
+     *         }]
+     *       }
+     */
+    private $series;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="observada", type="boolean")
@@ -338,5 +454,317 @@ class EstadisticaFinal
     public function getIntervencion()
     {
         return $this->intervencion;
+    }
+
+    /**
+     * Set promCanosHoraSacaSingle.
+     *
+     * @param int $promCanosHoraSacaSingle
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromCanosHoraSacaSingle($promCanosHoraSacaSingle)
+    {
+        $this->promCanosHoraSacaSingle = $promCanosHoraSacaSingle;
+
+        return $this;
+    }
+
+    /**
+     * Get promCanosHoraSacaSingle.
+     *
+     * @return int
+     */
+    public function getPromCanosHoraSacaSingle()
+    {
+        return $this->promCanosHoraSacaSingle;
+    }
+
+    /**
+     * Set promCanosHoraBajaSingle.
+     *
+     * @param int $promCanosHoraBajaSingle
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromCanosHoraBajaSingle($promCanosHoraBajaSingle)
+    {
+        $this->promCanosHoraBajaSingle = $promCanosHoraBajaSingle;
+
+        return $this;
+    }
+
+    /**
+     * Get promCanosHoraBajaSingle.
+     *
+     * @return int
+     */
+    public function getPromCanosHoraBajaSingle()
+    {
+        return $this->promCanosHoraBajaSingle;
+    }
+
+    /**
+     * Set promCanosHoraSacaDoble.
+     *
+     * @param int $promCanosHoraSacaDoble
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromCanosHoraSacaDoble($promCanosHoraSacaDoble)
+    {
+        $this->promCanosHoraSacaDoble = $promCanosHoraSacaDoble;
+
+        return $this;
+    }
+
+    /**
+     * Get promCanosHoraSacaDoble.
+     *
+     * @return int
+     */
+    public function getPromCanosHoraSacaDoble()
+    {
+        return $this->promCanosHoraSacaDoble;
+    }
+
+    /**
+     * Set promCanosHoraBajaDoble.
+     *
+     * @param int $promCanosHoraBajaDoble
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromCanosHoraBajaDoble($promCanosHoraBajaDoble)
+    {
+        $this->promCanosHoraBajaDoble = $promCanosHoraBajaDoble;
+
+        return $this;
+    }
+
+    /**
+     * Get promCanosHoraBajaDoble.
+     *
+     * @return int
+     */
+    public function getPromCanosHoraBajaDoble()
+    {
+        return $this->promCanosHoraBajaDoble;
+    }
+
+    /**
+     * Set promVbSacaSingle.
+     *
+     * @param int $promVbSacaSingle
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromVbSacaSingle($promVbSacaSingle)
+    {
+        $this->promVbSacaSingle = $promVbSacaSingle;
+
+        return $this;
+    }
+
+    /**
+     * Get promVbSacaSingle.
+     *
+     * @return int
+     */
+    public function getPromVbSacaSingle()
+    {
+        return $this->promVbSacaSingle;
+    }
+
+    /**
+     * Set promVbBajaSingle.
+     *
+     * @param int $promVbBajaSingle
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromVbBajaSingle($promVbBajaSingle)
+    {
+        $this->promVbBajaSingle = $promVbBajaSingle;
+
+        return $this;
+    }
+
+    /**
+     * Get promVbBajaSingle.
+     *
+     * @return int
+     */
+    public function getPromVbBajaSingle()
+    {
+        return $this->promVbBajaSingle;
+    }
+
+    /**
+     * Set promVbSacaDoble.
+     *
+     * @param int $promVbSacaDoble
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromVbSacaDoble($promVbSacaDoble)
+    {
+        $this->promVbSacaDoble = $promVbSacaDoble;
+
+        return $this;
+    }
+
+    /**
+     * Get promVbSacaDoble.
+     *
+     * @return int
+     */
+    public function getPromVbSacaDoble()
+    {
+        return $this->promVbSacaDoble;
+    }
+
+    /**
+     * Set promVbBajaDoble.
+     *
+     * @param int $promVbBajaDoble
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromVbBajaDoble($promVbBajaDoble)
+    {
+        $this->promVbBajaDoble = $promVbBajaDoble;
+
+        return $this;
+    }
+
+    /**
+     * Get promVbBajaDoble.
+     *
+     * @return int
+     */
+    public function getPromVbBajaDoble()
+    {
+        return $this->promVbBajaDoble;
+    }
+
+    /**
+     * Set vbSaca.
+     *
+     * @param int $vbSaca
+     *
+     * @return EstadisticaFinal
+     */
+    public function setVbSaca($vbSaca)
+    {
+        $this->vbSaca = $vbSaca;
+
+        return $this;
+    }
+
+    /**
+     * Get vbSaca.
+     *
+     * @return int
+     */
+    public function getVbSaca()
+    {
+        return $this->vbSaca;
+    }
+
+    /**
+     * Set vbBaja.
+     *
+     * @param int $vbBaja
+     *
+     * @return EstadisticaFinal
+     */
+    public function setVbBaja($vbBaja)
+    {
+        $this->vbBaja = $vbBaja;
+
+        return $this;
+    }
+
+    /**
+     * Get vbBaja.
+     *
+     * @return int
+     */
+    public function getVbBaja()
+    {
+        return $this->vbBaja;
+    }
+
+    /**
+     * Set tbgSaca.
+     *
+     * @param int $tbgSaca
+     *
+     * @return EstadisticaFinal
+     */
+    public function setTbgSaca($tbgSaca)
+    {
+        $this->tbgSaca = $tbgSaca;
+
+        return $this;
+    }
+
+    /**
+     * Get tbgSaca.
+     *
+     * @return int
+     */
+    public function getTbgSaca()
+    {
+        return $this->tbgSaca;
+    }
+
+    /**
+     * Set tbgBaja.
+     *
+     * @param int $tbgBaja
+     *
+     * @return EstadisticaFinal
+     */
+    public function setTbgBaja($tbgBaja)
+    {
+        $this->tbgBaja = $tbgBaja;
+
+        return $this;
+    }
+
+    /**
+     * Get tbgBaja.
+     *
+     * @return int
+     */
+    public function getTbgBaja()
+    {
+        return $this->tbgBaja;
+    }
+
+    /**
+     * Set series.
+     *
+     * @param json $series
+     *
+     * @return EstadisticaFinal
+     */
+    public function setSeries($series)
+    {
+        $this->series = $series;
+
+        return $this;
+    }
+
+    /**
+     * Get series.
+     *
+     * @return json
+     */
+    public function getSeries()
+    {
+        return $this->series;
     }
 }

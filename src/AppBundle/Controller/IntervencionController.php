@@ -7,6 +7,8 @@ use AppBundle\Entity\Pozo;
 use AppBundle\Entity\Equipo;
 use AppBundle\Form\IntervencionPozoType;
 use AppBundle\Form\IntervencionEquipoType;
+use AppBundle\Services\EstadisticaManager;
+use AppBundle\Services\IntervencionesManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -125,6 +127,7 @@ class IntervencionController extends Controller
             $intervencionCierre = $intervencionesManager->getIntervencionCierre($equipo->getId(), $intervencion->getFecha());
 
             $intervArr[] = [
+              'id'   => $intervencion->getId(),
               'pozo' => $intervencion->getPozo(),
               'yacimiento' => $intervencion->getPozo()->getYacimiento(),
               'compania' => $intervencion->getPozo()->getYacimiento()->getCompania(),
@@ -145,6 +148,23 @@ class IntervencionController extends Controller
           'equipo' => $equipo,
           'form' => $form->createView(),
           'intervenciones' => $intervencionesPag
+        ]);
+    }
+
+
+    public function reporteIntervencionAction(Intervencion $intervencion)
+    {
+        $estadisticaFinal = $this->get(EstadisticaManager::class)->getByIntervencion($intervencion);
+
+        $cierre = $this->get(IntervencionesManager::class)->getIntervencionCierreByIntervencion($intervencion);
+
+        // dump($estadisticaFinal);
+        // dump($cierre);
+
+        return $this->render(':reports:reporte_intervencion.html.twig', [
+            'estadisticaFinal' => $estadisticaFinal,
+            'intervencion' => $intervencion,
+            'cierre' => $cierre
         ]);
     }
 }
