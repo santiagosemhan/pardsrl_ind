@@ -6,6 +6,7 @@ namespace AppBundle\Services;
 use AppBundle\Entity\Equipo;
 use AppBundle\Entity\Persona;
 use AppBundle\Entity\Intervencion;
+use AppBundle\Entity\EstadisticaFinal;
 use Doctrine\ORM\EntityManager;
 
 class EstadisticaManager
@@ -282,5 +283,12 @@ class EstadisticaManager
         }
 
         return $data;
+    }
+
+    public function getByIntervencion(Intervencion $intervencion)
+    {
+        $estadisticaFinal = $this->em->getRepository(EstadisticaFinal::class)->findOneBy(['intervencion'=>$intervencion]);
+
+        return $estadisticaFinal;
     }
 }
