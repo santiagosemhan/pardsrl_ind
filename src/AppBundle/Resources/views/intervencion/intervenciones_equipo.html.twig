@@ -75,7 +75,8 @@
                   <td>{{ intervencion.creado | date('d/m/Y H:i:s') }}</td>
                   <td>{{ intervencion.creado_por }}</td>
                   <td>
-                    <a title="Ver reporte de intervenciones" class="btn btn-default btn-sm" href="{{ path('intervencion_reporte', { 'id': intervencion.id }) }}" target="_blank"><i class="fa fa-file-text-o"></i></a>
+                    <a title="Ver reporte de intervención" class="btn btn-default btn-sm" href="{{ path('intervencion_reporte', { 'id': intervencion.id }) }}" target="_blank"><i class="fa fa-file-text-o"></i></a>
+                    <a style="margin-left: 2px;"title="Imprimir reporte de intervención" class="btn btn-default btn-sm" href="#" onclick="window.open('{{ path('intervencion_reporte', { 'id': intervencion.id }) }}','Imprimir Reporte','width=1024,height=800').print()"><i class="fa fa-print"></i></a>
                   </td>
                 </tr>
               {% endfor %}
