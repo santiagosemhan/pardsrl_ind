@@ -224,16 +224,18 @@
         <!-- /.row -->
       </div>
 
+      {% if estadisticaFinal.observaciones %}
       <!-- /.row -->
       <div class="row">
         <div class="col-xs-12">
           <p class="lead">Observaciones</p>
 
           <div class="observaciones">
-            <p class="text-justify">{{ estadisticaFinal.observaciones}}</p>
+            <p class="text-justify">{{ estadisticaFinal.observaciones }}</p>
           </div>
         </div>
       </div>
+      {% endif %}
 
       <div class="row">
         <!-- accepted payments column -->
