@@ -202,7 +202,12 @@ class EstadisticaManager
 
                 $intervencionCierre = $intervencionCierreQb->getQuery()->getOneOrNullResult();
 
-                $fhasta = $intervencionCierre->getFecha()->format('U') * 1000;
+                if ($intervencionCierre) {
+                    $fhasta = $intervencionCierre->getFecha()->format('U') * 1000;
+                } else {
+                    $fechaActual = new \DateTime();
+                    $fhasta = $fechaActual->format('U') * 1000;
+                }
 
                 $data[] = array(
                     'x' => $promedio['fecha']->getTimestamp()*1000,
@@ -235,7 +240,12 @@ class EstadisticaManager
 
                 $intervencionCierre = $intervencionCierreQb->getQuery()->getOneOrNullResult();
 
-                $fhasta = $intervencionCierre->getFecha()->format('U') * 1000;
+                if ($intervencionCierre) {
+                    $fhasta = $intervencionCierre->getFecha()->format('U') * 1000;
+                } else {
+                    $fechaActual = new \DateTime();
+                    $fhasta = $fechaActual->format('U') * 1000;
+                }
 
                 $data[] = array(
                     'x' => $promedio['fecha']->getTimestamp()*1000,
@@ -269,7 +279,12 @@ class EstadisticaManager
 
                 $intervencionCierre = $intervencionCierreQb->getQuery()->getOneOrNullResult();
 
-                $fhasta = $intervencionCierre->getFecha()->format('U') * 1000;
+                if ($intervencionCierre) {
+                    $fhasta = $intervencionCierre->getFecha()->format('U') * 1000;
+                } else {
+                    $fechaActual = new \DateTime();
+                    $fhasta = $fechaActual->format('U') * 1000;
+                }
 
                 $data[] = array(
                     'y'             => floatval($promedio['ftu']),
