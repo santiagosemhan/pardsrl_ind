@@ -142,19 +142,19 @@
                 </tr>
                 <tr>
                   <th>Promedio Caños Hora (Single):</th>
-                  <td>Sacando: {{ estadisticaFinal.promCanosHoraSacaSingle |round(0, 'ceil') }} Tbg/h, Bajando: {{ estadisticaFinal.promCanosHoraBajaSingle |round(0, 'ceil') }} Tbg/h</td>
+                  <td><b>Sacando:</b> {{ estadisticaFinal.promCanosHoraSacaSingle |round(0, 'ceil') }} Tbg/h, <b>Bajando:</b> {{ estadisticaFinal.promCanosHoraBajaSingle |round(0, 'ceil') }} Tbg/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Caños Hora (Doble):</th>
-                  <td>Sacando: {{ estadisticaFinal.promCanosHoraSacaDoble |round(0, 'ceil') }} Tbg/h, Bajando: {{ estadisticaFinal.promCanosHoraBajaDoble |round(0, 'ceil') }} Tbg/h</td>
+                  <td><b>Sacando:</b> {{ estadisticaFinal.promCanosHoraSacaDoble |round(0, 'ceil') }} Tbg/h, <b>Bajando:</b> {{ estadisticaFinal.promCanosHoraBajaDoble |round(0, 'ceil') }} Tbg/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Vb Hora (Single):</th>
-                  <td>Sacando: {{ estadisticaFinal.promVbSacaSingle |round(0, 'ceil') }} Vb/h, Bajando: {{ estadisticaFinal.promVbBajaSingle |round(0, 'ceil') }} Vb/h</td>
+                  <td><b>Sacando:</b> {{ estadisticaFinal.promVbSacaSingle |round(0, 'ceil') }} Vb/h, <b>Bajando:</b> {{ estadisticaFinal.promVbBajaSingle |round(0, 'ceil') }} Vb/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Vb Hora (Doble):</th>
-                  <td>Sacando: {{ estadisticaFinal.promVbSacaDoble |round(0, 'ceil') }} Vb/h, Bajando: {{ estadisticaFinal.promVbBajaDoble |round(0, 'ceil') }} Vb/h</td>
+                  <td><b>Sacando:</b> {{ estadisticaFinal.promVbSacaDoble |round(0, 'ceil') }} Vb/h, <b>Bajando:</b> {{ estadisticaFinal.promVbBajaDoble |round(0, 'ceil') }} Vb/h</td>
                 </tr>
                 <tr>
                   <th>Tiempo de maniobras:</th>
@@ -162,11 +162,11 @@
                 </tr>
                 <tr>
                   <th>* Varillas Total:</th>
-                  <td>Sacando: {{ estadisticaFinal.vbSaca }}, Bajando: {{ estadisticaFinal.vbBaja }}</td>
+                  <td><b>Sacando:</b> {{ estadisticaFinal.vbSaca }}, <b>Bajando:</b> {{ estadisticaFinal.vbBaja }}</td>
                 </tr>
                 <tr>
                   <th>* Tubing Total:</th>
-                  <td>Sacando: {{ estadisticaFinal.tbgSaca }}, Bajando: {{ estadisticaFinal.tbgBaja }}</td>
+                  <td><b>Sacando:</b> {{ estadisticaFinal.tbgSaca }}, <b>Bajando:</b> {{ estadisticaFinal.tbgBaja }}</td>
                 </tr>
                 <tr>
                   <td colspan="2">(*) Referente al movimiento de Cañerías</td>
@@ -202,8 +202,8 @@
                 {% for item in estadisticaFinal.series.items  %}
                 <tr>
                   <td>{{ item.nro }}</td>
-                  <td>{{ item.fecha_inicio }}</td>
-                  <td>{{ item.fecha_fin }}</td>
+                  <td>{{ item.fecha_inicio ? item.fecha_inicio | date("d/m/Y H:i:s") : ''}}</td>
+                  <td>{{ item.fecha_fin ? item.fecha_fin | date("d/m/Y H:i:s") : ''}}</td>
                   <td>{{ item.accion }}</td>
                   <td>{{ item.material }}</td>
                   <td>{{ item.combinacion }}</td>
