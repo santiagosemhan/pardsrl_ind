@@ -142,23 +142,23 @@
                 </tr>
                 <tr>
                   <th>Promedio Caños Hora (Single):</th>
-                  <td>Sacando: {{ estadisticaFinal.promCanosHoraSacaSingle |round(2, 'ceil') }}, Bajando: {{ estadisticaFinal.promCanosHoraBajaSingle |round(2, 'ceil') }}</td>
+                  <td>Sacando: {{ estadisticaFinal.promCanosHoraSacaSingle |round(0, 'ceil') }} Tbg/h, Bajando: {{ estadisticaFinal.promCanosHoraBajaSingle |round(0, 'ceil') }} Tbg/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Caños Hora (Doble):</th>
-                  <td>Sacando: {{ estadisticaFinal.promCanosHoraSacaDoble |round(2, 'ceil') }}, Bajando: {{ estadisticaFinal.promCanosHoraBajaDoble |round(2, 'ceil') }}</td>
+                  <td>Sacando: {{ estadisticaFinal.promCanosHoraSacaDoble |round(0, 'ceil') }} Tbg/h, Bajando: {{ estadisticaFinal.promCanosHoraBajaDoble |round(0, 'ceil') }} Tbg/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Vb Hora (Single):</th>
-                  <td>Sacando: {{ estadisticaFinal.promVbSacaSingle |round(2, 'ceil') }}, Bajando: {{ estadisticaFinal.promVbBajaSingle |round(2, 'ceil') }}</td>
+                  <td>Sacando: {{ estadisticaFinal.promVbSacaSingle |round(0, 'ceil') }} Vb/h, Bajando: {{ estadisticaFinal.promVbBajaSingle |round(0, 'ceil') }} Vb/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Vb Hora (Doble):</th>
-                  <td>Sacando: {{ estadisticaFinal.promVbSacaDoble |round(2, 'ceil') }}, Bajando: {{ estadisticaFinal.promVbBajaDoble |round(2, 'ceil') }}</td>
+                  <td>Sacando: {{ estadisticaFinal.promVbSacaDoble |round(0, 'ceil') }} Vb/h, Bajando: {{ estadisticaFinal.promVbBajaDoble |round(0, 'ceil') }} Vb/h</td>
                 </tr>
                 <tr>
-                  <th>Factor de tiempo útil:</th>
-                  <td>{{ estadisticaFinal.ftu }}</td>
+                  <th>Tiempo de maniobras:</th>
+                  <td>{{ estadisticaFinal.tiempoManiobras }}</td>
                 </tr>
                 <tr>
                   <th>* Varillas Total:</th>
@@ -196,7 +196,7 @@
                   <th>Combinación</th>
                   <th>Cantidad</th>
                   <th>Duración [min]</th>
-                  <th>Promedio [hora]</th>
+                  <th>Promedio</th>
                 </tr>
                 {% if estadisticaFinal.series and estadisticaFinal.series.items is defined %}
                 {% for item in estadisticaFinal.series.items  %}
@@ -209,7 +209,7 @@
                   <td>{{ item.combinacion }}</td>
                   <td>{{ item.cantidad }}</td>
                   <td>{{ item.duracion }}</td>
-                  <td>{{ item.promedio | number_format(3) | round(2, 'ceil') }}</td>
+                  <td>{{ item.promedio | number_format(3) | round(0, 'ceil') }} {{ item.material ~ '/hora' }}</td>
                 </tr>
                 {% endfor %}
                 {% else %}
