@@ -181,6 +181,54 @@
 
       <!-- /.row -->
       <div class="row">
+        <div class="col-xs-8">
+          <p class="lead">Detalle del transporte</p>
+          {% if transporte.transportes %}
+          <table class="table">
+            <tbody>
+              <tr>
+                <th style="width:200px">Inicio:</th>
+                <td colspan="3">{{ transporte.inicio | date("d/m/Y H:i:s") }}</td>
+              </tr>
+              <tr>
+                <th>Fin:</th>
+                <td colspan="3">{{ transporte.fin| date("d/m/Y H:i:s")  }}</td>
+              </tr>
+              <tr>
+                <th>Kms recorridos:</th>
+                <td colspan="3">{{ transporte.kmsRecorridos }}</td>
+              </tr>
+              <tr>
+                <th>Tiempo total:</th>
+                <td colspan="3">{{ transporte.tiempoTotal }}</td>
+              </tr>
+              <tr>
+                <th>Tiempos detenidos:</th>
+                <td><b>Total:</b> {{ transporte.tiempoTotalDetenido | date("%h:%i") }}</td>
+              </tr>
+              {% for tiempoDetenido in transporte.tiemposDetenidos %}
+              <tr>
+                <td></td>
+                <td><b>Desde:</b> {{ tiempoDetenido.inicio | date("d/m/Y H:i:s") }}</td>
+                <td><b>Hasta:</b> {{ tiempoDetenido.fin | date("d/m/Y H:i:s") }}</td>
+                <td><b>Duración:</b> {{ tiempoDetenido.duracion | date("%h:%i")}}</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="4"><p>No se han detectado tiempos detenidos en el transporte asociado.</p></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+            <p>No se han detectado transportes relacionados a la intervención.</p>
+          {% endif %}
+  </div>
+        <!-- /.row -->
+      </div>
+
+      <!-- /.row -->
+      <div class="row">
         <div class="col-xs-12">
           <p class="lead">Detalle de las series</p>
 

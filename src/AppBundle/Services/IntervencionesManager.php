@@ -29,6 +29,11 @@ class IntervencionesManager
         return  $this->getIntervencionRepository()->getUltimasIntervencionesByEquipo($equipoId);
     }
 
+    public function getUltimasIntervencionesAperturaByEquipo($equipoId)
+    {
+        return  $this->getIntervencionRepository()->getUltimasIntervencionesByEquipo($equipoId)->andWhere('interv.accion = 0')->getQuery()->getResult();
+    }
+
     public function getUltimasIntervencionesByPozo($pozoId)
     {
         return  $this->getIntervencionRepository()->getUltimasIntervencionesByPozo($pozoId);
@@ -55,6 +60,15 @@ class IntervencionesManager
         $fechaApertura = $intervencion->getFecha();
 
         return $this->getIntervencionCierre($equipo, $fechaApertura);
+    }
+
+    public function getIntervencionAnterior(Intervencion $intervencion)
+    {
+        $equipoId = $intervencion->getEquipo()->getId();
+
+        $fecha = $intervencion->getFecha();
+
+        return $this->getIntervencionRepository()->getIntervencionAnterior($equipoId, $fecha)->getQuery()->getOneOrNullResult();
     }
 
     public function getPozosElegibles()

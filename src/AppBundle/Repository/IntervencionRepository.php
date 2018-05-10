@@ -126,4 +126,9 @@ class IntervencionRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb;
     }
+
+    public function getIntervencionAnterior($equipo, $fecha)
+    {
+        return $this->getUltimaIntervencionByEquipo($equipo)->andWhere('interv.fecha < :fecha')->setParameter('fecha', $fecha);
+    }
 }
