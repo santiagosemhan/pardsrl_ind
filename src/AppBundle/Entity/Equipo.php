@@ -81,6 +81,8 @@ class Equipo extends BaseClass
     private $personas;
 
     /**
+     *
+     * @ORM\OrderBy({"fecha" = "ASC"})
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Intervencion", mappedBy="equipo")
      */
     private $intervenciones;

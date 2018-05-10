@@ -314,7 +314,7 @@ class EstadisticaManager
     }
 
 
-    public function getTiemposDetenidosTransporte(Intervencion $intervencion)
+    public function getTiemposTransporte(Intervencion $intervencion)
     {
         $intervencionAnterior = $this->intervencionManager->getIntervencionAnterior($intervencion);
 
@@ -332,6 +332,8 @@ class EstadisticaManager
 
         $kmsRecorridos = 0;
         $tiempoTotal = 0;
+        $inicioTransporte = null;
+        $finTransporte    = null;
         $tiemposDetenidos = [];
         $tiempoTotalDetenido = new \DateTime('00:00');
         $zeroTiempoTotalDetenido = clone $tiempoTotalDetenido;
@@ -357,6 +359,15 @@ class EstadisticaManager
 
                     $tiempoTotalDetenido->add($duracion);
                 }
+
+                // es la última iteración, por ende el último transporte
+                if ($index + 1 == count($transportes)) {
+                    // fin del transporte
+                    $finTransporte = $transporte->getFin();
+                }
+            } else {
+                // inicio del transporte
+                $inicioTransporte = $transporte->getInicio();
             }
 
             $transporteAnterior = $transporte;
@@ -365,8 +376,8 @@ class EstadisticaManager
         }
 
         return [
-          'inicio'              => $fdesde,
-          'fin'                 => $fhasta,
+          'inicio'              => $inicioTransporte,
+          'fin'                 => $finTransporte,
           'tiempoTotal'         => $tiempoTotal,
           'kmsRecorridos'       => $kmsRecorridos,
           'tiemposDetenidos'    => $tiemposDetenidos,
