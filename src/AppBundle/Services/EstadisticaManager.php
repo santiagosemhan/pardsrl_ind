@@ -7,15 +7,21 @@ use AppBundle\Entity\Equipo;
 use AppBundle\Entity\Persona;
 use AppBundle\Entity\Intervencion;
 use AppBundle\Entity\EstadisticaFinal;
+use AppBundle\Services\TransporteManager;
+use AppBundle\Services\IntervencionesManager;
 use Doctrine\ORM\EntityManager;
 
 class EstadisticaManager
 {
     private $em;
+    private $transporteManager;
+    private $intervencionManager;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, TransporteManager $tm, IntervencionesManager $im)
     {
         $this->em = $em;
+        $this->transporteManager = $tm;
+        $this->intervencionManager = $im;
     }
 
     public function getDistribucionOperacionesPorEquipo(Persona $persona, $desde, $hasta)
@@ -305,5 +311,67 @@ class EstadisticaManager
         $estadisticaFinal = $this->em->getRepository(EstadisticaFinal::class)->findOneBy(['intervencion'=>$intervencion]);
 
         return $estadisticaFinal;
+    }
+
+
+    public function getTiemposDetenidosTransporte(Intervencion $intervencion)
+    {
+        $intervencionAnterior = $this->intervencionManager->getIntervencionAnterior($intervencion);
+
+        $fdesde = null;
+
+        if ($intervencionAnterior) {
+            $fdesde = $intervencionAnterior->getFecha();
+        }
+
+        $equipo = $intervencion->getEquipo();
+
+        $fhasta = $intervencion->getFecha();
+
+        $transportes = $this->transporteManager->getTransportesByEquipo($equipo, ['inicio'=>'ASC'], $fdesde, $fhasta);
+
+        $kmsRecorridos = 0;
+        $tiempoTotal = 0;
+        $tiemposDetenidos = [];
+        $tiempoTotalDetenido = new \DateTime('00:00');
+        $zeroTiempoTotalDetenido = clone $tiempoTotalDetenido;
+
+        $index = 0;
+        $transporteAnterior = null;
+
+        foreach ($transportes as $transporte) {
+            $kmsRecorridos += $transporte->getKmsRecorridos();
+            $tiempoTotal   += $transporte->getTiempoTotal();
+
+            // si no es la primera iteracion
+            if ($index) {
+                // si se detuvo el transporte
+                if ($transporteAnterior->getFin() !== $transporte->getInicio()) {
+                    $duracion = $transporteAnterior->getFin()->diff($transporte->getInicio());
+
+                    $tiemposDetenidos[] = [
+                      'inicio' => $transporteAnterior->getFin(),
+                      'fin' => $transporte->getInicio(),
+                      'duracion' => $duracion
+                    ];
+
+                    $tiempoTotalDetenido->add($duracion);
+                }
+            }
+
+            $transporteAnterior = $transporte;
+
+            $index++;
+        }
+
+        return [
+          'inicio'              => $fdesde,
+          'fin'                 => $fhasta,
+          'tiempoTotal'         => $tiempoTotal,
+          'kmsRecorridos'       => $kmsRecorridos,
+          'tiemposDetenidos'    => $tiemposDetenidos,
+          'tiempoTotalDetenido' => $zeroTiempoTotalDetenido->diff($tiempoTotalDetenido),
+          'transportes'         => $transportes
+        ];
     }
 }
