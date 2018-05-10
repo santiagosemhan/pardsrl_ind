@@ -388,8 +388,6 @@ class EstadisticaManager
 
     private function convertirAHorasMinutos($time, $format = 'H:i')
     {
-        dump($time);
-
         $aTime = explode('.', $time);
 
         return date($format, mktime($aTime[0], $aTime[1]));
