@@ -7,6 +7,7 @@ use AppBundle\Entity\Pozo;
 use AppBundle\Entity\Equipo;
 use AppBundle\Form\IntervencionPozoType;
 use AppBundle\Form\IntervencionEquipoType;
+use AppBundle\Services\TransporteManager;
 use AppBundle\Services\EstadisticaManager;
 use AppBundle\Services\IntervencionesManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -116,10 +117,7 @@ class IntervencionController extends Controller
 
         $paginator = $this->get('knp_paginator');
 
-        $intervencionesQb = $intervencionesManager->getUltimasIntervencionesByEquipo($equipo->getId());
-
-        //filtro solamente aquellas que sean apertura
-        $intervenciones = $intervencionesQb->andWhere('interv.accion = 0')->getQuery()->getResult();
+        $intervenciones = $intervencionesManager->getUltimasIntervencionesAperturaByEquipo($equipo->getId());
 
         $intervArr = [];
 
@@ -158,13 +156,16 @@ class IntervencionController extends Controller
 
         $cierre = $this->get(IntervencionesManager::class)->getIntervencionCierreByIntervencion($intervencion);
 
-        // dump($estadisticaFinal);
-        // dump($cierre);
+
+        $transporte = $this->get(EstadisticaManager::class)->getTiemposDetenidosTransporte($intervencion);
+
+        //dump($transporte);
 
         return $this->render(':reports:reporte_intervencion.html.twig', [
             'estadisticaFinal' => $estadisticaFinal,
             'intervencion' => $intervencion,
-            'cierre' => $cierre
+            'cierre' => $cierre,
+            'transporte' => $transporte
         ]);
     }
 }
