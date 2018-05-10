@@ -378,11 +378,20 @@ class EstadisticaManager
         return [
           'inicio'              => $inicioTransporte,
           'fin'                 => $finTransporte,
-          'tiempoTotal'         => $tiempoTotal,
+          'tiempoTotal'         => $this->convertirAHorasMinutos($tiempoTotal),
           'kmsRecorridos'       => $kmsRecorridos,
           'tiemposDetenidos'    => $tiemposDetenidos,
           'tiempoTotalDetenido' => $zeroTiempoTotalDetenido->diff($tiempoTotalDetenido),
           'transportes'         => $transportes
         ];
+    }
+
+    private function convertirAHorasMinutos($time, $format = 'H:i')
+    {
+        dump($time);
+
+        $aTime = explode('.', $time);
+
+        return date($format, mktime($aTime[0], $aTime[1]));
     }
 }
