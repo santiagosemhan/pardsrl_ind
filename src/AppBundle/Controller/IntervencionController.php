@@ -157,7 +157,7 @@ class IntervencionController extends Controller
         $cierre = $this->get(IntervencionesManager::class)->getIntervencionCierreByIntervencion($intervencion);
 
 
-        $transporte = $this->get(EstadisticaManager::class)->getTiemposDetenidosTransporte($intervencion);
+        $transporte = $this->get(EstadisticaManager::class)->getTiemposTransporte($intervencion);
 
         //dump($transporte);
 
