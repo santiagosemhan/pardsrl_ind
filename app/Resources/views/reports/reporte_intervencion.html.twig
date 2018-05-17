@@ -122,39 +122,43 @@
       <!-- /.row -->
 
       <div class="row">
-        <div class="col-xs-8">
+        <div class="col-xs-12">
           <p class="lead">Detalle de la intervención</p>
 
           <div class="table-responsive">
             <table class="table">
               <tbody>
                 <tr>
-                  <th style="width:50%">Desde:</th>
-                  <td>{{ intervencion.fecha | date("d/m/Y H:i:s") }}</td>
+                  <th style="width:30%">Desde:</th>
+                  <td colspan="2">{{ intervencion.fecha | date("d/m/Y H:i:s") }}</td>
                 </tr>
                 <tr>
                   <th>Hasta:</th>
-                  <td>{{ cierre is not empty ? cierre.fecha| date("d/m/Y H:i:s") : "Actualmente Interviniendo" }}</td>
+                  <td colspan="2">{{ cierre is not empty ? cierre.fecha| date("d/m/Y H:i:s") : "Actualmente Interviniendo" }}</td>
                 </tr>
                 <tr>
                   <th>Total de intervención (Hs):</th>
-                  <td>{{ estadisticaFinal.tiempoTotal }}</td>
+                  <td colspan="2">{{ estadisticaFinal.tiempoTotal }}</td>
                 </tr>
                 <tr>
                   <th>Promedio Caños Hora (Single):</th>
                   <td><b>Sacando:</b> {{ estadisticaFinal.promCanosHoraSacaSingle |round(0, 'ceil') }} Tbg/h, <b>Bajando:</b> {{ estadisticaFinal.promCanosHoraBajaSingle |round(0, 'ceil') }} Tbg/h</td>
+                  <td><b>Sacando (Bruto):</b> {{ estadisticaFinal.promCanosHoraSacaSingleBruto |round(0, 'ceil') }} Tbg/h, <b>Bajando (Bruto):</b> {{ estadisticaFinal.promCanosHoraBajaSingleBruto |round(0, 'ceil') }} Tbg/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Caños Hora (Doble):</th>
                   <td><b>Sacando:</b> {{ estadisticaFinal.promCanosHoraSacaDoble |round(0, 'ceil') }} Tbg/h, <b>Bajando:</b> {{ estadisticaFinal.promCanosHoraBajaDoble |round(0, 'ceil') }} Tbg/h</td>
+                  <td><b>Sacando (Bruto):</b> {{ estadisticaFinal.promCanosHoraSacaDobleBruto |round(0, 'ceil') }} Tbg/h, <b>Bajando (Bruto):</b> {{ estadisticaFinal.promCanosHoraBajaDobleBruto |round(0, 'ceil') }} Tbg/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Vb Hora (Single):</th>
                   <td><b>Sacando:</b> {{ estadisticaFinal.promVbSacaSingle |round(0, 'ceil') }} Vb/h, <b>Bajando:</b> {{ estadisticaFinal.promVbBajaSingle |round(0, 'ceil') }} Vb/h</td>
+                  <td><b>Sacando (Bruto):</b> {{ estadisticaFinal.promVbSacaSingleBruto |round(0, 'ceil') }} Vb/h, <b>Bajando (Bruto):</b> {{ estadisticaFinal.promVbBajaSingleBruto |round(0, 'ceil') }} Vb/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Vb Hora (Doble):</th>
                   <td><b>Sacando:</b> {{ estadisticaFinal.promVbSacaDoble |round(0, 'ceil') }} Vb/h, <b>Bajando:</b> {{ estadisticaFinal.promVbBajaDoble |round(0, 'ceil') }} Vb/h</td>
+                  <td><b>Sacando (Bruto):</b> {{ estadisticaFinal.promVbSacaDobleBruto |round(0, 'ceil') }} Vb/h, <b>Bajando (Bruto):</b> {{ estadisticaFinal.promVbBajaDobleBruto |round(0, 'ceil') }} Vb/h</td>
                 </tr>
                 <tr>
                   <th>Tiempo de maniobras:</th>
@@ -162,14 +166,14 @@
                 </tr>
                 <tr>
                   <th>* Varillas Total:</th>
-                  <td><b>Sacando:</b> {{ estadisticaFinal.vbSaca }}, <b>Bajando:</b> {{ estadisticaFinal.vbBaja }}</td>
+                  <td colspan="2"><b>Sacando:</b> {{ estadisticaFinal.vbSaca }}, <b>Bajando:</b> {{ estadisticaFinal.vbBaja }}</td>
                 </tr>
                 <tr>
                   <th>* Tubing Total:</th>
-                  <td><b>Sacando:</b> {{ estadisticaFinal.tbgSaca }}, <b>Bajando:</b> {{ estadisticaFinal.tbgBaja }}</td>
+                  <td colspan="2"><b>Sacando:</b> {{ estadisticaFinal.tbgSaca }}, <b>Bajando:</b> {{ estadisticaFinal.tbgBaja }}</td>
                 </tr>
                 <tr>
-                  <td colspan="2">(*) Referente al movimiento de Cañerías</td>
+                  <td colspan="3">(*) Referente al movimiento de Cañerías</td>
                 </tr>
               </tbody>
             </table>
