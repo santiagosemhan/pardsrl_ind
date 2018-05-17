@@ -127,6 +127,62 @@ class EstadisticaFinal
     private $promVbBajaDoble;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="prom_canos_hora_saca_single_bruto", type="float")
+     */
+    private $promCanosHoraSacaSingleBruto;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prom_canos_hora_baja_single_bruto", type="float")
+     */
+    private $promCanosHoraBajaSingleBruto;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prom_canos_hora_saca_doble_bruto", type="float")
+     */
+    private $promCanosHoraSacaDobleBruto;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prom_canos_hora_baja_doble_bruto", type="float")
+     */
+    private $promCanosHoraBajaDobleBruto;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prom_vb_saca_single_bruto", type="float")
+     */
+    private $promVbSacaSingleBruto;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prom_vb_baja_single_bruto", type="float")
+     */
+    private $promVbBajaSingleBruto;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prom_vb_saca_doble_bruto", type="float")
+     */
+    private $promVbSacaDobleBruto;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prom_vb_baja_doble_bruto", type="float")
+     */
+    private $promVbBajaDobleBruto;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="vb_saca", type="integer")
@@ -766,5 +822,197 @@ class EstadisticaFinal
     public function getSeries()
     {
         return $this->series;
+    }
+
+    /**
+     * Set promCanosHoraSacaSingleBruto.
+     *
+     * @param float $promCanosHoraSacaSingleBruto
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromCanosHoraSacaSingleBruto($promCanosHoraSacaSingleBruto)
+    {
+        $this->promCanosHoraSacaSingleBruto = $promCanosHoraSacaSingleBruto;
+
+        return $this;
+    }
+
+    /**
+     * Get promCanosHoraSacaSingleBruto.
+     *
+     * @return float
+     */
+    public function getPromCanosHoraSacaSingleBruto()
+    {
+        return $this->promCanosHoraSacaSingleBruto;
+    }
+
+    /**
+     * Set promCanosHoraBajaSingleBruto.
+     *
+     * @param float $promCanosHoraBajaSingleBruto
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromCanosHoraBajaSingleBruto($promCanosHoraBajaSingleBruto)
+    {
+        $this->promCanosHoraBajaSingleBruto = $promCanosHoraBajaSingleBruto;
+
+        return $this;
+    }
+
+    /**
+     * Get promCanosHoraBajaSingleBruto.
+     *
+     * @return float
+     */
+    public function getPromCanosHoraBajaSingleBruto()
+    {
+        return $this->promCanosHoraBajaSingleBruto;
+    }
+
+    /**
+     * Set promCanosHoraSacaDobleBruto.
+     *
+     * @param float $promCanosHoraSacaDobleBruto
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromCanosHoraSacaDobleBruto($promCanosHoraSacaDobleBruto)
+    {
+        $this->promCanosHoraSacaDobleBruto = $promCanosHoraSacaDobleBruto;
+
+        return $this;
+    }
+
+    /**
+     * Get promCanosHoraSacaDobleBruto.
+     *
+     * @return float
+     */
+    public function getPromCanosHoraSacaDobleBruto()
+    {
+        return $this->promCanosHoraSacaDobleBruto;
+    }
+
+    /**
+     * Set promCanosHoraBajaDobleBruto.
+     *
+     * @param float $promCanosHoraBajaDobleBruto
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromCanosHoraBajaDobleBruto($promCanosHoraBajaDobleBruto)
+    {
+        $this->promCanosHoraBajaDobleBruto = $promCanosHoraBajaDobleBruto;
+
+        return $this;
+    }
+
+    /**
+     * Get promCanosHoraBajaDobleBruto.
+     *
+     * @return float
+     */
+    public function getPromCanosHoraBajaDobleBruto()
+    {
+        return $this->promCanosHoraBajaDobleBruto;
+    }
+
+    /**
+     * Set promVbSacaSingleBruto.
+     *
+     * @param float $promVbSacaSingleBruto
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromVbSacaSingleBruto($promVbSacaSingleBruto)
+    {
+        $this->promVbSacaSingleBruto = $promVbSacaSingleBruto;
+
+        return $this;
+    }
+
+    /**
+     * Get promVbSacaSingleBruto.
+     *
+     * @return float
+     */
+    public function getPromVbSacaSingleBruto()
+    {
+        return $this->promVbSacaSingleBruto;
+    }
+
+    /**
+     * Set promVbBajaSingleBruto.
+     *
+     * @param float $promVbBajaSingleBruto
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromVbBajaSingleBruto($promVbBajaSingleBruto)
+    {
+        $this->promVbBajaSingleBruto = $promVbBajaSingleBruto;
+
+        return $this;
+    }
+
+    /**
+     * Get promVbBajaSingleBruto.
+     *
+     * @return float
+     */
+    public function getPromVbBajaSingleBruto()
+    {
+        return $this->promVbBajaSingleBruto;
+    }
+
+    /**
+     * Set promVbSacaDobleBruto.
+     *
+     * @param float $promVbSacaDobleBruto
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromVbSacaDobleBruto($promVbSacaDobleBruto)
+    {
+        $this->promVbSacaDobleBruto = $promVbSacaDobleBruto;
+
+        return $this;
+    }
+
+    /**
+     * Get promVbSacaDobleBruto.
+     *
+     * @return float
+     */
+    public function getPromVbSacaDobleBruto()
+    {
+        return $this->promVbSacaDobleBruto;
+    }
+
+    /**
+     * Set promVbBajaDobleBruto.
+     *
+     * @param float $promVbBajaDobleBruto
+     *
+     * @return EstadisticaFinal
+     */
+    public function setPromVbBajaDobleBruto($promVbBajaDobleBruto)
+    {
+        $this->promVbBajaDobleBruto = $promVbBajaDobleBruto;
+
+        return $this;
+    }
+
+    /**
+     * Get promVbBajaDobleBruto.
+     *
+     * @return float
+     */
+    public function getPromVbBajaDobleBruto()
+    {
+        return $this->promVbBajaDobleBruto;
     }
 }
