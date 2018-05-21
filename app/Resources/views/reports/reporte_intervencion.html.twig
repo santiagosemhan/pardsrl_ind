@@ -141,24 +141,28 @@
                   <td colspan="2">{{ estadisticaFinal.tiempoTotal }}</td>
                 </tr>
                 <tr>
+                  <th>Promedio Caños Hora (Bruto):</th>
+                  <td><b>Sacando:</b> {{ estadisticaFinal.promCanosHoraSacaBruto |round(0, 'ceil') }} Tbg/h, <b>Bajando:</b> {{ estadisticaFinal.promCanosHoraBajaBruto |round(0, 'ceil') }} Tbg/h</td>
+                </tr>
+                <tr>
+                  <th>Promedio Vb Hora (Bruto):</th>
+                  <td><b>Sacando:</b> {{ estadisticaFinal.promVbSacaBruto |round(0, 'ceil') }} Vb/h, <b>Bajando:</b> {{ estadisticaFinal.promVbBajaBruto |round(0, 'ceil') }} Vb/h</td>
+                </tr>
+                <tr>
                   <th>Promedio Caños Hora (Single):</th>
                   <td><b>Sacando:</b> {{ estadisticaFinal.promCanosHoraSacaSingle |round(0, 'ceil') }} Tbg/h, <b>Bajando:</b> {{ estadisticaFinal.promCanosHoraBajaSingle |round(0, 'ceil') }} Tbg/h</td>
-                  <td><b>Sacando (Bruto):</b> {{ estadisticaFinal.promCanosHoraSacaSingleBruto |round(0, 'ceil') }} Tbg/h, <b>Bajando (Bruto):</b> {{ estadisticaFinal.promCanosHoraBajaSingleBruto |round(0, 'ceil') }} Tbg/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Caños Hora (Doble):</th>
                   <td><b>Sacando:</b> {{ estadisticaFinal.promCanosHoraSacaDoble |round(0, 'ceil') }} Tbg/h, <b>Bajando:</b> {{ estadisticaFinal.promCanosHoraBajaDoble |round(0, 'ceil') }} Tbg/h</td>
-                  <td><b>Sacando (Bruto):</b> {{ estadisticaFinal.promCanosHoraSacaDobleBruto |round(0, 'ceil') }} Tbg/h, <b>Bajando (Bruto):</b> {{ estadisticaFinal.promCanosHoraBajaDobleBruto |round(0, 'ceil') }} Tbg/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Vb Hora (Single):</th>
                   <td><b>Sacando:</b> {{ estadisticaFinal.promVbSacaSingle |round(0, 'ceil') }} Vb/h, <b>Bajando:</b> {{ estadisticaFinal.promVbBajaSingle |round(0, 'ceil') }} Vb/h</td>
-                  <td><b>Sacando (Bruto):</b> {{ estadisticaFinal.promVbSacaSingleBruto |round(0, 'ceil') }} Vb/h, <b>Bajando (Bruto):</b> {{ estadisticaFinal.promVbBajaSingleBruto |round(0, 'ceil') }} Vb/h</td>
                 </tr>
                 <tr>
                   <th>Promedio Vb Hora (Doble):</th>
                   <td><b>Sacando:</b> {{ estadisticaFinal.promVbSacaDoble |round(0, 'ceil') }} Vb/h, <b>Bajando:</b> {{ estadisticaFinal.promVbBajaDoble |round(0, 'ceil') }} Vb/h</td>
-                  <td><b>Sacando (Bruto):</b> {{ estadisticaFinal.promVbSacaDobleBruto |round(0, 'ceil') }} Vb/h, <b>Bajando (Bruto):</b> {{ estadisticaFinal.promVbBajaDobleBruto |round(0, 'ceil') }} Vb/h</td>
                 </tr>
                 <tr>
                   <th>Tiempo de maniobras:</th>
