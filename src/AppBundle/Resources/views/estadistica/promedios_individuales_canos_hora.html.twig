@@ -5,7 +5,7 @@
 
         // { { dump(data) }}
 
-        var url = '{{ path('equipo_graficas_historicas', { 'id': equipo.id ,'fintervencion':'__fintervencion__' , 'fdesde': '__fdesde__' , 'fhasta': '__fhasta__' }) }}';
+        var url_template = '{{ path('equipo_graficas_historicas', { 'id': equipo.id ,'fintervencion':'__fintervencion__' , 'fdesde': '__fdesde__' , 'fhasta': '__fhasta__' }) }}';
 
         $('#prom-canos-hora').highcharts({
             chart: {
@@ -50,7 +50,7 @@
                         events: {
                             click: function (e) {
 
-                                url = url
+                                let url = url_template
                                 .replace(/__fintervencion__/g, e.point.fintervencion)
                                 .replace(/__fdesde__/g, e.point.fdesde)
                                 .replace(/__fhasta__/g, e.point.fhasta)
