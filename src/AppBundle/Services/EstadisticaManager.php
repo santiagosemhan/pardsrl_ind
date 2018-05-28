@@ -339,14 +339,17 @@ class EstadisticaManager
         $zeroTiempoTotalDetenido = clone $tiempoTotalDetenido;
 
         $index = 0;
+        $totalTransportes = count($transportes);
         $transporteAnterior = null;
 
         foreach ($transportes as $transporte) {
             $kmsRecorridos += $transporte->getKmsRecorridos();
             $tiempoTotal   += $transporte->getTiempoTotal();
 
-            // si no es la primera iteracion
-            if ($index) {
+            // inicio del transporte
+            if ($index == 0) {
+                $inicioTransporte = $transporte->getInicio();
+            } else {
                 // si se detuvo el transporte
                 if ($transporteAnterior->getFin() !== $transporte->getInicio()) {
                     $duracion = $transporteAnterior->getFin()->diff($transporte->getInicio());
@@ -359,15 +362,12 @@ class EstadisticaManager
 
                     $tiempoTotalDetenido->add($duracion);
                 }
+            }
 
-                // es la última iteración, por ende el último transporte
-                if ($index + 1 == count($transportes)) {
-                    // fin del transporte
-                    $finTransporte = $transporte->getFin();
-                }
-            } else {
-                // inicio del transporte
-                $inicioTransporte = $transporte->getInicio();
+            // es la última iteración, por ende el último transporte
+            if ($index ==  $totalTransportes - 1) {
+                // fin del transporte
+                $finTransporte = $transporte->getFin();
             }
 
             $transporteAnterior = $transporte;
