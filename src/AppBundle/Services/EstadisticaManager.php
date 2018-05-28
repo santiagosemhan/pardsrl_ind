@@ -354,13 +354,16 @@ class EstadisticaManager
                 if ($transporteAnterior->getFin() !== $transporte->getInicio()) {
                     $duracion = $transporteAnterior->getFin()->diff($transporte->getInicio());
 
-                    $tiemposDetenidos[] = [
-                      'inicio' => $transporteAnterior->getFin(),
-                      'fin' => $transporte->getInicio(),
-                      'duracion' => $duracion
-                    ];
+                    // si existe una diferencia y no es 0
+                    if ($duracion) {
+                        $tiemposDetenidos[] = [
+                        'inicio' => $transporteAnterior->getFin(),
+                        'fin' => $transporte->getInicio(),
+                        'duracion' => $duracion
+                      ];
 
-                    $tiempoTotalDetenido->add($duracion);
+                        $tiempoTotalDetenido->add($duracion);
+                    }
                 }
             }
 
