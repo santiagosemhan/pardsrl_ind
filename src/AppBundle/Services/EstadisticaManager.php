@@ -389,10 +389,11 @@ class EstadisticaManager
         ];
     }
 
-    private function convertirAHorasMinutos($time, $format = 'H:i')
+    private function convertirAHorasMinutos($time)
     {
-        $aTime = explode('.', $time);
+        $hour = floor($time);
+        $fraction = $time - $hour;
 
-        return date($format, mktime($aTime[0], $aTime[1]));
+        return str_replace('.', ':', number_format($hour + round($fraction * 0.60, 2, PHP_ROUND_HALF_UP), 2));
     }
 }
