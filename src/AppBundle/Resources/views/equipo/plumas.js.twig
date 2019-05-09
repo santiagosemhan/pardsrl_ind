@@ -45,7 +45,7 @@ function cargarDatosTrPl(event) {
                   break;
               }
 
-              serie && serie.addPoint([metric.time, metric.value], false, shift);
+              serie && serie.addPoint([new Date(metric.time), metric.value], false, shift);
             });
 
             trpl.redraw();
