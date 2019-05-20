@@ -1,0 +1,38 @@
+{
+  "entrypoints": {
+    "app": {
+      "css": [
+        "/build/app.css"
+      ],
+      "js": [
+        "/build/app.js"
+      ]
+    },
+    "global": {
+      "js": [
+        "/build/global.js"
+      ]
+    },
+    "highcharts": {
+      "js": [
+        "/build/highcharts.js"
+      ]
+    },
+    "login": {
+      "css": [
+        "/build/login.css"
+      ],
+      "js": [
+        "/build/login.js"
+      ]
+    },
+    "reporte": {
+      "css": [
+        "/build/reporte.css"
+      ],
+      "js": [
+        "/build/reporte.js"
+      ]
+    }
+  }
+}
