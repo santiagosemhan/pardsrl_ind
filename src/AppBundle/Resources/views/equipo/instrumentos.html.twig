@@ -494,6 +494,163 @@
 
       });
 
+      $(function () {
+        /**
+        * Highcharts Linear-Gauge series plugin
+        */
+        (function (H) {
+            var defaultPlotOptions = H.getOptions().plotOptions,
+                columnType = H.seriesTypes.column,
+                wrap = H.wrap,
+                each = H.each;
+
+            defaultPlotOptions.lineargauge = H.merge(defaultPlotOptions.column, {});
+            H.seriesTypes.lineargauge = H.extendClass(columnType, {
+                type: 'lineargauge',
+                //inverted: true,
+                setVisible: function () {
+                    columnType.prototype.setVisible.apply(this, arguments);
+                    if (this.markLine) {
+                        this.markLine[this.visible ? 'show' : 'hide']();
+                    }
+                },
+                drawPoints: function () {
+                    // Draw the Column like always
+                    columnType.prototype.drawPoints.apply(this, arguments);
+
+                    // Add a Marker
+                    var series = this,
+                        chart = this.chart,
+                        inverted = chart.inverted,
+                        xAxis = this.xAxis,
+                        yAxis = this.yAxis,
+                        point = this.points[0], // we know there is only 1 point
+                        markLine = this.markLine,
+                        ani = markLine ? 'animate' : 'attr';
+
+                    // Hide column
+                    point.graphic.hide();
+
+                    if (!markLine) {
+                        var path = inverted ? ['M', 0, 0, 'L', -5, -5, 'L', 5, -5, 'L', 0, 0, 'L', 0, 0 + xAxis.len] : ['M', 0, 0, 'L', -5, -5, 'L', -5, 5,'L', 0, 0, 'L', xAxis.len, 0];                
+                        markLine = this.markLine = chart.renderer.path(path)
+                            .attr({
+                            fill: series.color,
+                            stroke: series.color,
+                                'stroke-width': 1
+                        }).add();
+                    }
+                    markLine[ani]({
+                        translateX: inverted ? xAxis.left + yAxis.translate(point.y) : xAxis.left,
+                        translateY: inverted ? xAxis.top : yAxis.top + yAxis.len -  yAxis.translate(point.y)
+                    });
+                }
+            });
+        })(Highcharts);
+
+        $('#haparejo').highcharts({
+            exporting:{
+              enabled:false
+            },
+            chart: {
+                type: 'lineargauge',
+                //inverted: false
+            },
+            credits: {
+              enabled: false
+            },
+            title: {
+                text: 'Altura'
+            },
+            xAxis: {
+                lineColor: '#C0C0C0',
+                labels: {
+                    enabled: false
+                },
+                tickLength: 0
+            },
+            yAxis: {
+                min: 0,
+                max: 30,
+                tickLength: 5,
+                tickWidth: 1,
+                tickColor: '#C0C0C0',
+                gridLineColor: '#C0C0C0',
+                gridLineWidth: 1,
+                minorTickInterval: 5,
+                minorTickWidth: 1,
+                minorTickLength: 5,
+                minorGridLineWidth: 0,
+
+                title: null,
+                labels: {
+                    format: '{value}m'
+                },
+                plotBands: [{
+                    from: 0,
+                    to: 5,
+                    color: '#df5353'
+                }, {
+                    from: 5,
+                    to: 10,
+                    color: '#df5353c4'
+                }, {
+                }, {
+                    from: 10,
+                    to: 15,
+                    color: '#fffc759e'
+                }, {
+                }, {
+                    from: 15,
+                    to: 20,
+                    color: '#70ff63d6'
+                }, {
+                }, {
+                    from: 20,
+                    to: 25,
+                    color: '#fffc759e'
+                }, {
+                    from: 25,
+                    to: 30,
+                    color: '#df5353'
+                }]
+            },
+            legend: {
+                enabled: false
+            },
+            series: [{
+                data: [0],
+                color: '#000000',
+                dataLabels: {
+                    enabled: true,
+                    align: 'center',
+                    format: '{point.y}m',
+                    y: 10,
+                }
+            }]
+
+        });
+        // , // Add some life
+        {# function (chart) {
+            setInterval(function () {
+                Highcharts.each(chart.series, function (serie) {
+                    var point = serie.points[0],
+                        newVal,
+                        inc = (Math.random() - 0.5) * 20;
+                    console.log(inc);
+                    newVal = point.y + inc;
+                    if (newVal < 0 || newVal > 30) {
+                        newVal = point.y - inc;
+                    }
+                    console.log(newVal);
+
+                    point.update(Math.floor(newVal));
+                });
+            }, 2000);
+
+        }); #}
+      });
+
       var server = $.LiveData.server;
 
       var websocket_connection = server.getBaseWs() + '/{{ equipo.webSocketNamespace }}';
@@ -530,6 +687,10 @@
                   case 'llave':
                     //lave
                     $('#llave').highcharts().series[0].points[0].update(metric.value);
+                    break;
+                  case 'haparejo':
+                    //lave
+                    $('#haparejo').highcharts().series[0].points[0].update(metric.value);
                     break;
                 }
               });
@@ -575,7 +736,9 @@
           <div class="col-md-3" style="">
             <div id="boca-de-pozo" style="height:250px;"></div>
           </div>
-
+          <div class="col-md-3" style="">
+            <div id="haparejo" style="height:250px;"></div>
+          </div>
         </div>
         <!-- /.box-body -->
       </div>
