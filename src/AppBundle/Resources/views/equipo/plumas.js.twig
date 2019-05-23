@@ -128,7 +128,7 @@ function recargarHstpl(min,max){
 function afterSetExtremesHstpl(e){
 
     var extremo = null;
-
+    const EVENTS = ["navigator", "rangeSelectorInput", "zoom", "pan"];
     if (e.trigger){
         pausadoHstpl = true;
         //si la seleccion se originó desde un boton
@@ -139,7 +139,7 @@ function afterSetExtremesHstpl(e){
 
             extremo = new Date().getTime();
 
-        }else if(e.trigger == "navigator" || e.trigger == "rangeSelectorInput" || e.trigger == "zoom"){
+        }else if(EVENTS.includes(e.trigger)){
 
             var min = moment(e.min).utc();
 
