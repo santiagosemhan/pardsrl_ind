@@ -9,8 +9,8 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql opcache
 
 #
 ENV APACHE_DOCUMENT_ROOT /var/www/html/web
-ENV SF_CACHE_DIR /var/cache
-ENV SF_LOG_DIR /var/logs
+ENV SF_CACHE_DIR /var/cache/pardsrl
+ENV SF_LOG_DIR /var/logs/pardsrl
 
 WORKDIR /var/www/html
 
