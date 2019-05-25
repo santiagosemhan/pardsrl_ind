@@ -42,14 +42,24 @@ class AppKernel extends Kernel
         return __DIR__;
     }
 
+    // public function getCacheDir()
+    // {
+    //     return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
+    // }
+
+    // public function getLogDir()
+    // {
+    //     return dirname(__DIR__).'/var/logs';
+    // }
+
     public function getCacheDir()
     {
-        return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
+        return '/var/cache/pardsrl/cache/'.$this->getEnvironment();
     }
 
     public function getLogDir()
     {
-        return dirname(__DIR__).'/var/logs';
+        return '/var/logs/pardsrl/logs';
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
