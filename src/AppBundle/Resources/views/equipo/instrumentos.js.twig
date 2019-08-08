@@ -1,0 +1,527 @@
+$('#llave').highcharts({
+  exporting:{
+    enabled:false
+  },
+  chart: {
+    type: 'gauge',
+    plotBackgroundColor: null,
+    plotBackgroundImage: null,
+    plotBorderWidth: 0,
+    plotShadow: false
+  },
+
+  credits: {
+    enabled: false
+  },
+
+  title: {
+    text: 'Llave'
+  },
+
+  pane: {
+    startAngle: -150,
+    endAngle: 150,
+    background: [
+      {
+        backgroundColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+          },
+          stops: [
+            [
+              0, '#FFF'
+            ],
+            [1, '#333']
+          ]
+        },
+        borderWidth: 0,
+        outerRadius: '109%'
+      }, {
+        backgroundColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+          },
+          stops: [
+            [
+              0, '#333'
+            ],
+            [1, '#FFF']
+          ]
+        },
+        borderWidth: 1,
+        outerRadius: '107%'
+      }, {
+        // default background
+      }, {
+        backgroundColor: '#DDD',
+        borderWidth: 0,
+        outerRadius: '105%',
+        innerRadius: '103%'
+      }
+    ]
+  },
+
+  // the value axis
+  yAxis: {
+    min: 0,
+    max: 3000,
+
+    minorTickInterval: 'auto',
+    minorTickWidth: 1,
+    minorTickLength: 10,
+    minorTickPosition: 'inside',
+    minorTickColor: '#666',
+
+    tickPixelInterval: 30,
+    tickWidth: 2,
+    tickPosition: 'inside',
+    tickLength: 10,
+    tickColor: '#666',
+    labels: {
+      step: 2,
+      rotation: 'auto'
+    },
+    title: {
+      text: 'psi'
+    },
+    plotBands: [
+      {
+        from: 0,
+        to: 800,
+        color: '#55BF3B' // green
+      }, {
+        from: 800,
+        to: 1850,
+        color: '#DDDF0D' // yellow
+      }, {
+        from: 1850,
+        to: 2200,
+        color: '#ff9900' // orange
+      }, {
+        from: 2200,
+        to: 3000,
+        color: '#DF5353' // red
+      }
+    ]
+  },
+
+  series: [
+    {
+      name: 'Presion',
+      data: [80],
+      tooltip: {
+        valueSuffix: ' psi'
+      }
+    }
+  ]
+
+});
+
+$('#boca-de-pozo').highcharts({
+  exporting:{
+    enabled:false
+  },
+  chart: {
+    type: 'gauge',
+    plotBackgroundColor: null,
+    plotBackgroundImage: null,
+    plotBorderWidth: 0,
+    plotShadow: false
+  },
+  credits: {
+    enabled: false
+  },
+
+  title: {
+    text: 'Boca de Pozo'
+  },
+
+  pane: {
+    startAngle: -150,
+    endAngle: 150,
+    background: [
+      {
+        backgroundColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+          },
+          stops: [
+            [
+              0, '#FFF'
+            ],
+            [1, '#333']
+          ]
+        },
+        borderWidth: 0,
+        outerRadius: '109%'
+      }, {
+        backgroundColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+          },
+          stops: [
+            [
+              0, '#333'
+            ],
+            [1, '#FFF']
+          ]
+        },
+        borderWidth: 1,
+        outerRadius: '107%'
+      }, {
+        // default background
+      }, {
+        backgroundColor: '#DDD',
+        borderWidth: 0,
+        outerRadius: '105%',
+        innerRadius: '103%'
+      }
+    ]
+  },
+
+  // the value axis
+  yAxis: {
+    min: 0,
+    max: 3000,
+
+    minorTickInterval: 'auto',
+    minorTickWidth: 1,
+    minorTickLength: 10,
+    minorTickPosition: 'inside',
+    minorTickColor: '#666',
+
+    tickPixelInterval: 30,
+    tickWidth: 2,
+    tickPosition: 'inside',
+    tickLength: 10,
+    tickColor: '#666',
+    labels: {
+      step: 2,
+      rotation: 'auto'
+    },
+    title: {
+      text: 'psi'
+    },
+    plotBands: [
+      {
+        from: 0,
+        to: 2000,
+        color: '#55BF3B' // green
+      }, {
+        from: 2000,
+        to: 2500,
+        color: '#DDDF0D' // yellow
+      }, {
+        from: 2500,
+        to: 3000,
+        color: '#DF5353' // red
+      }
+    ]
+  },
+
+  series: [
+    {
+      name: 'Presion',
+      data: [80],
+      tooltip: {
+        valueSuffix: ' psi'
+      }
+    }
+  ]
+
+});
+
+var gaugeOptions = {
+  exporting:{
+    enabled:false
+  },
+  chart: {
+    type: 'solidgauge'
+  },
+
+  credits: {
+    enabled: false
+  },
+
+  pane: {
+    center: [
+      '50%', '85%'
+    ],
+    size: '100%',
+    startAngle: -90,
+    endAngle: 90,
+    background: {
+      backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+      innerRadius: '60%',
+      outerRadius: '100%',
+      shape: 'arc'
+    }
+  },
+
+  tooltip: {
+    enabled: false
+  },
+
+  // the value axis
+  yAxis: {
+    stops: [
+      [
+        0.1, '#55BF3B'
+      ], // green
+      [
+        0.2, '#DDDF0D'
+      ], // yellow
+      [0.25, '#DF5353'] // red
+    ],
+    lineWidth: 0,
+    minorTickInterval: null,
+    tickPixelInterval: 400,
+    tickWidth: 0,
+    title: {
+      y: -70
+    },
+    labels: {
+      y: 16
+    }
+  },
+
+  plotOptions: {
+    solidgauge: {
+      dataLabels: {
+        y: 5,
+        borderWidth: 0,
+        useHTML: true
+      }
+    }
+  }
+};
+
+$('#anemometro').highcharts(Highcharts.merge(gaugeOptions, {
+  yAxis: {
+    min: 0,
+    max: 200
+  },
+  title: {
+    text: 'Viento'
+  },
+  credits: {
+    enabled: false
+  },
+
+  series: [
+    {
+      name: 'Speed',
+      data: [80],
+      dataLabels: {
+        format: '<div style="text-align:center"><span style="font-size:25px;color:' + ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/><span style="font-size:12px;color:silver">km/h</span></div>'
+      },
+      tooltip: {
+        valueSuffix: ' km/h'
+      }
+    }
+  ]
+
+}));
+
+$('#aparejo').highcharts({
+  exporting:{
+    enabled:false
+  },
+  chart: {
+    type: 'gauge',
+    alignTicks: false,
+    plotBackgroundColor: null,
+    plotBackgroundImage: null,
+    plotBorderWidth: 0,
+    plotShadow: false
+  },
+  credits: {
+    enabled: false
+  },
+  title: {
+    text: 'Aparejo'
+  },
+  pane: {
+    startAngle: -150,
+    endAngle: 150
+  },
+  yAxis: [
+    {
+      min: 0,
+      max: 1000,
+      lineColor: '#339',
+      tickColor: '#339',
+      minorTickColor: '#339',
+      offset: -50,
+      lineWidth: 2,
+      labels: {
+        distance: -20,
+        rotation: 'auto'
+      },
+      tickLength: 5,
+      minorTickLength: 5,
+      endOnTick: false
+    }, {
+      min: 0,
+      max: 180,
+      tickPosition: 'outside',
+      lineColor: '#6E6E6E',
+      lineWidth: 2,
+      minorTickPosition: 'outside',
+      tickColor: '#6E6E6E',
+      minorTickColor: '#6E6E6E',
+      tickLength: 5,
+      minorTickLength: 5,
+      labels: {
+        distance: -15,
+        rotation: 'auto'
+      },
+      offset: -9,
+      endOnTick: false,
+      plotBands: [
+        {
+          from: 0,
+          to: 75,
+          color: '#55BF3B' // green
+        }, {
+          from: 75,
+          to: 110,
+          color: '#DDDF0D' // yellow
+        }, {
+          from: 110,
+          to: 180,
+          color: '#DF5353' // orange
+        }
+      ]
+    }
+  ],
+
+  series: [
+    {
+      yAxis: 1,
+      name: 'Peso',
+      data: [0],
+      color: '#000000',
+      dial: {
+        backgroundColor: "#000000"
+      },
+      dataLabels: {
+        x: 0,
+        y: 100,
+        allowOverlap: true,
+        formatter: function() {
+          var klb = this.y;
+
+          return '<span style="color:#000000">' + klb + ' klb</span>';
+        },
+        backgroundColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+          },
+          stops: [
+            [
+              0, '#DDD'
+            ],
+            [1, '#FFF']
+          ]
+        }
+      },
+      tooltip: {
+        valueSuffix: ' klb'
+      }
+    }, {
+      yAxis: 0,
+      name: 'Peso',
+      data: [0],
+      dial: {
+        radius: "60%",
+        backgroundColor: "#339"
+      },
+
+      dataLabels: {
+        x: 0,
+        y: 67,
+        allowOverlap: true,
+        formatter: function() {
+          var lb = this.y;
+
+          return '<span style="color:#339">' + lb + ' lb</span><br/>';
+        },
+        backgroundColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+          },
+          stops: [
+            [
+              0, '#DDD'
+            ],
+            [1, '#FFF']
+          ]
+        }
+      },
+      tooltip: {
+        valueSuffix: ' lb'
+      }
+    }
+  ]
+
+});
+
+socket.on('agent/message', function (payload) {
+  try{
+      if(payload == undefined || payload == '') return false;
+
+      payload = (typeof payload !== 'object') ? JSON.parse(payload) : payload;
+
+      var { metrics } = payload;
+
+      metrics.forEach(( metric ) => {
+
+        var serie = null
+        let value = null
+
+        switch (metric.type) {
+          case 'hta':
+            $('#aparejo').highcharts().series[0].points[0].update(parseInt(metric.value));
+            $('#aparejo').highcharts().series[1].points[0].update(parseInt((metric.value - parseInt(metric.value)) * 100));
+            break;
+          case 'anem':
+            //anemometro
+            $('#anemometro').highcharts().series[0].points[0].update(metric.value);
+            break;
+          case 'bpozo':
+            //boca e pozo
+            $('#boca-de-pozo').highcharts().series[0].points[0].update(metric.value);
+            break;
+          case 'llave':
+            //lave
+            $('#llave').highcharts().series[0].points[0].update(metric.value);
+            break;
+          case 'haparejo':
+            //lave
+            $('#haparejo').highcharts().series[0].points[0].update(metric.value);
+            break;
+        }
+      });
+  }catch(e){
+    console.log(e);
+  }
+});
