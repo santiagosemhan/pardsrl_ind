@@ -103,11 +103,9 @@ class Configuracion
     public function getConfig($key)
     {
         $aConfig = $this->getConfiguracion();
-
         if (is_null($aConfig)) {
             return null;
         }
-
         return array_key_exists($key, $aConfig) ? $aConfig[$key] : null;
     }
 

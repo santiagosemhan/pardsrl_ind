@@ -53,6 +53,8 @@ twig:
          theme_color: "%theme_color%"
          config: "@manager.config"
          http_channel: "%http_channel%"
+    paths:
+        '%kernel.project_dir%/src/AppBundle/Resources/views/': app_bundle
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes:
