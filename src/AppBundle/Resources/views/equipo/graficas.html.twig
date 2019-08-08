@@ -38,6 +38,10 @@
 
         {% include 'AppBundle:equipo:maniobras.js.twig' %}
 
+        {% if _configuracion.graficas.incluirTablero.enabled %}
+            {% include 'AppBundle:equipo:instrumentos.js.twig' %}
+        {% endif %}
+
     </script>
 {% endblock %}
 
@@ -121,4 +125,7 @@
         </div>
         {% endif %}
     </div>
+    {% if _configuracion.graficas.incluirTablero.enabled %}
+    {% include '@app_bundle/equipo/instrumentos-widgets.html.twig' with {'equipo': equipo} only %}
+    {% endif %}
 {% endblock %}
