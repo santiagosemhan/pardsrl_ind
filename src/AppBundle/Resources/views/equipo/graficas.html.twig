@@ -10,38 +10,26 @@
     <script src="{{ asset('build/highcharts.js') }}"></script>
 
     <script type="application/javascript" language="JavaScript">
-
         var server = $.LiveData.server;
-
         var websocket_connection = server.getBaseWs()+'/{{ equipo.webSocketNamespace }}';
-
         var socket = io(websocket_connection);
-
         const DESDE_ORIGINAL   = {{ fechaInicioIntervencion | date('U') }} * 1000;
-
         const HASTA_ORIGINAL   = {{ "now" |date("U") }} * 1000;
-
         const PARAM_FECHA_POZO = {{ fechaInicioIntervencion | date('Ymdhi') }}
-
         const PARAM_CONDICION  = 1;
-
         const PARAM_PLUMAS     = 0;
-
         const PARAM_MANIOBRAS  = 1;
-
         $(document).ready(function () {
-
         });
 
-
         {% include 'AppBundle:equipo:plumas.js.twig' %}
-
         {% include 'AppBundle:equipo:maniobras.js.twig' %}
-
+        {% if _configuracion.graficas.digitalPanel.enabled %}
+        {% include 'AppBundle:equipo:digital-panel.js.twig' %}
+        {% endif %}
         {% if _configuracion.graficas.incluirTablero.enabled %}
             {% include 'AppBundle:equipo:instrumentos.js.twig' %}
         {% endif %}
-
     </script>
 {% endblock %}
 
@@ -123,6 +111,9 @@
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
         </div>
+        {% endif %}
+        {% if _configuracion.graficas.digitalPanel.enabled %}
+        {% include '@app_bundle/equipo/digital-panel.html.twig' with {'configuracion': _configuracion.graficas} only %}
         {% endif %}
     </div>
     {% if _configuracion.graficas.incluirTablero.enabled %}

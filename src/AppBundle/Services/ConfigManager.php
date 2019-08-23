@@ -45,6 +45,10 @@ class ConfigManager
                     'incluirTablero' => array(
                         'enabled' => ($configuracionPersonal == null || $configuracionPersonal->getConfig('incluirTablero') == true) ? true : false,
                         'col'     => 12
+                    ),
+                    'digitalPanel' => array(
+                        'enabled' => ($configuracionPersonal == null || $configuracionPersonal->getConfig('digitalPanel') == true) ? true : false,
+                        'col'     => 6
                     )
                 )
             );

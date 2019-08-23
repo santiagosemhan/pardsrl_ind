@@ -1,0 +1,107 @@
+socket.on('agent/message', function (payload) {
+    try {
+        const { metrics } = payload;
+        const hta = metrics.filter(m => m.type === 'hta').pop();
+        const llave = metrics.filter(m => m.type === 'llave').pop();
+        const bpozo = metrics.filter(m => m.type === 'bpozo').pop();
+        const anem = metrics.filter(m => m.type === 'anem').pop();
+        const haparejo = metrics.filter(m => m.type === 'haparejo').pop();
+        const h2sBpozo = metrics.filter(m => m.type === 'h2sBpozo').pop();
+        const h2spi = metrics.filter(m => m.type === 'h2spi').pop();
+        
+        let htaMax = 0;
+        let htaMin = 99999;
+        const htaNode = $('.digital-panel .hta .val')
+        const htaMaxMin = $('.digital-panel .hta .max-min')
+        if (hta) {
+            htaMax = hta > htaMax ? hta : htaMax;
+            htaMin = hta < htaMin ? hta : htaMin;
+            htaNode.html(hta);
+        } else {
+            htaNode.html('-')
+            htaMaxMin.html('- / -');
+        };
+
+        let llaveMax = 0;
+        let llaveMin = 99999;
+        const llaveNode = $('.digital-panel .llave .val')
+        const llaveMaxMin = $('.digital-panel .llave .max-min')
+        if (llave) { 
+          llaveMax = llave > llaveMax ? llave : llaveMax;
+          llaveMin = llave < llaveMin ? llave : llaveMin;
+          llaveNode.html(llave);
+        } else { 
+          llaveNode.html('-');
+          llaveMaxMin.html('- / -');
+        }
+
+        let bpozoMax = 0;
+        let bpozoMin = 99999;
+        const bpozoNode = $('.digital-panel .bpozo .val')
+        const bpozoMaxMin = $('.digital-panel .bpozo .max-min')
+        if (bpozo) {
+          bpozoMax = bpozo > bpozoMax ? bpozo : bpozoMax;
+          bpozoMin = bpozo < bpozoMin ? bpozo : bpozoMin;
+          bpozoNode.html(bpozo);
+        } else { 
+          bpozo.html('-');
+          bpozoMaxMin.html('- / -');
+        }
+
+        let anemMax = 0;
+        let anemMin = 99999;
+        const anemNode = $('.digital-panel .anem .val')
+        const anemMaxMin = $('.digital-panel .anem .max-min')
+        if (anem) {
+          anemMax = anem > anemMax ? anem : anemMax;
+          anemMin = anem < anemMin ? anem : anemMin;
+          anemNode.html(anem);
+        } else { 
+          anemNode.html('-');
+          anemMaxMin.html('- / -');
+        }
+
+        let haparejoMax = 0;
+        let haparejoMin = 99999;
+        const haparejoNode = $('.digital-panel .haparejo .val')
+        const haparejoMaxMin = $('.digital-panel .haparejo .max-min')
+        if (haparejo) {
+            haparejoMax = haparejo > haparejoMax ? haparejo : haparejoMax;
+            haparejoMin = haparejo < haparejoMin ? haparejo : haparejoMin;
+            haparejoNode.html(haparejo);
+        } else { 
+            haparejoNode.html('-');
+            haparejoMaxMin.html('- / -');
+        }
+
+        let h2sBpozoMax = 0;
+        let h2sBpozoMin = 99999;
+        const h2sBpozoNode = $('.digital-panel .h2sBpozo .val')
+        const h2sBpozoMaxMin = $('.digital-panel .h2sBpozo .max-min')
+
+        if (h2sBpozo) {
+            h2sBpozoMax = h2sBpozo > h2sBpozoMax ? h2sBpozo : h2sBpozoMax;
+            h2sBpozoMin = h2sBpozo < h2sBpozoMin ? h2sBpozo : h2sBpozoMin;
+            h2sBpozoNode.html(h2sBpozo);
+        } else { 
+            h2sBpozoNode.html('-');
+            h2sBpozoMaxMin.html('- / -');
+        }
+
+        let hs2spiMax = 0;
+        let hs2spiMin = 99999;
+        const h2spiNode = $('.digital-panel .h2spi .val')
+        const h2spiMaxMin = $('.digital-panel .h2spi .max-min')
+        if (h2spi) {
+            hs2spiMax = hs2spi > hs2spiMax ? hs2spi : hs2spiMax;
+            hs2spiMin = hs2spi < hs2spiMin ? hs2spi : hs2spiMin;
+            h2spiNode.html(h2spi);
+        } else { 
+            h2spiNode.html('-');
+            h2spiMaxMin.html('- / -');
+        }
+
+    } catch (error) {
+        
+    }
+});

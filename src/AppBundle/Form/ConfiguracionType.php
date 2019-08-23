@@ -45,6 +45,12 @@ class ConfiguracionType extends AbstractType
                 'required' => false,
                 'data'     => $configuracion->getConfig('incluirTablero')
             ))
+            ->add('digitalPanel', CheckboxType::class, array(
+                'mapped'   => false,
+                'required' => false,
+                'label' => 'Panel Digital',
+                'data'     => $configuracion->getConfig('digitalPanel')
+            ))
         ;
     }
     
