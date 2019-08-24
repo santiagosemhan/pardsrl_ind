@@ -104,3 +104,53 @@ a:hover, a:active, a:focus {
     background-color: #545194;
     border-color: #3b3a6d;
 }
+
+.digital-panel .title {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.digital-panel .value {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 25px;
+}
+.digital-panel .max-min {
+    margin-left: 10px;
+}
+
+.digital-panel .col-md-6 {
+    border-top: 0px !important; 
+}
+
+.digital-panel .col-md-6, .digital-panel .col-md-12 {
+    border: 1px solid #d8dce0;
+}
+.digital-panel .col-md-6 {
+    border-top: 0px !important; 
+}
+
+.digital-panel .hta {
+    color: #4e4e4e;
+}
+.digital-panel .llave {
+    color: #3cb125;
+}
+.digital-panel .bpozo {
+    color: #3e94e2;
+}
+.digital-panel .anem {
+    color: #797979;
+}
+
+.digital-panel .haparejo {
+    color: #a5a543;
+}
+.digital-panel .h2sBpozo,
+.digital-panel .h2spi {
+    color: #751b75;
+}

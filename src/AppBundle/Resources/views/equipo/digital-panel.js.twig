@@ -1,0 +1,114 @@
+let htaMax = 0;
+let htaMin = 99999;
+let llaveMax = 0;
+let llaveMin = 99999;
+let bpozoMax = 0;
+let bpozoMin = 99999;
+let anemMax = 0;
+let anemMin = 99999;
+let haparejoMax = 0;
+let haparejoMin = 99999;
+let h2sBpozoMax = 0;
+let h2sBpozoMin = 99999;
+let hs2spiMax = 0;
+let hs2spiMin = 99999;
+
+socket.on('agent/message', function (payload) {
+    try {
+        const { metrics } = payload;
+        const { value: hta } = metrics.filter(m => m.type === 'hta').pop() || {};
+        const { value: llave } = metrics.filter(m => m.type === 'llave').pop() || {};
+        const { value: bpozo } = metrics.filter(m => m.type === 'bpozo').pop() || {};
+        const { value: anem } = metrics.filter(m => m.type === 'anem').pop() || {};
+        const { value: haparejo } = metrics.filter(m => m.type === 'haparejo').pop() || {};
+        const { value: h2sBpozo } = metrics.filter(m => m.type === 'h2sBpozo').pop() || {};
+        const { value: h2spi } = metrics.filter(m => m.type === 'h2spi').pop() || {};
+        // console.log(hta, llave, bpozo, anem, haparejo, h2sBpozo, h2spi );
+        const htaNode = $('.digital-panel .hta .val')
+        const htaMaxMin = $('.digital-panel .hta .max-min')
+        if (typeof hta !== "undefined") {
+            htaMax = hta > htaMax ? hta : htaMax;
+            htaMin = hta < htaMin ? hta : htaMin;
+            htaNode.html(hta);
+            htaMaxMin.html(`${htaMax} / ${htaMin}`);
+        } else {
+            htaNode.html('-')
+            htaMaxMin.html('- / -');
+        };
+
+        const llaveNode = $('.digital-panel .llave .val')
+        const llaveMaxMin = $('.digital-panel .llave .max-min')
+        if (typeof llave !== "undefined") { 
+          llaveMax = llave > llaveMax ? llave : llaveMax;
+          llaveMin = llave < llaveMin ? llave : llaveMin;
+          llaveNode.html(llave);
+          llaveMaxMin.html(`${llaveMax} / ${llaveMin}`);
+        } else { 
+          llaveNode.html('-');
+          llaveMaxMin.html('- / -');
+        }
+
+        const bpozoNode = $('.digital-panel .bpozo .val')
+        const bpozoMaxMin = $('.digital-panel .bpozo .max-min')
+        if (typeof bpozo !== "undefined") {
+          bpozoMax = bpozo > bpozoMax ? bpozo : bpozoMax;
+          bpozoMin = bpozo < bpozoMin ? bpozo : bpozoMin;
+          bpozoNode.html(bpozo);
+          bpozoMaxMin.html(`${bpozoMax} / ${bpozoMin}`);
+        } else { 
+          bpozo.html('-');
+          bpozoMaxMin.html('- / -');
+        }
+
+        const anemNode = $('.digital-panel .anem .val')
+        const anemMaxMin = $('.digital-panel .anem .max-min')
+        if (typeof anem !== "undefined") {
+          anemMax = anem > anemMax ? anem : anemMax;
+          anemMin = anem < anemMin ? anem : anemMin;
+          anemNode.html(anem);
+          anemMaxMin.html(`${anemMax} / ${anemMin}`);
+        } else { 
+          anemNode.html('-');
+          anemMaxMin.html('- / -');
+        }
+
+        const haparejoNode = $('.digital-panel .haparejo .val')
+        const haparejoMaxMin = $('.digital-panel .haparejo .max-min')
+        if (typeof haparejo !== "undefined") {
+            haparejoMax = haparejo > haparejoMax ? haparejo : haparejoMax;
+            haparejoMin = haparejo < haparejoMin ? haparejo : haparejoMin;
+            haparejoNode.html(haparejo);
+            haparejoMaxMin.html(`${haparejoMax} / ${haparejoMin}`);
+        } else { 
+            haparejoNode.html('-');
+            haparejoMaxMin.html('- / -');
+        }
+
+        const h2sBpozoNode = $('.digital-panel .h2sBpozo .val')
+        const h2sBpozoMaxMin = $('.digital-panel .h2sBpozo .max-min')
+        if (typeof h2sBpozo !== "undefined") {
+            h2sBpozoMax = h2sBpozo > h2sBpozoMax ? h2sBpozo : h2sBpozoMax;
+            h2sBpozoMin = h2sBpozo < h2sBpozoMin ? h2sBpozo : h2sBpozoMin;
+            h2sBpozoNode.html(h2sBpozo);
+            h2sBpozoMaxMin.html(`${h2sBpozoMax} / ${h2sBpozoMin}`);
+        } else { 
+            h2sBpozoNode.html('-');
+            h2sBpozoMaxMin.html('- / -');
+        }
+
+        const h2spiNode = $('.digital-panel .h2spi .val')
+        const h2spiMaxMin = $('.digital-panel .h2spi .max-min')
+        if (typeof h2spi !== "undefined") {
+            hs2spiMax = hs2spi > hs2spiMax ? hs2spi : hs2spiMax;
+            hs2spiMin = hs2spi < hs2spiMin ? hs2spi : hs2spiMin;
+            h2spiNode.html(h2spi);
+            h2spiMaxMin.html(`${hs2spiMax} / ${hs2spiMin}`);
+        } else { 
+            h2spiNode.html('-');
+            h2spiMaxMin.html('- / -');
+        }
+
+    } catch (error) {
+      console.log(error);
+    }
+});
