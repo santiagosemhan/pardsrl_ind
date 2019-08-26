@@ -36,7 +36,7 @@ class ConfigManager
                     ),
                     'tiempoRealPozo'      => array(
                         'enabled' => ($configuracionPersonal == null || $configuracionPersonal->getConfig('tiempoRealPozo') == true) ? true : false,
-                        'col'     => ($configuracionPersonal == null || $configuracionPersonal->getConfig('tiempoRealManiobras') == true) ? 6 : 12
+                        'col'     => ($configuracionPersonal == null || $configuracionPersonal->getConfig('tiempoRealManiobras') == true) ? 6 : 6
                     ),
                     'tiempoRealManiobras' => array(
                         'enabled' => ($configuracionPersonal == null || $configuracionPersonal->getConfig('tiempoRealManiobras') == true) ? true : false,
