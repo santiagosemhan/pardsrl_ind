@@ -191,3 +191,9 @@ a:hover, a:active, a:focus {
         opacity: 0;
     }
 }
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
