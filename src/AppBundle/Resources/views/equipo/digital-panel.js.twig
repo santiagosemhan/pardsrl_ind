@@ -30,7 +30,7 @@ socket.on('agent/message', function (payload) {
             htaMax = hta > htaMax ? hta : htaMax;
             htaMin = hta < htaMin ? hta : htaMin;
             htaNode.html(hta);
-            htaMaxMin.html(`${htaMax} / ${htaMin}`);
+            htaMaxMin.html(`${htaMin} / ${htaMax}`);
         } else {
             htaNode.html('-')
             htaMaxMin.html('- / -');
@@ -42,7 +42,7 @@ socket.on('agent/message', function (payload) {
           llaveMax = llave > llaveMax ? llave : llaveMax;
           llaveMin = llave < llaveMin ? llave : llaveMin;
           llaveNode.html(llave);
-          llaveMaxMin.html(`${llaveMax} / ${llaveMin}`);
+          llaveMaxMin.html(`${llaveMin} / ${llaveMax}`);
         } else { 
           llaveNode.html('-');
           llaveMaxMin.html('- / -');
@@ -54,7 +54,7 @@ socket.on('agent/message', function (payload) {
           bpozoMax = bpozo > bpozoMax ? bpozo : bpozoMax;
           bpozoMin = bpozo < bpozoMin ? bpozo : bpozoMin;
           bpozoNode.html(bpozo);
-          bpozoMaxMin.html(`${bpozoMax} / ${bpozoMin}`);
+          bpozoMaxMin.html(`${bpozoMin} / ${bpozoMax}`);
         } else { 
           bpozo.html('-');
           bpozoMaxMin.html('- / -');
@@ -66,7 +66,7 @@ socket.on('agent/message', function (payload) {
           anemMax = anem > anemMax ? anem : anemMax;
           anemMin = anem < anemMin ? anem : anemMin;
           anemNode.html(anem);
-          anemMaxMin.html(`${anemMax} / ${anemMin}`);
+          anemMaxMin.html(`${anemMin} / ${anemMax}`);
         } else { 
           anemNode.html('-');
           anemMaxMin.html('- / -');
@@ -78,7 +78,7 @@ socket.on('agent/message', function (payload) {
             haparejoMax = haparejo > haparejoMax ? haparejo : haparejoMax;
             haparejoMin = haparejo < haparejoMin ? haparejo : haparejoMin;
             haparejoNode.html(haparejo);
-            haparejoMaxMin.html(`${haparejoMax} / ${haparejoMin}`);
+            haparejoMaxMin.html(`${haparejoMin} / ${haparejoMax}`);
         } else { 
             haparejoNode.html('-');
             haparejoMaxMin.html('- / -');
@@ -90,7 +90,7 @@ socket.on('agent/message', function (payload) {
             h2sBpozoMax = h2sBpozo > h2sBpozoMax ? h2sBpozo : h2sBpozoMax;
             h2sBpozoMin = h2sBpozo < h2sBpozoMin ? h2sBpozo : h2sBpozoMin;
             h2sBpozoNode.html(h2sBpozo);
-            h2sBpozoMaxMin.html(`${h2sBpozoMax} / ${h2sBpozoMin}`);
+            h2sBpozoMaxMin.html(`${h2sBpozoMin} / ${h2sBpozoMax}`);
         } else { 
             h2sBpozoNode.html('-');
             h2sBpozoMaxMin.html('- / -');
@@ -102,7 +102,7 @@ socket.on('agent/message', function (payload) {
             hs2spiMax = hs2spi > hs2spiMax ? hs2spi : hs2spiMax;
             hs2spiMin = hs2spi < hs2spiMin ? hs2spi : hs2spiMin;
             h2spiNode.html(h2spi);
-            h2spiMaxMin.html(`${hs2spiMax} / ${hs2spiMin}`);
+            h2spiMaxMin.html(`${hs2spiMin} / ${hs2spiMax}`);
         } else { 
             h2spiNode.html('-');
             h2spiMaxMin.html('- / -');

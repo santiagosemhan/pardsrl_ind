@@ -677,6 +677,26 @@ socket.on('agent/message', function (payload) {
             //lave
             $('#haparejo').highcharts().series[0].points[0].update(metric.value);
             break;
+          case 'h2sBpozo':
+            // bpozo
+            const h2sBpozo = $('#h2sBpozo .value');
+            h2sBpozo.html(metric.value);
+            if (metric.value > 10) {
+              h2sBpozo.addClass('blink');
+            }else {
+              h2sBpozo.removeClass('blink');
+            }
+            break;
+          case 'h2spi':
+            // h2spi
+            const h2spi = $('#h2spi .value');
+            h2spi.html(metric.value);
+            if (metric.value > 10) {
+              h2spi.addClass('blink');
+            }else {
+              h2spi.removeClass('blink');
+            }
+            break;
         }
       });
   }catch(e){

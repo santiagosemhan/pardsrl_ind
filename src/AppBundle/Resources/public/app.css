@@ -154,3 +154,40 @@ a:hover, a:active, a:focus {
 .digital-panel .h2spi {
     color: #751b75;
 }
+
+.gases {
+    border: #797979 1px solid;
+    text-align: center;
+}
+
+.gases:last-child {
+    border-left: none;
+}
+
+.gases span.title{
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.gases span.value{
+    font-weight: bold;
+    font-size: 30px;
+    color: red;
+    display: block;
+}
+
+.gases span.unit{
+    font-weight: bold;
+    font-size: 20px;
+    display: block;
+}
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+  
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
