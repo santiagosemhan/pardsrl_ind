@@ -17,6 +17,19 @@
                 type: 'category'
             },
             yAxis: {
+                plotLines: [{
+                    value: 10,
+                    color: 'green',
+                    dashStyle: 'shortdash',
+                    width: 2,
+                    zIndex: 9999,
+                    label: {
+                        text: 'Cumple promedio',
+                        {# style: {
+                            fill: 'red',
+                        } #}
+                    }
+                }],
                 title: {
                     text: ' '
                 }

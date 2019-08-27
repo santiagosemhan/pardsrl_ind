@@ -1,10 +1,6 @@
-
 function cargarDatosTrPl(event) {
-
     var trpl = event.target;
-
     socket.on('agent/message', function (payload) {
-
         try{
             if(payload == undefined || payload == '') return false;
 
@@ -130,7 +126,6 @@ function recargarHstpl(min,max){
 }
 
 function afterSetExtremesHstpl(e){
-
     var extremo = null;
     const EVENTS = ["navigator", "rangeSelectorInput", "zoom", "pan"];
     if (e.trigger){
@@ -282,8 +277,7 @@ function inicializarHistoricoPlumas(){
                         },
                         min: 0,
                         // max: 60,
-                        tickInterval: 25,
-
+                        tickInterval: 25
                     }, { // Tertiary yAxis
                         gridLineWidth: 0,
                         title: {
