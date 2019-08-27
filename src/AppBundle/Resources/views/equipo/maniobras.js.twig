@@ -431,9 +431,7 @@ function inicializarHistoricoManiobras(){
 
 $(document).ready(function(){
 
-    {% if _configuracion.graficas.historicoManiobras.enabled %}
     inicializarHistoricoManiobras();
-    {% endif %}
 
     {% if _configuracion.graficas.tiempoRealManiobras.enabled %}
     $('#trman').highcharts({
