@@ -5,11 +5,8 @@ function cargarDatosTrMan(event){
     socket.on('agent/message', function (payload) {
 
         try{
-
           if(payload == undefined || payload == '') return false;
-
           payload = (typeof payload !== 'object') ? JSON.parse(payload) : payload;
-
           var { metrics } = payload;
 
           var vb_serie            = trman.series[0], shift_vb         = vb_serie.data.length > 300;
@@ -174,17 +171,13 @@ function afterSetExtremesHstman(e){
 }
 
 function establecerIntervaloRecargaHstman(event){
-
     //si la condición es actual == 1
     if(paramsHstman.condicion) {
-
         //configuro para que se recargue cada 5 minutos.
         setInterval(function () {
             if (!pausadoHstman) {
                 var tiempo_actual = new Date().getTime();
-
                 //console.log(tiempo_actual);
-
                 recargarHstman(DESDE_ORIGINAL, tiempo_actual);
             }
         }, 300000);
@@ -195,26 +188,19 @@ function establecerIntervaloRecargaHstman(event){
 function inicializarHistoricoManiobras(){
 
     overlayBox('#hstman');
-
     equipoController.getHistoricoEquipos(
             {{ equipo.id }},
             paramsHstman,
             function(data){
-
                 removeOverlayBox('#hstman');
-
                 if(data.status == 'error'){
-
                     $('#hstman').html('<div class="callout callout-warning">' +
                             '<p>'+data.mensaje+'</p>' +
                             '</div>'
                     );
-
                     return false;
                 }
-
                 $('#hstman').highcharts('StockChart', {
-
                     chart: {
                         events: {
                             load: establecerIntervaloRecargaHstman
@@ -229,28 +215,18 @@ function inicializarHistoricoManiobras(){
                         inputDateFormat:     '%d-%m-%Y %H:%M',
                         inputEditDateFormat: '%d-%m-%Y %H:%M',
                         inputDateParser: function (value) {
-
                             value = value.split(/[ ]/);
-
                             var fecha = value[0];
-
                             var horario = value[1];
-
                             fecha = fecha.split(/[-]/);
-
                             horario = horario.split(/[:]/);
-
                             var date = new Date(fecha[2], fecha[1]-1, fecha[0], horario[0],horario[1].substring(0, 2),0,0);
-
                             var offset = 0;
 
                             {#if (!Highcharts.getOptions().global.useUTC) {#}
                             {#offset = new Date().getTimezoneOffset()*60*1000;#}
                             {#}#}
-
-
                             return date.getTime() - offset;
-
                         },
                         inputBoxWidth: 120,
                         buttons: [

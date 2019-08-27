@@ -1,39 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% set __title = 'Gráficas Históricas del equipo '~ equipo.nombreCompleto| upper  %}
-
 {% set __descripcion_opcional = descripcion  %}
 
 {% block javascripts %}
     {{ parent() }}
-
     <script src="{{ asset('build/highcharts.js') }}"></script>
-
     <script type="application/javascript" language="JavaScript">
-
         var server = $.LiveData.server;
-
         const DESDE_ORIGINAL   = {{ fdesde }};
-
         const HASTA_ORIGINAL   = {{ fhasta }};
-
         const PARAM_FECHA_POZO = {{ fintervencion }};
-
         const PARAM_PLUMAS     = 0;
-
         const PARAM_MANIOBRAS  = 1;
-
         const PARAM_CONDICION  = 0;
 
         $(document).ready(function () {
 
         });
-
-
         {% include 'AppBundle:equipo:plumas.js.twig' %}
-
         {% include 'AppBundle:equipo:maniobras.js.twig' %}
-
     </script>
 {% endblock %}
 

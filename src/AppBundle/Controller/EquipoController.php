@@ -235,19 +235,12 @@ class EquipoController extends Controller
         }
 
         $resolucionPlumas     = $request->get('resolucion_plumas', $this->getParameter('historicos.plumas.resolucion'));
-
         $resolucionManiobras  = $request->get('resolucion_maniobras', $this->getParameter('historicos.maniobras.resolucion'));
-
         $intervRepository = $this->getDoctrine()->getRepository("AppBundle:Intervencion");
-
         $fecha = \DateTime::createFromFormat('YmdHi', $fintervencion);
-
         $intervencion = $intervRepository->getUltimaIntervencionAperturaByEquipoyFecha($equipo, $fecha)->getQuery()->getOneOrNullResult();
-
         $fecha = $intervencion->getFecha()->format("d-m-Y H:i");
-
         $pozo = $intervencion->getPozo()->getAcronimo();
-
         $descripcion = sprintf("Intervención iniciada el día <strong>%s</strong> sobre el pozo <strong>%s</strong>", $fecha, $pozo);
 
         return $this->render('AppBundle:equipo:graficas_historicas.html.twig', array(
@@ -307,8 +300,10 @@ class EquipoController extends Controller
         } else {
             //Puede ser que exista una intervencion pero haya sido un cierre
             $intervencion = null;
-            $this->get('session')->getFlashBag()->add('error',
-                'Inicie una intervención para visualizar las estadísticas del pozo actual.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Inicie una intervención para visualizar las estadísticas del pozo actual.'
+            );
         }
 
 
