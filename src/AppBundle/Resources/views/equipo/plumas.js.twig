@@ -17,6 +17,8 @@ function cargarDatosTrPl(event) {
             var llave_serie = trpl.series[2]     , shift_llave = llave_serie.data.length > 300; // shift if the series is longer than 20
             var boca_pozo_serie = trpl.series[3] , shift_boca_pozo = boca_pozo_serie.data.length > 300; // shift if the series is longer than 20
             var haparejo_serie = trpl.series[4]  , shift_haparejo = haparejo_serie.data.length > 300; // shift if the series is longer than 20
+            var h2sBpozo_serie = trpl.series[5]  , shift_h2sBpozo = h2sBpozo_serie.data.length > 300; // shift if the series is longer than 20
+            var h2spi_serie = trpl.series[6]  , shift_h2spi = h2spi_serie.data.length > 300; // shift if the series is longer than 20
 
             metrics.forEach(( metric ) => {
 
@@ -42,6 +44,14 @@ function cargarDatosTrPl(event) {
                 case 'haparejo':
                   serie = haparejo_serie
                   shift = shift_haparejo
+                  break;
+                case 'h2sBpozo':
+                  serie = h2sBpozo_serie
+                  shift = shift_h2sBpozo
+                  break;
+                case 'h2spi':
+                  serie = h2spi_serie
+                  shift = shift_h2spi
                   break;
               }
 
@@ -81,16 +91,14 @@ function recargarHstpl(min,max){
     var llave_serie      = hstpl.series[2];
     var boca_pozo_serie  = hstpl.series[3];
     var haparejo_serie   = hstpl.series[4];
+    var h2sBpozo_serie   = hstpl.series[5];
+    var h2spi_serie      = hstpl.series[6];
 
     //console.log(websocket_connection);
 
     paramsHstpl.desde = min;
-
     paramsHstpl.hasta = max;
-
     hstpl.showLoading('Cargando datos del servidor...');
-
-
     equipoController.getHistoricoEquipos(
             {{ equipo.id }},
             paramsHstpl,
@@ -100,25 +108,21 @@ function recargarHstpl(min,max){
                 llave_serie.setData(data.datos.llave, false, false, true);
                 boca_pozo_serie.setData(data.datos.bpozo, false, false, true);
                 haparejo_serie.setData(data.datos.haparejo, false, false, true);
+                h2sBpozo_serie.setData(data.datos.h2sBpozo, false, false, true);
+                h2spi_serie.setData(data.datos.h2spi, false, false, true);
 
                 hstpl.redraw();
                 hstpl.hideLoading();
             },
             function (jqXHR) {
                 removeOverlayBox('#hstpl');
-
-
                 var resJson = (jqXHR.status != 404 )? jqXHR.responseJSON.detail : "No se ha encontrado el servidor especificado";
-
                 $('#hstpl').html('<div class="callout callout-warning"><p>'+ resJson + '</p></div>');
-
                 return false;
             },
             function () {
                 removeOverlayBox('#hstpl');
-
                 $('#hstpl').html('<div class="callout callout-warning"><p> Error de conexión. El servidor no responde</p></div>');
-
                 return false;
             }
     );
@@ -140,296 +144,276 @@ function afterSetExtremesHstpl(e){
             extremo = new Date().getTime();
 
         }else if(EVENTS.includes(e.trigger)){
-
             var min = moment(e.min).utc();
-
             var max = moment(e.max).utc();
-
             //console.log("seleccionado",e.min,e.max);
-
             //console.log("Fechas",min,max);
-
             if(e.min == e.max){
                 alert("Debe existir al menos un segundo de diferencia entre las fechas de inicio y fin.");
                 return false;
             }
-
             extremo = Math.round(e.max);
         }
     }else{
         //en el caso de que se lance sin ningun evento permitido (boton,navigator, etc)
         return false;
     }
-
-
     //console.log(pausadoHstpl);
-
-
     var desde = Math.round(e.min);
-
     var hasta = extremo;
-
     recargarHstpl(desde,hasta);
 }
 
 function establecerIntervaloRecargaHstpl(event){
-
     //si la condición es actual == 1
     if(paramsHstpl.condicion){
-
         //configuro para que se recargue cada 5 minutos.
         setInterval(function() {
             if(!pausadoHstpl) {
                 var tiempo_actual = new Date().getTime();
-
                 //console.log(tiempo_actual);
-
                 recargarHstpl(DESDE_ORIGINAL, tiempo_actual);
             }
         },300000);
     }
-
 }
 
 function inicializarHistoricoPlumas(){
-
     overlayBox('#hstpl');
-
     equipoController.getHistoricoEquipos(
-            {{ equipo.id }},
-            paramsHstpl,
-            function(data){
-
-                removeOverlayBox('#hstpl');
-
-                if(data.status == 'error'){
-
-                    $('#hstpl').html('<div class="callout callout-warning"><p>'+data.mensaje+'</p></div>');
-
-                    return false;
-                }
-
-                $('#hstpl').highcharts('StockChart', {
-
-                    chart: {
-                        events: {
-                            load: establecerIntervaloRecargaHstpl
-                        },
-                        alignTicks: false
-                    },
-                    legend: {
-                        enabled: true
-                    },
-                    plotOptions: {
-                        turboThreshold: 10
-                    },
-                    exporting: {
-                      sourceWidth: 12000,
-                      filename: 'hstpl_{{equipo.nombreCompleto | replace({' ': '_'}) }}'
-                    },
-                    rangeSelector: {
-                        selected: 4,
-                        allButtonsEnabled: true,
-                        inputDateFormat:     '%d-%m-%Y %H:%M',
-                        inputEditDateFormat: '%d-%m-%Y %H:%M',
-                        inputDateParser: function (value) {
-
-                            value = value.split(/[ ]/);
-
-                            var fecha = value[0];
-
-                            var horario = value[1];
-
-                            fecha = fecha.split(/[-]/);
-
-                            horario = horario.split(/[:]/);
-
-                            var date = new Date(fecha[2], fecha[1]-1, fecha[0], horario[0],horario[1].substring(0, 2),0,0);
-
-                            var offset = 0;
-
-                            {#if (!Highcharts.getOptions().global.useUTC) {#}
-                                {#offset = new Date().getTimezoneOffset()*60*1000;#}
-                            {#}#}
-
-
-                            return date.getTime() - offset;
-
-                        },
-                        inputBoxWidth: 120,
-                        buttons: [
-                            {
-                                type: 'minute',
-                                count: 1,
-                                text: 'min'
-                            }, {
-                                type: 'hour',
-                                count: 2,
-                                text: '2 hs'
-                            }, {
-                                type: 'hour',
-                                count: 6,
-                                text: '6 hs'
-                            }, {
-                                type: 'hour',
-                                count: 12,
-                                text: '12 hs'
-                            },
-                            {
-                                type: 'all',
-                                text: 'completo'
-                            }
-                        ],
-                        buttonTheme: {
-                            width: null
-                        }
-                    },
-                    xAxis: {
-                        type: 'datetime',
-                        events: {
-                            afterSetExtremes: afterSetExtremesHstpl
-                        },
-                        //minRange: 10 * 1000, //un minuto
-                        minRange: 125, //
-                        minTickInterval:125
-                    },
-                    tooltip: {
-                      split: false,
-                      shared: true,
-                    },
-                    yAxis: [
-                        { // Primary yAxis
-                            labels: {
-                                format: '{value}',
-                                style: {
-                                    color: Highcharts.getOptions().colors[1]
-                                }
-                            },
-                            title: {
-                                text: ' ',
-                                style: {
-                                    color: Highcharts.getOptions().colors[1]
-                                }
-                            },
-                            min: 0,
-                            // max: 60,
-                            tickInterval: 25,
-
-                        }, { // Tertiary yAxis
-                            gridLineWidth: 0,
-                            title: {
-                                text: 'Presión (psi)',
-                                style: {
-                                    color: Highcharts.getOptions().colors[0]
-                                }
-                            },
-                            labels: {
-                                format: '{value}',
-                                style: {
-                                    color: Highcharts.getOptions().colors[0]
-                                }
-                            },
-                            opposite: true,
-                            min: 0,
-                            max: 3000,
-                            tickInterval: 500
-                        }
-                    ],
-                    credits: {
-                        enabled: false
-                    },
-                    scrollbar: {
-                        liveRedraw: false
-                    },
-                    navigator: {
-                        adaptToUpdatedData: false,
-                        series: {
-                            data: data.datos.anem
-                        }
-                    },
-                    series: [
-                        {
-                            name: 'Anemómetro',
-                            type: 'line',
-                            dashStyle: 'Dot',
-                            color: '#D8D8D8',
-                            lineWidth: 1,
-                            yAxis: 0,
-                            data: data.datos.anem,
-                            tooltip: {
-                                valueSuffix: ' km/h',
-                                valueDecimals: 2
-                            }
-                        }, {
-                            name: 'Aparejo',
-                            data: data.datos.hta,
-                            type: 'line',
-                            color: Highcharts.getOptions().colors[1],
-                            lineWidth: 1,
-                            yAxis: 0,
-                            tooltip: {
-                                valueSuffix: ' klb',
-                                valueDecimals: 2
-                            }
-                        }, {
-
-                            name: 'Llave',
-                            data: data.datos.llave,
-                            type: 'line',
-                            marker: {
-                                enabled: false
-                            },
-                            color: Highcharts.getOptions().colors[2],
-                            lineWidth: 1,
-                            dashStyle: 'spline',
-                            yAxis: 1,
-                            tooltip: {
-                                valueSuffix: ' psi',
-                                valueDecimals: 2
-                            }
-
-                        }, {
-                            name: 'Boca Pozo',
-                            data: data.datos.bpozo,
-                            type: 'line',
-                            yAxis: 1,
-                            tooltip: {
-                                valueSuffix: ' psi',
-                                valueDecimals: 2
-                            }
-                          }, {
-                              name: 'Altura de aparejo',
-                              data: data.datos.haparejo,
-                              color:'#FFFF33',
-                              type: 'line',
-                              yAxis: 0,
-                              tooltip: {
-                                  valueSuffix: ' mts',
-                                  valueDecimals: 1
-                              }
-                          }
-                    ]
-                });
-
-            },
-            function (jqXHR) {
-                removeOverlayBox('#hstpl');
-
-
-                var resJson = (jqXHR.status != 404 )? jqXHR.responseJSON.detail : "No se ha encontrado el servidor especificado";
-
-                $('#hstpl').html('<div class="callout callout-warning"><p>'+ resJson + '</p></div>');
-
-                return false;
-            },
-            function () {
-                removeOverlayBox('#hstpl');
-
-                $('#hstpl').html('<div class="callout callout-warning"><p> Error de conexión. El servidor no responde</p></div>');
-
+        {{ equipo.id }},
+        paramsHstpl,
+        function(data){
+            removeOverlayBox('#hstpl');
+            if(data.status == 'error'){
+                $('#hstpl').html('<div class="callout callout-warning"><p>'+data.mensaje+'</p></div>');
                 return false;
             }
+            $('#hstpl').highcharts('StockChart', {
+                chart: {
+                    events: {
+                        load: establecerIntervaloRecargaHstpl
+                    },
+                    alignTicks: false
+                },
+                legend: {
+                    enabled: true
+                },
+                plotOptions: {
+                    turboThreshold: 10
+                },
+                exporting: {
+                    sourceWidth: 12000,
+                    filename: 'hstpl_{{equipo.nombreCompleto | replace({' ': '_'}) }}'
+                },
+                rangeSelector: {
+                    selected: 4,
+                    allButtonsEnabled: true,
+                    inputDateFormat:     '%d-%m-%Y %H:%M',
+                    inputEditDateFormat: '%d-%m-%Y %H:%M',
+                    inputDateParser: function (value) {
+                        value = value.split(/[ ]/);
+                        var fecha = value[0];
+                        var horario = value[1];
+                        fecha = fecha.split(/[-]/);
+                        horario = horario.split(/[:]/);
+                        var date = new Date(fecha[2], fecha[1]-1, fecha[0], horario[0],horario[1].substring(0, 2),0,0);
+                        var offset = 0;
+                        {#if (!Highcharts.getOptions().global.useUTC) {#}
+                            {#offset = new Date().getTimezoneOffset()*60*1000;#}
+                        {#}#}
 
+                        return date.getTime() - offset;
+                    },
+                    inputBoxWidth: 120,
+                    buttons: [
+                        {
+                            type: 'minute',
+                            count: 1,
+                            text: 'min'
+                        }, {
+                            type: 'hour',
+                            count: 2,
+                            text: '2 hs'
+                        }, {
+                            type: 'hour',
+                            count: 6,
+                            text: '6 hs'
+                        }, {
+                            type: 'hour',
+                            count: 12,
+                            text: '12 hs'
+                        },
+                        {
+                            type: 'all',
+                            text: 'completo'
+                        }
+                    ],
+                    buttonTheme: {
+                        width: null
+                    }
+                },
+                xAxis: {
+                    type: 'datetime',
+                    events: {
+                        afterSetExtremes: afterSetExtremesHstpl
+                    },
+                    //minRange: 10 * 1000, //un minuto
+                    minRange: 125, //
+                    minTickInterval:125
+                },
+                tooltip: {
+                    split: false,
+                    shared: true,
+                },
+                yAxis: [
+                    { // Primary yAxis
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        title: {
+                            text: ' ',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        min: 0,
+                        // max: 60,
+                        tickInterval: 25,
+
+                    }, { // Tertiary yAxis
+                        gridLineWidth: 0,
+                        title: {
+                            text: 'Presión (psi)',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        opposite: true,
+                        min: 0,
+                        max: 3000,
+                        tickInterval: 500
+                    }
+                ],
+                credits: {
+                    enabled: false
+                },
+                scrollbar: {
+                    liveRedraw: false
+                },
+                navigator: {
+                    adaptToUpdatedData: false,
+                    series: {
+                        data: data.datos.anem
+                    }
+                },
+                series: [
+                    {
+                        name: 'Anemómetro',
+                        type: 'line',
+                        dashStyle: 'Dot',
+                        color: '#D8D8D8',
+                        lineWidth: 1,
+                        yAxis: 0,
+                        data: data.datos.anem,
+                        tooltip: {
+                            valueSuffix: ' km/h',
+                            valueDecimals: 2
+                        }
+                    }, {
+                        name: 'Aparejo',
+                        data: data.datos.hta,
+                        type: 'line',
+                        color: Highcharts.getOptions().colors[1],
+                        lineWidth: 1,
+                        yAxis: 0,
+                        tooltip: {
+                            valueSuffix: ' klb',
+                            valueDecimals: 2
+                        }
+                    }, {
+
+                        name: 'Llave',
+                        data: data.datos.llave,
+                        type: 'line',
+                        marker: {
+                            enabled: false
+                        },
+                        color: Highcharts.getOptions().colors[2],
+                        lineWidth: 1,
+                        dashStyle: 'spline',
+                        yAxis: 1,
+                        tooltip: {
+                            valueSuffix: ' psi',
+                            valueDecimals: 2
+                        }
+
+                    }, {
+                        name: 'Boca Pozo',
+                        data: data.datos.bpozo,
+                        type: 'line',
+                        yAxis: 1,
+                        tooltip: {
+                            valueSuffix: ' psi',
+                            valueDecimals: 2
+                        }
+                    }, {
+                        name: 'Altura de aparejo',
+                        data: data.datos.haparejo,
+                        color:'#FFFF33',
+                        type: 'line',
+                        yAxis: 0,
+                        tooltip: {
+                            valueSuffix: ' mts',
+                            valueDecimals: 1
+                        }
+                    }, {
+                        name: 'H2S B Pozo',
+                        data: data.datos.h2sBpozo,
+                        color:'#751b75',
+                        type: 'line',
+                        lineWidth: 1,
+                        yAxis: 0,
+                        tooltip: {
+                            valueSuffix: ' ppm',
+                            valueDecimals: 1
+                        }
+                    }, {
+                        name: 'H2S Pileta',
+                        data: data.datos.h2spi,
+                        color:'#e81cb9',
+                        type: 'line',
+                        lineWidth: 1,
+                        yAxis: 0,
+                        tooltip: {
+                            valueSuffix: ' ppm',
+                            valueDecimals: 1
+                        }
+                    }
+                ]
+            });
+
+        },
+        function (jqXHR) {
+            removeOverlayBox('#hstpl');
+            var resJson = (jqXHR.status != 404 )? jqXHR.responseJSON.detail : "No se ha encontrado el servidor especificado";
+            $('#hstpl').html('<div class="callout callout-warning"><p>'+ resJson + '</p></div>');
+            return false;
+        },
+        function () {
+            removeOverlayBox('#hstpl');
+            $('#hstpl').html('<div class="callout callout-warning"><p> Error de conexión. El servidor no responde</p></div>');
+            return false;
+        }
     );
 
 }
@@ -586,6 +570,24 @@ $(document).ready(function(){
                 yAxis: 1,
                 tooltip: {
                     valueSuffix: ' mts',
+                    valueDecimals: 1
+                }
+            }, {
+                name: 'H2S B Pozo',
+                color:'#751b75',
+                type: 'line',
+                yAxis: 0,
+                tooltip: {
+                    valueSuffix: ' ppm',
+                    valueDecimals: 1
+                }
+            }, {
+                name: 'H2S Pileta',
+                color:'#e81cb9',
+                type: 'line',
+                yAxis: 0,
+                tooltip: {
+                    valueSuffix: ' ppm',
                     valueDecimals: 1
                 }
             }
